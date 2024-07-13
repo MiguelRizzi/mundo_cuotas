@@ -1,0 +1,28 @@
+{% load widget_tweaks %}
+
+<div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">{{ object.user.username }}</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">   
+        <ul class="list-group text-center">
+            {% if object.image %}
+                <li class="list-group-item">
+                    <img src="{{ object.image.url }}" alt="Avatar" class="mt-3" style="width: 95%;">
+                </li>
+            {% else %}
+                <li class="list-group-item">Sin imagen</li>
+            {% endif %}
+        </ul>
+
+    </div>
+    <div class="modal-footer">
+        <a hx-get="{% url 'users:avatar_update' object.id %}" hx-target="#dialog" class="btn btn-success">
+            <i class="fas fa-edit"></i> 
+        </a>
+        <a hx-get="{% url 'users:avatar_confirm_delete' object.id %}" hx-target="#dialog" class="btn btn-danger">
+            <i class="fas fa-trash-alt"></i>
+        </a>
+    </div>
+</div>

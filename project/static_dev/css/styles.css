@@ -1,0 +1,25 @@
+*{
+    scroll-behavior: smooth;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+
+
+
+.active-nav{
+    text-decoration: underline rgb(0, 0, 0) 3px;
+}
+
+
+.login-form{
+    width: 400px;
+
+}
+@media (max-width: 500px) {
+    .login-form{
+        width: 100%;
+    }
+}
+

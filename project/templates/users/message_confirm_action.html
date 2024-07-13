@@ -1,0 +1,40 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title">
+            {% if '/confirmar/eliminar/' in request.path %}
+            Eliminar mensaje
+            {% else %}
+            Actualizar mensaje
+            {% endif %}
+            </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+
+        {% if '/confirmar/eliminar/' in request.path %}
+            <p>¿Confirmas eliminar el mensaje de {{message.name}}?</p>
+            <p class="text-muted">Esta acción no se puede deshacer.</p>
+        {% else %}
+            {% if message.is_read %}
+                <p>¿Confirmas marcar como <span class="text-danger fw-semibold">NO LEIDO</span> el mensaje de {{message.name}}?</p>
+            {% else %}
+                <p>¿Confirmas marcar como <span class="text-success fw-semibold">LEIDO</span> el mensaje de {{message.name}}?</p>
+            {% endif %}
+        {% endif %}
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+        Cancelar
+        </button>
+        {% if '/confirmar/eliminar/' in request.path %}
+            <button type="submit" class="btn btn-danger" hx-delete = "{% url 'users:message_delete' pk=message.pk %}" hx-headers='{"X-CSRFToken":"{{ csrf_token }}"}' >Eliminar</button>
+
+        {% else %}
+            {% if message.is_read %}
+                <button type="submit" class="btn btn-danger" hx-patch = "{% url 'users:message_update' pk=message.pk %}" hx-headers='{"X-CSRFToken":"{{ csrf_token }}"}' >Actualizar</button>
+            {% else %}
+                <button type="submit" class="btn btn-success" hx-patch = "{% url 'users:message_update' pk=message.pk %}" hx-headers='{"X-CSRFToken":"{{ csrf_token }}"}' >Actualizar</button>
+            {% endif %}
+        {% endif %}
+    </div>
+</div>

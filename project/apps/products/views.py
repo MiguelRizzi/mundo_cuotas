@@ -1,0 +1,165 @@
+import json
+
+from django.shortcuts import render, redirect, get_object_or_404
+from django.http import HttpResponse
+from django.views import View
+from django.db.models import Q
+from django.core.paginator import Paginator
+from django.contrib.auth.mixins import LoginRequiredMixin
+
+from .models import File, Product, Category
+from .forms import ProductForm, ProductUpdateForm
+
+from django.core.files.storage import default_storage
+# _____________________ INDEX VIEW _____________________
+
+class IndexView(View):
+    def get(self, request, *args, **kwargs):
+        context = {}
+
+        context['site_name'] = ""
+        return render(request, "products/index.html", context)
+    
+
+# _____________________ PRODUCT VIEWS _____________________
+
+
+class ProductListView(View):
+    def get(self, request):
+        categories= Category.objects.all()
+        context= {"categories": categories}
+        return render(request, 'products/products.html', context)
+
+class ProductListByCategoryView(View):
+    def get(self, request, slug):
+        categories= Category.objects.all()
+        context= {"categories": categories}
+        return render(request, 'products/products_by_category.html', context)
+    
+class LoadProductListView(View):
+    def get(self, request):
+        consult = request.GET.get("consult", "")
+        
+        products = Product.objects.all()
+
+        if consult:
+            products = products.filter(name__icontains=consult).order_by("-id")
+
+        paginator = Paginator(products, 10)
+        page = request.GET.get('page')
+        products = paginator.get_page(page)
+
+        context = {
+            'object_list': products,
+        }
+        return render(request, 'products/partials/product_list.html', context)
+    
+
+
+
+class LoadProductListByCategoryView(View):
+    def get(self, request, slug):
+        consult = request.GET.get("consult", "")
+
+        category = Category.objects.filter(slug=slug).first()
+        products = products.filter(category=category)
+
+        if consult:
+            products = products.filter(name__icontains=consult).order_by("-id")
+
+        paginator = Paginator(products, 10)
+        page = request.GET.get('page')
+        products = paginator.get_page(page)
+
+        context = {
+            'object_list': products,
+        }
+        return render(request, 'products/partials/product_list.html', context)
+
+
+
+
+
+class ProductDetailView(View, LoginRequiredMixin):
+    def get(self, request, slug):
+        product = get_object_or_404(Product, slug=slug)
+       
+        return render(request, 'products/product_detail.html', {'product': product})
+    
+
+class ProductCreateView(View):
+    def get(self, request):
+        form = ProductForm()
+        return render(request, 'products/product_form.html', {'form': form})
+
+    def post(self, request):
+        form = ProductForm(request.POST, request.FILES)
+        if form.is_valid():
+            product = form.save()
+            for file in request.FILES.getlist('files'):
+                file_obj = File.objects.create(file=file, product=product)
+                file_obj.save()
+            return HttpResponse(
+                status=201,
+                headers={
+                    'HX-Trigger': json.dumps({
+                        "productListChanged": None,
+                        "showMessage": "El producto se guardó correctamente."
+                    })
+                }
+            )
+        else:
+            return render(request, 'products/product_form.html', {'form': form})
+
+
+
+class ProductConfirmActionView(View, LoginRequiredMixin):
+    def get(self, request, slug):
+        product = get_object_or_404(Product, slug=slug)
+        return render(request, 'products/product_confirm_action.html', {'product': product})
+    
+
+class ProductUpdateView(View, LoginRequiredMixin):
+    def get(self, request, slug):
+        product = get_object_or_404(Product, slug=slug)
+        form = ProductUpdateForm(instance=product)
+        context = {
+            "form": form,
+            "product": product
+            }
+        return render(request, 'products/product_form.html', context)
+
+    def post(self, request, slug):
+        product = get_object_or_404(Product, slug=slug)
+        form = ProductUpdateForm(request.POST, instance=product)
+        if form.is_valid():
+            product = form.save()
+            return HttpResponse(
+                status=204,
+                headers={
+                    'HX-Trigger': json.dumps({
+                        "productListChanged": None,
+                        "showMessage": "El articulo se actualizó correctamente."
+                    })
+                }
+            )
+        else:
+            return render(request, 'products/product_form.html', {'form': form, 'product': product})
+    
+
+class ProductDeleteView(View, LoginRequiredMixin):
+    def delete(self, request, slug):
+        product = get_object_or_404(Product, slug=slug)
+        product.delete()
+        return HttpResponse(
+            status=204,
+            headers={
+                'HX-Trigger': json.dumps({
+                    "productListChanged": None,
+                    "showMessage":"El producto se eliminó correctamente."
+                })
+            }
+        )
+    
+
+

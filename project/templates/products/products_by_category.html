@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <section class="container-fluid p-sm-5 p-0 pt-5 h-section" hx-trigger="load, productListChanged from:body" hx-get="{% url 'products:product_list_by_category' %}" hx-target="#results">
+        <h2 class="fw-bolder display-5 mb-4 text-uppercase text-center">Productos</h2>       
+
+        
+        <div class="py-lg-4 py-3 col-12 col-md-8 col-lg-6 mx-auto">
+            <form 
+                class="input-group" 
+                hx-get="{% url 'products:product_list_by_category' %}?consult={{ consult }}" 
+                hx-target="#results"
+            >
+                <input name="consult" class="form-control" type="text" placeholder="Buscar productos..." />
+                <button class="btn btn-success" id="button-search" type="submit">
+                    <i class="fas fa-search"></i> Buscar
+                </button>
+            </form>   
+        </div>
+
+        <button class="btn btn-success" hx-get="{% url 'products:product_create' %}" hx-target="#dialog"><i class="fas fa-plus"></i> Agregar</button>
+        <div class="row">
+            
+            <div class="col-12 col-lg-10" id="results">
+            </div>
+
+            <div class=" p-3 col-12 col-lg-2 card">
+
+                <div class="fs-5 fw-semibold border-bottom">Categorias</div>
+               
+                    <ul class="list-unstyled">
+                        {% for category in categories %}
+                        {% if not category.parent %}
+                            <li class="mb-1">
+                                <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed fw-semibold" data-bs-toggle="collapse" data-bs-target="#{{ category.slug }}" aria-expanded="false" onclick="collapseOthers(this)">
+                                    {{ category.name }}
+                                </button>
+                                <div class="collapse" id="{{ category.slug }}">
+                                    <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small mx-4">
+                                    {% for subcategory in category.subcategories.all %}
+                                        <li>
+                                            <a hx-get="{% url 'products:product_list' %}?category={{ subcategory.slug }}" hx-target="#results" class="link-body-emphasis d-inline-flex text-decoration-none rounded">{{ subcategory }}</a>
+                                        </li>
+                                    {% endfor %}
+                                    </ul>
+                                </div>
+                            </li>
+                        {% endif %}
+                        {% endfor %}
+                    </ul>                   
+              </div>
+        </div>
+        
+        {% url 'products:index' as url %}
+        {% include 'components/index_back.html' with link=url %}    
+    </section>
+    
+    {% endblock %}

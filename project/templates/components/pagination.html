@@ -1,0 +1,89 @@
+{% if object_list.has_previous or object_list.has_next %}
+  <nav class="order-last" aria-label="Page navigation" hx-boost="true">
+    <ul class="pagination">
+      {% if object_list.has_previous %}
+        <li class="page-item">
+          <a class="page-link" hx-get="{{ request.path }}?consult={{ consult }}&page=1#content" hx-target="section" aria-label="First">
+            <span aria-hidden="true">««</span>
+          </a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" hx-get="{{ request.path }}?consult={{ consult }}&page={{ object_list.previous_page_number }}#content" hx-target="#results" aria-label="Previous">
+            <span aria-hidden="true">«</span>
+          </a>
+        </li>
+      {% else %}
+        <li class="page-item disabled">
+          <span class="page-link" aria-label="First">
+            <span aria-hidden="true">««</span>
+          </span>
+        </li>
+        <li class="page-item disabled">
+          <span class="page-link" aria-label="Previous">
+            <span aria-hidden="true">«</span>
+          </span>
+        </li>
+      {% endif %}
+      {% for num in object_list.paginator.page_range %}
+        {% if object_list.number == num %}
+          <li class="page-item active" aria-current="page">
+            <span class="page-link">{{ num }}</span>
+          </li>
+        {% else %}
+          <li class="page-item">
+            <a class="page-link" hx-get="{{ request.path }}?consult={{ consult }}&page={{ num }}#content" hx-target="#results">{{ num }}</a>
+          </li>
+        {% endif %}
+      {% endfor %}
+      {% if object_list.has_next %}
+        <li class="page-item">
+          <a class="page-link" hx-get="{{ request.path }}?consult={{ consult }}&page={{ object_list.next_page_number }}#content" hx-target="#results" aria-label="Next">
+            <span aria-hidden="true">»</span>
+          </a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" hx-get="{{ request.path }}?consult={{ consult }}&page={{ object_list.paginator.num_pages }}#content" hx-target="#results" aria-label="Last">
+            <span aria-hidden="true">»»</span>
+          </a>
+        </li>
+      {% else %}
+        <li class="page-item disabled">
+          <span class="page-link" aria-label="Next">
+            <span aria-hidden="true">»</span>
+          </span>
+        </li>
+        <li class="page-item disabled">
+          <span class="page-link" aria-label="Last">
+            <span aria-hidden="true">»»</span>
+          </span>
+        </li>
+      {% endif %}
+    </ul>
+  </nav>
+{% endif %}
+
+
+<style>
+    .pagination {
+        padding: 10px;
+        border-radius: 5px;
+        display: flex;
+        justify-content: center;
+        
+    }
+    .page-link{
+      color:rgb(220, 101, 121);
+
+    }
+    .page-link:hover{
+      color:rgb(230, 106, 126);
+    }
+    .page-item.active {
+      color:rgb(213, 86, 107);
+    }
+    .active{
+      --bs-pagination-active-bg: rgb(176, 65, 84);
+      --bs-pagination-active-border-color: rgb(176, 65, 84);
+
+    }
+</style>

@@ -1,0 +1,60 @@
+{% load widget_tweaks %}
+
+<div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">Testimonio</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+
+
+    
+
+
+          
+          
+        <div class=" align-items-center">
+            <div id="carouselExample" class="carousel slide py-3" data-bs-ride="carousel">
+                <div class="carousel-inner text-center">
+    
+                    {% for file in product.files.all %}
+                        <div class="carousel-item bg-black {% if forloop.first %}
+                            active
+                        {% endif %} px-md-5">
+                            <img src="{{ file.file.url }}" class="d-block w-100" alt="{{ file.file.name }}" style="height: 300px; width:100%; object-fit:contain;">
+                        </div>
+                    {% endfor %}
+              
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon text-bg-dark rounded-5" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                    <span class="carousel-control-next-icon text-bg-dark rounded-5" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+            
+                <div class="col-12">
+                <div class="small mb-1">{{ product.category }}</div>
+                <h1 class="display-5 fw-bolder">{{ product.name }}</h1>
+                {% if product.price %}
+                    <div class="fs-5 mb-5">
+                        <span class="fw-semibold">Precio Contado: </span>${{ product.price }}
+                    </div>   
+                {% endif %}
+                <p class="lead">{{ product.description }}</p>
+            </div>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <a hx-get="{% url 'products:product_update' product.slug %}" hx-target="#dialog" class="btn btn-success"  >
+            <i class="fas fa-edit"></i>
+        </a>
+        <a hx-get="{% url 'products:product_confirm_delete' product.slug %}" hx-target="#dialog" class="btn btn-danger" >
+            <i class="fas fa-trash-alt"></i>
+        </a>
+    </div>
+</div>

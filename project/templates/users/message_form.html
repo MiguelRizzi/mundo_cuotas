@@ -1,0 +1,27 @@
+{% load widget_tweaks %}
+
+<form hx-post="{{ request.path }}" hx-headers='{"X-CSRFToken":"{{ csrf_token }}"}'>
+  
+  {% for field in form %}
+      <div class="form-floating mb-2">
+          {{ field|add_class:"form-control" }}
+          {{ field.label_tag }}
+          {% for error in field.errors %}
+              <div class="text-danger mb-2">{{ error }}</div>
+          {% endfor %}
+      </div>
+  {% endfor %}
+
+  {% if form.non_field_errors %}
+      <div class="text-danger mb-2">
+          {% for error in form.non_field_errors %}
+              {{ error }}
+          {% endfor %}
+      </div>
+  {% endif %}
+  
+  <div class="d-grid mt-2">
+      <button type="submit" class="btn btn-success">Enviar</button>
+  </div>
+
+</form>

@@ -1,0 +1,102 @@
+{% load static %}
+
+<div class="container-fluid px-5">
+    <a class="navbar-brand fs-4 fw-bolder title-shadow scale" href="{% url 'products:index' %}">Mundo Cuotas</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav fs-5 fw-bolder title-shadow" id="navbarList">
+            <li class="nav-item scale">
+                <a class="nav-link {% if request.path == '/' %}active-nav{% endif %}" 
+                {% if request.path == '/' %}
+                    aria-current="page" 
+                {% endif %}
+                href="{% url 'products:index' %}">Inicio</i></a>
+            </li>
+            <li class="nav-item scale {% if request.path == '/products/' %}active-nav{% endif %}">
+                <a class="nav-link" href="{% url 'products:products' %}">Productos</a>
+            </li>
+
+
+            {% if user.is_authenticated %}
+            <li class="nav-item dropdown order-first order-md-last pt-3 pt-md-0">
+                <a class="nav-link dropdown-toggle username text-success scale" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    {{ user.username }}
+                    <span class="position-relative">
+                        {% if user.avatar.image %}
+                            <img src="{{ user.avatar.image.url }}" class="icon-avatar" alt="Avatar" >
+                        {% else %}
+                            <img src="{% static 'img/avatar-default.png' %}" class="icon-avatar" alt="Avatar">
+                        {% endif %}
+                        
+                        {% if request.unread_messages_count %} 
+                            <span class="mt-2 position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger notification">
+                                {% if request.unread_messages_count > 99 %}
+                                    99+
+                                {% else %}
+                                    {{ request.unread_messages_count }}
+                                {% endif %}
+                                <span class="visually-hidden">unread messages</span>
+                            </span>
+                        {% endif %}
+            
+                    </span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end text-center text-md-start" aria-labelledby="navbarDropdownMenuLink">
+                    <li><a class="dropdown-item" href="{% url 'users:message_list' %}">
+                        Mensajes
+                        {% if request.unread_messages_count > 0 %}           
+                            <span class="badge rounded-pill bg-danger notification">
+                                {{ request.unread_messages_count }}
+                                <span class="visually-hidden">Mensajes no leidos</span>
+                            </span>
+                        {% endif %}
+                    </a></li>
+                
+                    <li><hr class="dropdown-divider"></li>
+                    {% if not user.avatar %}
+                    <li><a class="dropdown-item" hx-get="{% url 'users:avatar_create' %}" hx-target="#dialog">Mi avatar</a></li>
+                    {% else %}
+                    <li><a class="dropdown-item" hx-get="{% url 'users:avatar_detail' pk=user.avatar.pk %}" hx-target="#dialog">Mi avatar</a></li>
+                    {% endif %}
+                    <li><a class="dropdown-item" hx-get="{% url 'users:change_password' %}" hx-target="#dialog">Cambiar contraseña</a></li>
+                    <li>
+                        <button type="submit" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#logoutModal">Cerrar sesión</button>      
+                    </li>
+                </ul>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+</div>
+
+
+
+{% if user.is_authenticated %}
+    <!-- Modal confirm logout -->
+    <div class="modal fade pad-bottom" id="logoutModal" tabindex="-1" aria-labelledby="LogoutModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h1 class="modal-title fs-5" id="logoutModalLabel{{ object.id }}">Cerrar sesión</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+            ¿Confirmas cerrar sesión?
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <form action="{% url 'users:logout' %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Cerrar sesión</button>
+            </form>
+        </div>
+        </div>
+        </div>
+    </div>
+{% endif %}
+
+
+
+

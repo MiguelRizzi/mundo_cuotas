@@ -1,0 +1,27 @@
+<div class="card">
+  <div class="rounded-3">
+    {% block list %}
+        <table class="table table-striped">
+          <thead>
+            {% block table_header %}
+            {% endblock table_header %}
+          </thead>
+          <tbody>
+            {% block table_body %}
+            {% endblock table_body %}
+          </tbody>
+        </table>
+
+    {% endblock list %}
+        
+        {% if object_list %}
+        <p class="fw-semibold text-center">Total: {{ object_list | length }}</p>
+        {% endif %}
+        
+        {% block pagination %}
+        {% endblock pagination %}
+  </div>
+</div>
+
+{% block toast %}
+{% endblock toast %}

@@ -1,0 +1,32 @@
+{% load widget_tweaks %}
+
+<div class="modal-content">
+
+    {% if not message.is_read %}
+        <span hx-post="{% url 'users:message_detail' pk=message.pk %}" hx-headers='{"X-CSRFToken":"{{ csrf_token }}"}' hx-trigger="load"></span>
+    {% endif %}
+
+    <div class="modal-header">
+      <h5 class="modal-title">Mensaje</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">   
+        <ul class="list-group">
+            <li class="list-group-item"><strong>Nombre:</strong> {{ message.name }}</li>
+            <li class="list-group-item"><strong>Fecha:</strong> {{ message.email }}</li>
+            <li class="list-group-item"><strong>Email:</strong> {{ message.date }}</li>
+            <li class="list-group-item"><strong>Leido:</strong> <i class="fa fa-check text-success"></i></li>
+            <li class="list-group-item"><strong>Mensaje:</strong> {{ message.content }}</li>
+
+        </ul>
+
+    </div>
+    <div class="modal-footer">
+        <a hx-get="{% url 'users:message_confirm_update' pk=message.pk %}" hx-target="#dialog" class="btn btn-success"  >
+            <i class="fas fa-edit"></i>
+        </a>
+        <a hx-get="{% url 'users:message_confirm_delete' pk=message.pk %}" hx-target="#dialog" class="btn btn-danger" >
+            <i class="fas fa-trash-alt"></i>
+        </a>
+    </div>
+</div>

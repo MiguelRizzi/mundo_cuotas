@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block content %}
+    <section class="container-fluid p-md-5 p-2 pt-5">
+        <div class="d-flex justify-content-center align-items-center py-3">
+            <form method="post" class="mx-auto login-form">
+                {% csrf_token %}
+    
+                <img class="mb-4" src="{% static 'img/logo.jpeg' %}" alt="" width="80" height="80">
+                <h1 class="h3 mb-3 fw-semibold">Iniciar sesión</h1>
+        
+                {% for field in form %}
+                    <div class="form-floating mb-2">
+                        {{ field|add_class:"form-control" }}
+                        {{ field.label_tag }}
+                        {% for error in field.errors %}
+                            <div class="text-danger">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+            
+                {% if form.non_field_errors %}
+                    <div class="text-danger">
+                        {% for error in form.non_field_errors %}
+                            {{ error }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                    
+                <div class="d-grid mt-5">
+                    <button type="submit" class="btn btn-success">Iniciar sesión</button>
+                </div>
+            </form>
+        </div>
+    </section>
+{% endblock content %}

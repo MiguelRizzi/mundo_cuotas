@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <section class="container-fluid p-sm-5 p-0 pt-5 h-section" hx-trigger="load, messageListChanged from:body" hx-get="{% url 'users:load_message_list' %}" hx-target="#results">
+        <h2 class="fw-bolder display-5 mb-4 text-uppercase text-center">Mensajes</h2>       
+
+        <div class="py-lg-4 py-3 col-12 col-md-8 col-lg-6 mx-auto">
+            <form 
+                class="input-group" 
+                hx-get="{% url 'users:load_message_list' %}?consult={{ consult }}" 
+                hx-target="#results"
+            >
+                <input name="consult" class="form-control" type="text" placeholder="Buscar Mensajes..." />
+                <button class="btn btn-success" id="button-search" type="submit">
+                    <i class="fas fa-search"></i> Buscar
+                </button>
+            </form>
+        </div>
+
+        <div id="results">
+        </div>
+        
+        {% url 'users:index' as url %}
+        {% include 'components/index_back.html' with link=url %}    
+    </section>
+
+    {% endblock %}
