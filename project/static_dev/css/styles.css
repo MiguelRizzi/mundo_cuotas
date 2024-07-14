@@ -14,7 +14,7 @@
 
 
 .login-form{
-    width: 400px;
+    width: 450px;
 
 }
 @media (max-width: 500px) {
@@ -23,3 +23,16 @@
     }
 }
 
+
+.icon-navbar{
+    width: 60px;
+}
+
+.icon-avatar{
+    width: 30px;
+    border-radius: 50%;
+}
+
+.brand{
+    color: rgb(146, 109, 172);
+}

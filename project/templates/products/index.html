@@ -1,5 +1,90 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block header %}
+    <div class="px-4 my-4 py-5text-center">
+        <img src="{% static 'img/logo.png' %}" class="d-block mx-auto img-fluid" alt="Mundo Cuotas" loading="lazy">
+        <div class="d-flex align-items-center justify-content-center">
+            <h1 class="display-3 fw-bold text-body-emphasis mb-3 brand">MUNDO CUOTAS</h1>
+        </div>
+        <div class="col-lg-6 mx-auto">
+          <p class="lead mb-4 text-center fw-medium">Compras en cuotas a sola firma</p>
+          <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+            <button type="button" class="btn btn-success btn-lg px-4 gap-3"> <i class="fas fa-phone"></i> Contacto</button>
+            <button type="button" class="btn btn-outline-primary btn-lg px-4">Catalogo online</button>
+          </div>
+        </div>
+      </div>
+{% endblock header %}
 
 {% block content %}
+
+<div class="container">
+
+    <div>
+        <h2 class="fw-bolder fs-3 mb-4 text-uppercase text-start border-bottom">Productos destacatos</h1>
+
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            {% for product in products %}
+                <div class="col">
+                    <div class="card h-100">
+                        <img src="{{ product.files.first.file.url }}" class="card-img-top object-fit-contain bg-secondary" alt="{{ product.name }}" style="height: 200px;">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ product.name }}</h5>
+                            <p class="card-text">{{ product.description }}</p>
+                        </div>
+                        <div class="card-footer">
+                            <small class="text-muted">Last updated 3 mins ago</small>
+                        </div>
+                    </div>
+                </div>  
+            {% endfor %}
+        </div>      
+    </div>
+
+    <div>
+        <h2 class="fw-bolder fs-3 mb-4 text-uppercase text-start border-bottom">Productos en oferta</h1>
+
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            {% for product in products %}
+                <div class="col">
+                    <div class="card h-100">
+                        <img src="{{ product.files.first.file.url }}" class="card-img-top object-fit-contain bg-secondary" alt="{{ product.name }}" style="height: 200px;">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ product.name }}</h5>
+                            <p class="card-text">{{ product.description }}</p>
+                        </div>
+                        <div class="card-footer">
+                            <small class="text-muted">Last updated 3 mins ago</small>
+                        </div>
+                    </div>
+                </div>  
+            {% endfor %}
+        </div>      
+    </div>
+
+    <div>
+        <h2 class="fw-bolder fs-3 mb-4 text-uppercase text-start border-bottom">Todos los productos</h1>
+
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            {% for product in products %}
+                <div class="col">
+                    <div class="card h-100">
+                        <img src="{{ product.files.first.file.url }}" class="card-img-top object-fit-contain bg-secondary" alt="{{ product.name }}" style="height: 200px;">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ product.name }}</h5>
+                            <p class="card-text">{{ product.description }}</p>
+                        </div>
+                        <div class="card-footer">
+                            <small class="text-muted">Last updated 3 mins ago</small>
+                        </div>
+                    </div>
+                </div>  
+            {% endfor %}
+        </div>      
+    </div>
+
+
+</div>
 
 {% endblock content %}

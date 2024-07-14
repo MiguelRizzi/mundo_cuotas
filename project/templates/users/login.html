@@ -3,13 +3,15 @@
 {% load static %}
 
 {% block content %}
-    <section class="container-fluid p-md-5 p-2 pt-5">
+    <section class="container-fluid p-2">
         <div class="d-flex justify-content-center align-items-center py-3">
-            <form method="post" class="mx-auto login-form">
+            <form method="post" class="mx-auto login-forms p-5"">
                 {% csrf_token %}
+                <div>
+                    <img class="mb-4" src="{% static 'img/logo.png' %}" alt="Mundo Cuotas" width="75"><span class="brand fs-2 fw-bold"> MUNDO CUOTAS</span>
+                </div>
     
-                <img class="mb-4" src="{% static 'img/logo.jpeg' %}" alt="" width="80" height="80">
-                <h1 class="h3 mb-3 fw-semibold">Iniciar sesión</h1>
+                <h1 class="fs-5 mb-3 fw-semibold">Iniciar sesión</h1>
         
                 {% for field in form %}
                     <div class="form-floating mb-2">

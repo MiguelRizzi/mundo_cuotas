@@ -27,6 +27,15 @@ class Category(models.Model):
     
     
 class Product(models.Model):
+    TYPE_CHOICES = ( 
+        (1, "Regular"),
+        (2, "Oferta"),
+        (3, "Destacado")
+    )
+    STATUS_CHOICES = (
+        (1, "No publicado"),
+        (2, "Publicado")
+    )
     name = models.CharField(max_length=256)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     description = models.TextField()
@@ -34,6 +43,8 @@ class Product(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
     updated_at = models.DateTimeField(auto_now=True)
     slug = models.SlugField(max_length=256, unique=True)
+    type = models.PositiveIntegerField(choices=TYPE_CHOICES, default=1)
+    status = models.PositiveIntegerField(choices= STATUS_CHOICES, default=1)
 
     def save(self, *args, **kwargs):
         slug = slugify(self.name)

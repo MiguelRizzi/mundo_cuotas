@@ -14,36 +14,60 @@ from django.core.files.storage import default_storage
 # _____________________ INDEX VIEW _____________________
 
 class IndexView(View):
-    def get(self, request, *args, **kwargs):
-        context = {}
+    def get(self, request):
+        products= Product.objects.all().order_by("-id")
+        context = {
+            "products": products,
+            "site_name": "Compras en cuotas a sola firma",
+        }
 
-        context['site_name'] = ""
         return render(request, "products/index.html", context)
     
 
 # _____________________ PRODUCT VIEWS _____________________
 
-
 class ProductListView(View):
     def get(self, request):
         categories= Category.objects.all()
-        context= {"categories": categories}
-        return render(request, 'products/products.html', context)
 
-class ProductListByCategoryView(View):
-    def get(self, request, slug):
-        categories= Category.objects.all()
-        context= {"categories": categories}
-        return render(request, 'products/products_by_category.html', context)
+        context = {
+            'categories': categories,
+            "site_name": "Catalogo Online",
+        }
+
+        context['site_name'] = ""
+        return render(request, "products/products.html", context)
     
 class LoadProductListView(View):
     def get(self, request):
         consult = request.GET.get("consult", "")
+        status = request.GET.getlist("status", "")
+        type = request.GET.getlist("type", "")
+        category= request.GET.getlist("category", "")
+        date= request.GET.get("date", "")
         
         products = Product.objects.all()
 
         if consult:
-            products = products.filter(name__icontains=consult).order_by("-id")
+            products = products.filter(name__icontains=consult)
+
+        if status:
+            products = products.filter(status__in=status)
+
+        if type:
+            products = products.filter(type__in=type)
+
+        if category:
+            print("category", category)
+            products = products.filter(category__slug__in=category)
+
+        if date:
+            if date == "1":
+                products = products.order_by("-created_at")
+            else:
+                products = products.order_by("created_at")
+        else:
+            products = products.order_by("-id")
 
         paginator = Paginator(products, 10)
         page = request.GET.get('page')
@@ -53,16 +77,28 @@ class LoadProductListView(View):
             'object_list': products,
         }
         return render(request, 'products/partials/product_list.html', context)
+
     
 
+class ProductListByCategoryView(View):
+    def get(self, request, slug):
+        categories= Category.objects.all()
+        category= Category.objects.filter(slug=slug).first()
+
+        context = {
+            "category": category,
+            "categories": categories,
+            "site_name": f"Catalogo Online - {category.name}",
+        }
+
+        return render(request, "products/products_by_category.html", context)
 
 
 class LoadProductListByCategoryView(View):
     def get(self, request, slug):
         consult = request.GET.get("consult", "")
-
-        category = Category.objects.filter(slug=slug).first()
-        products = products.filter(category=category)
+        category= Category.objects.filter(slug=slug).first()
+        products = Product.objects.filter(category=category).order_by("-id")
 
         if consult:
             products = products.filter(name__icontains=consult).order_by("-id")
@@ -73,8 +109,11 @@ class LoadProductListByCategoryView(View):
 
         context = {
             'object_list': products,
+            "category": category,
         }
+
         return render(request, 'products/partials/product_list.html', context)
+       
 
 
 
@@ -83,8 +122,12 @@ class LoadProductListByCategoryView(View):
 class ProductDetailView(View, LoginRequiredMixin):
     def get(self, request, slug):
         product = get_object_or_404(Product, slug=slug)
-       
-        return render(request, 'products/product_detail.html', {'product': product})
+
+        context = {
+            "product": product,
+            "site_name": product.name
+        }
+        return render(request, 'products/product_detail.html', context)
     
 
 class ProductCreateView(View):

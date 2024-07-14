@@ -34,3 +34,24 @@
     toast.show()
   })
 })();
+
+function onlyOne(checkbox) {
+  var checkboxes = document.getElementsByName('date');
+  for (var i = 0; i < checkboxes.length; i++) {
+      if (checkboxes[i] !== checkbox) {
+          checkboxes[i].checked = false;
+      }
+  }
+}
+
+function collapseOthers(button) {
+  var allCollapses = document.querySelectorAll('.collapse');
+  allCollapses.forEach(function(collapse) {
+      if (collapse !== document.querySelector(button.getAttribute('data-bs-target'))) {
+          var bsCollapse = new bootstrap.Collapse(collapse, {
+              toggle: false
+          });
+          bsCollapse.hide();
+      }
+  });
+}

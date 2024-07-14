@@ -16,7 +16,6 @@
         <div class=" align-items-center">
             <div id="carouselExample" class="carousel slide py-3" data-bs-ride="carousel">
                 <div class="carousel-inner text-center">
-    
                     {% for file in product.files.all %}
                         <div class="carousel-item bg-black {% if forloop.first %}
                             active
@@ -24,16 +23,7 @@
                             <img src="{{ file.file.url }}" class="d-block w-100" alt="{{ file.file.name }}" style="height: 300px; width:100%; object-fit:contain;">
                         </div>
                     {% endfor %}
-              
                 </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon text-bg-dark rounded-5" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
-                    <span class="carousel-control-next-icon text-bg-dark rounded-5" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                </button>
             </div>
             
                 <div class="col-12">
