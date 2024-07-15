@@ -25,7 +25,7 @@
 
 
 .icon-navbar{
-    width: 60px;
+    width: 50px;
 }
 
 .icon-avatar{
@@ -34,5 +34,13 @@
 }
 
 .brand{
+    color: rgb(123, 86, 149);
+
+}
+.brand:hover{
     color: rgb(146, 109, 172);
 }
+.search-navbar{
+    max-width: 500px;  
+}
+

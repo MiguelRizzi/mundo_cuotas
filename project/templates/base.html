@@ -15,15 +15,14 @@
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 		<link rel="stylesheet" href="{% static 'css/styles.css' %}">
 	</head>
-	<body>
-		<header>
-			<nav id="main-nav" 
-				class="navbar navbar-expand-md navbar-light py-3 px-5"
-				hx-get="{% url 'users:load_navbar' %}"
-				hx-trigger="load, navbarChanged from:body"
-			>
-			</nav>
-
+	<body class="bg-light">
+		<nav id="main-nav" 
+			class="navbar navbar-expand-md navbar-light bg-light fixed-top px-4"
+			hx-get="{% url 'users:load_navbar' %}"
+			hx-trigger="load, navbarChanged from:body"
+		>
+		</nav>
+		<header class="py-5 bg-white" style="background-image:url({% static 'img/fondo.jpeg' %});background-size:cover; ">
 			{% block header %}{% endblock %}
 		</header>
 	

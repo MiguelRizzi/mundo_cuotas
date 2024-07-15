@@ -1,28 +1,16 @@
 {% load static %}
 
-<div class="container-fluid px-5">
-    <a class="navbar-brand fs-4 fw-bolder title-shadow scale" href="{% url 'products:index' %}">
+<div class="container-fluid px-4">
+    <a class="navbar-brand fs-4 fw-bolder brand" href="{% url 'products:index' %}">
         <img src="{% static 'img/logo.png' %}" alt="Mundo Cuotas" class="icon-navbar">
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-
-    <form 
-        class="input-group mx-auto" 
-        action="?consult={{ consult }}" 
-        style="max-width:420px; "
-    >
-        <input name="consult" class="form-control" type="text" placeholder="¿Que estas buscando?" />
-        <button class="btn btn-success" id="button-search" type="submit">
-            <i class="fas fa-search"></i>
-        </button>
-    </form>
-
-    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-        
-        
-        <ul class="navbar-nav fs-5 fw-bolder title-shadow" id="navbarList">
+    
+    <div class="collapse navbar-collapse justify-content-center justify-content-md-end text-center" id="navbarNav">
+        <hr>
+        <ul class="navbar-nav fs-5 fw-bolder" id="navbarList">
             <li class="nav-item scale">
                 <a class="nav-link {% if request.path == '/' %}active-nav{% endif %}" 
                 {% if request.path == '/' %}

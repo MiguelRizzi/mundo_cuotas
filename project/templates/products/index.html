@@ -2,19 +2,26 @@
 {% load static %}
 
 {% block header %}
-    <div class="px-4 my-4 py-5text-center">
-        <img src="{% static 'img/logo.png' %}" class="d-block mx-auto img-fluid" alt="Mundo Cuotas" loading="lazy">
-        <div class="d-flex align-items-center justify-content-center">
-            <h1 class="display-3 fw-bold text-body-emphasis mb-3 brand">MUNDO CUOTAS</h1>
-        </div>
-        <div class="col-lg-6 mx-auto">
-          <p class="lead mb-4 text-center fw-medium">Compras en cuotas a sola firma</p>
-          <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-            <button type="button" class="btn btn-success btn-lg px-4 gap-3"> <i class="fas fa-phone"></i> Contacto</button>
-            <button type="button" class="btn btn-outline-primary btn-lg px-4">Catalogo online</button>
-          </div>
-        </div>
+
+<div class="px-4 text-center pt-5">
+    <img class="mx-auto m-3 d-block pt-4" src="{% static 'img/logo.png' %}" alt="" width="90">
+    <h1 class="display-5 fw-bold text-body-emphasis brand">
+        MUNDO CUOTAS</h1>
+    <div class="col-lg-6 mx-auto">
+      <h2 class="lead mb-4">Comprá en cuotas solo con tu firma en Tandil, Ayacucho y ayacucho</h2>
+      <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+        <form 
+            class="input-group search-navbar mx-0 mx-md-5 mt-4 mt-md-0 pb-4" 
+            action="?consult={{ consult }}" 
+        >
+            <input name="consult" class="form-control" type="text" placeholder="¿Que estas buscando?" />
+            <button class="btn btn-primary" id="button-search" type="submit">
+                <i class="fas fa-search"></i>
+            </button>
+        </form>   
       </div>
+    </div>
+  </div>
 {% endblock header %}
 
 {% block content %}
