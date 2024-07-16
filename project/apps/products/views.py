@@ -133,7 +133,7 @@ class LoadProductListAdminView(View, LoginRequiredMixin):
         context = {
             'object_list': products,
         }
-        return render(request, 'products/partials/product_list.html', context)
+        return render(request, 'products/partials/product_list_admin.html', context)
 
     
 

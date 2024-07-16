@@ -2,49 +2,29 @@
 {% load static %}
 
 {% block header %}
-    <div class="p-4 text-center bg-header">
-        <img class="mx-auto m-3 d-block" src="{% static 'img/logo.png' %}" alt="" width="90">
+    <div class="px-4 py-5 text-center bg-header">
+        
         <h1 class="display-5 fw-bold text-body-emphasis brand">
-            MUNDO CUOTAS</h1>
+            <img src="{% static 'img/logo.png' %}" alt="Mundo Cuotas" width="95">
+            MUNDO CUOTAS
+        </h1>
+
         <div class="col-lg-6 mx-auto">
         <h2 class="lead fw-normal mb-4">Comprá en cuotas solo con tu firma en Tandil, Ayacucho y ayacucho</h2>
-        <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-            <form 
-                class="input-group search-navbar mx-0 mx-md-5 mt-4 mt-md-0 pb-4" 
-                action="?consult={{ consult }}" 
-            >
-                <input name="consult" class="form-control" type="text" placeholder="¿Que estas buscando?" />
-                <button class="btn btn-primary" id="button-search" type="submit">
-                    <i class="fas fa-search"></i> Buscar
-                </button>
-            </form>   
-        </div>
         </div>
     </div>
 {% endblock header %}
 
 {% block content %}
-    <section class="py-5">
+    <section 
+        class="py-5"
+        hx-get="{% url 'products:load_product_list' %}"
+        hx-target="#results"
+        hx-trigger="load, productListChanged from:body"
+    >
         <div class="container px-4 px-lg-5 mt-2">
-            <div class="row gx-3 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-start">
-                {% for product in products %}
-                        <div class="col mb-5">
-                            <div class="card h-100">
-                                <img class="card-img-top object-fit-cover" src="{{ product.files.first.file.url }}" alt="{{ product.name}}" style="height: 150px"/>
-                                <div class="card-body">
-                                    <div class="text-center">
-                                        <h4 class="fw-semibold">{{ product.name }}</h4>
-                                        {% if product.price %}
-                                            <p>$40.00</p>             
-                                        {% endif %}
-                                    </div>
-                                </div>
-                                <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                    <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="{% url 'products:product_detail' product.slug %}">Ver producto</a></div>
-                                </div>
-                            </div>
-                        </div>
-                {% endfor %}
+            <div id="results" class="row gx-3 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-start">
+                
             </div>
         </div>
     </section>

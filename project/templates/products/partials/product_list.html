@@ -1,57 +1,21 @@
-{% extends 'components/list.html' %}
 
-{% block table_header %}
-  <tr>
-    <th>Nombre</th>
-    <th>Categoria</th>
-    <th>Estado</th>
-    <th>Tipo</th>
-    <th>Fecha</th>
-    <th></th>
-  </tr>
-{% endblock table_header %}
-     
-{% block table_body %}
-    {% if object_list %}
-    {% for product in object_list %}
-    <tr>
-      <td>{{ product.name|truncatechars:35 }}</td>
-      <td>{{ product.category }}</td>
-      <td>
-        {% if product.status == 1 %}
-          <span class="text-danger">No publicado</span>
-        {% elif product.status == 2 %}
-          <span class="text-success">Publicado</span>
-        {% endif %}
-      </td>
+        {% for product in object_list %}
+                                <div class="col mb-5">
+                                    <div class="card h-100">
+                                        <img class="card-img-top object-fit-cover" src="{{ product.files.first.file.url }}" alt="{{ product.name}}" style="height: 150px"/>
+                                        <div class="card-body">
+                                            <div class="text-center">
+                                                <h4 class="fw-semibold">{{ product.name }}</h4>
+                                                {% if product.price %}
+                                                    <p>$40.00</p>             
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                            <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="{% url 'products:product_detail' product.slug %}">Ver producto</a></div>
+                                        </div>
+                                    </div>
+                                </div>
+        {% endfor %}
 
-      <td>
-        {% if product.type == 1 %}
-          Regular
-        {% elif product.type == 2 %}
-          Oferta
-        {% elif product.type == 3 %}
-          Destacado
-        {% endif %}
-      </td>
-
-      <td>{{ product.updated_at|date:"d/m/y H:i" }}</td>
-      <td>
-        <button class="btn btn-secondary btn-sm" hx-get="{% url 'products:product_detail_admin' product.slug %}" hx-target="#dialog"><i class="fas fa-eye"></i></button>
-        <button class="btn btn-success btn-sm" hx-get="{% url 'products:product_update' product.slug %}" hx-target="#dialog"><i class="fas fa-edit"></i></button>
-        <button class="btn btn-danger btn-sm" hx-get="{% url 'products:product_confirm_delete' product.slug %}" hx-target="#dialog"><i class="fas fa-trash-alt"></i></button>          
-      </td>
-    </tr>
-    {% endfor %}
-
-    {% else %}
-    <tr>
-      <td colspan="5" class="text-center fw-semibold">No se encontraron resultados.</td>
-    </tr>
-    {% endif %}
-{% endblock table_body %}
-
-{% block pagination %}
-  {% include 'components/pagination.html' %}
-{% endblock pagination %}
-
+    {% include 'components/pagination.html' %}
