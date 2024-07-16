@@ -44,3 +44,7 @@
     max-width: 500px;  
 }
 
+.bg-header{
+    background-image:url('../img/fondo.jpeg');
+    background-size:cover;
+}

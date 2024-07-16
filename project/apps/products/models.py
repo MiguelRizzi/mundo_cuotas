@@ -59,7 +59,7 @@ class Product(models.Model):
         return self.name
     
     def get_absolute_url(self):
-        return reverse('blog:post_detail', args=[str(self.slug)])
+        return reverse('products:product_detail', args=[str(self.slug)])
     
     
 class File(models.Model):

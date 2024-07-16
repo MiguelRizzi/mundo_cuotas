@@ -1,50 +1,86 @@
-{% load widget_tweaks %}
+{% extends 'base.html' %}
 
-<div class="modal-content">
-    <div class="modal-header">
-      <h5 class="modal-title">Testimonio</h5>
-      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-    </div>
-    <div class="modal-body">
+{% block content %}
 
-
-    
-
-
-          
-          
-        <div class=" align-items-center">
-            <div id="carouselExample" class="carousel slide py-3" data-bs-ride="carousel">
-                <div class="carousel-inner text-center">
-                    {% for file in product.files.all %}
-                        <div class="carousel-item bg-black {% if forloop.first %}
-                            active
-                        {% endif %} px-md-5">
-                            <img src="{{ file.file.url }}" class="d-block w-100" alt="{{ file.file.name }}" style="height: 300px; width:100%; object-fit:contain;">
+        <!-- Product section-->
+        <section class="py-5">
+            <div class="container px-4 px-lg-5 my-5">
+                <div class="row gx-4 gx-lg-5 align-items-center">
+                <div class="col-md-6">
+                    <div id="carousel" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner text-center">
+                            {% for file in product.files.all %}
+                                <div class="carousel-item {% if forloop.first %}active{% endif %}" style="background-color: rgba(0, 0, 0, 0.034);">
+                                    <img src="{{ file.file.url }}" class="card-img-top mb-5 mb-md-0" alt="{{ file.file.name }}" style="height: 400px; width:100%; object-fit:contain;">
+                                </div>
+                            {% endfor %}
                         </div>
-                    {% endfor %}
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carousel" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carousel" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                </div>
+
+
+                    <div class="col-md-6">
+                        <div class="small mb-1">
+                            {% if product.type == 2 %}
+                                Producto en oferta
+                            {% elif product.type == 3 %}
+                                Producto destacado
+                            {% endif %}                        
+                        </div>
+                        <h1 class="display-5 fw-bolder">{{ product.name }}</h1>
+                        {% if product.price %}
+                            <div class="fs-5 mb-5">
+                                <span>${{ product.price }}</span>
+                            </div>    
+                        {% endif %}
+                        <p class="lead">{{ product.description }}</p>
+                        <div class="d-flex">
+                            <a href="#" class="btn btn-primary flex-shrink-0" >
+                                <i class="fas fa-shopping-cart"></i>
+                                Comprar
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
-            
-                <div class="col-12">
-                <div class="small mb-1">{{ product.category }}</div>
-                <h1 class="display-5 fw-bolder">{{ product.name }}</h1>
-                {% if product.price %}
-                    <div class="fs-5 mb-5">
-                        <span class="fw-semibold">Precio Contado: </span>${{ product.price }}
-                    </div>   
-                {% endif %}
-                <p class="lead">{{ product.description }}</p>
-            </div>
-        </div>
+        </section>
 
-    </div>
-    <div class="modal-footer">
-        <a hx-get="{% url 'products:product_update' product.slug %}" hx-target="#dialog" class="btn btn-success"  >
-            <i class="fas fa-edit"></i>
-        </a>
-        <a hx-get="{% url 'products:product_confirm_delete' product.slug %}" hx-target="#dialog" class="btn btn-danger" >
-            <i class="fas fa-trash-alt"></i>
-        </a>
-    </div>
-</div>
+
+        {% if related_products %}
+            <section class="pb-5">
+                <div class="container px-4 px-lg-5">
+                    <h3 class="fw-semibold border-bottom text-uppercase fs-4">Productos relacionados</h3>
+                    <div class="row gx-3 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-start">
+                    
+                        {% for product in related_products %}
+                            <div class="col mb-5">
+                                <div class="card h-100">
+                                    <img class="card-img-top object-fit-cover" src="{{ product.files.first.file.url }}" alt="{{ product.name}}" style="height: 160px;"/>
+                                    <div class="card-body">
+                                        <div class="text-center">
+                                            <h4 class="fw-semibold">{{ product.name }}</h4>
+                                            {% if product.price %}
+                                                <p>$40.00</p>             
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="{% url 'products:product_detail' product.slug %}">Ver producto</a></div>
+                                    </div>
+                                </div>
+                            </div>
+                    {% endfor %}
+                    </div>
+                </div>
+            </section>
+        {% endif %}
+
+{% endblock content %}

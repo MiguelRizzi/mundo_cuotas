@@ -3,7 +3,7 @@ import json
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.views import View
-from django.db.models import Q
+from django.views.generic import TemplateView
 from django.core.paginator import Paginator
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -15,10 +15,16 @@ from django.core.files.storage import default_storage
 
 class IndexView(View):
     def get(self, request):
-        products= Product.objects.all().order_by("-id")
+        products= Product.objects.all()
+        regular_products= products.filter(type=1).order_by("-id")[:4]
+        offer_products= products.filter(type=2).order_by("-id")[:4]
+        featured_products= products.filter(type=3).order_by("-id")[:4]
+
         context = {
-            "products": products,
-            "site_name": "Compras en cuotas a sola firma",
+            "regular_products": regular_products,
+            "offer_products": offer_products,
+            "featured_products": featured_products,
+            "site_name": "Compras en cuotas a sola firma"
         }
 
         return render(request, "products/index.html", context)
@@ -116,18 +122,21 @@ class LoadProductListByCategoryView(View):
        
 
 
+from django.views.generic import DetailView
+from django.shortcuts import get_object_or_404
+from .models import Product
 
+class ProductDetailView(DetailView):
+    template_name = 'default_template.html'
+    model = Product
 
-
-class ProductDetailView(View, LoginRequiredMixin):
-    def get(self, request, slug):
-        product = get_object_or_404(Product, slug=slug)
-
-        context = {
-            "product": product,
-            "site_name": product.name
-        }
-        return render(request, 'products/product_detail.html', context)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        product = self.get_object()
+        related_products = Product.objects.filter(category=product.category).exclude(id=product.id)[:4]  # Filtrar productos de la misma categoría excluyendo el producto actual
+        context["related_products"] = related_products
+        context['site_name'] = product.name
+        return context
     
 
 class ProductCreateView(View):

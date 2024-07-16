@@ -17,12 +17,13 @@
 	</head>
 	<body class="bg-light">
 		<nav id="main-nav" 
-			class="navbar navbar-expand-md navbar-light bg-light fixed-top px-4"
+			class="navbar navbar-expand-md navbar-light bg-light px-4"
 			hx-get="{% url 'users:load_navbar' %}"
 			hx-trigger="load, navbarChanged from:body"
 		>
 		</nav>
-		<header class="py-5 bg-white" style="background-image:url({% static 'img/fondo.jpeg' %});background-size:cover; ">
+
+		<header>
 			{% block header %}{% endblock %}
 		</header>
 	
