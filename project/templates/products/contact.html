@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+
+{% block content %}
+<section id="contacto bg-header">
+    <div class="fondo revelar derecha">
+        <h1 class="fw-bolder display-5 text-center">CONTACTANOS</h1>
+        <p class="lead fw-semibold px-5 pt-5 mx-0 mx-md-5">¡Gracias por visitar Nobodies Tattoo! Si tienes alguna pregunta, consulta o simplemente quieres charlar sobre tu próximo diseño, no dudes en ponerte en contacto y me comunicaré contigo a la brevedad. Además, no olvides seguirme en las redes sociales para estar al tanto de las últimas novedades y diseños.</p>
+
+        <ul class=" justify-content-center list-unstyled d-flex pb-5">
+            <li class="ms-3 scale"><a href="https://www.instagram.com/nobodies_tattoo/" class="icon-social" target="_blank" rel="nofollow noopener noreferrer">
+                <i class="fab fa-instagram" style="font-size: 40px;"></i>
+            </a>
+            </li>
+            <li class="ms-3 scale"><a href="https://www.facebook.com/Nobodies.ttt" class="icon-social" target="_blank" rel="nofollow noopener noreferrer">
+                <i class="fab fa-facebook" style="font-size: 40px;"></i>
+            </a>
+            </li>
+            <li class="ms-3 scale"><a href="https://wa.me/542494271876" class="icon-social" target="_blank" rel="nofollow noopener noreferrer">
+                <i class="fab fa-whatsapp" style="font-size: 40px;"></i>
+            </a>
+            </li>
+        </ul>
+    </div>
+    <div class="container-fluid p-md-5 p-2">
+        <div class="row align-items-center justify-content-center">
+
+
+            <div class="col-lg-6" hx-get="{% url 'users:message_create' %}" hx-trigger="load, messageListChanged from:body" hx-target="this">
+
+            </div>
+
+        </div>
+    </div>
+
+
+
+</section>
+
+
+{% endblock content %}

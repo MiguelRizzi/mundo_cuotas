@@ -8,6 +8,7 @@ from django.http import HttpResponse
 from django.core.paginator import Paginator
 from .forms import CustomAuthenticationForm, AvatarForm, MessageForm
 from .models import Avatar, Message
+from django.db.models import Q
 
 
 import json
@@ -131,8 +132,31 @@ class MessageListView(View, LoginRequiredMixin):
 class LoadMessageListView(View, LoginRequiredMixin):
     def get(self, request):
         consult = request.GET.get("consult", "")
-        messages = Message.objects.filter(Q(name__icontains=consult) | Q(email__icontains=consult)).order_by("-id")
-      
+        status = request.GET.get("status", "")
+        date=request.GET.get("date",)
+
+        messages= Message.objects.all()
+        
+        if consult:
+            messages.filter(
+                Q(name__icontains=consult) | Q(email__icontains=consult)
+            )
+
+        if status:
+            if status == "1":
+                messages = messages.filter(is_read=False)
+            else:
+                messages = messages.filter(is_read=True)
+        
+        if date:
+            if date == "1":
+                messages = messages.order_by("-id")
+            else:
+                messages = messages.order_by("id")
+        else:
+            messages = messages.order_by("-id")
+
+
         paginator = Paginator(messages, 10)
         page = request.GET.get('page')
         messages = paginator.get_page(page)

@@ -35,8 +35,16 @@
   })
 })();
 
-function onlyOne(checkbox) {
+function onlyOneDate(checkbox) {
   var checkboxes = document.getElementsByName('date');
+  for (var i = 0; i < checkboxes.length; i++) {
+      if (checkboxes[i] !== checkbox) {
+          checkboxes[i].checked = false;
+      }
+  }
+}
+function onlyOneStatus(checkbox) {
+  var checkboxes = document.getElementsByName('status');
   for (var i = 0; i < checkboxes.length; i++) {
       if (checkboxes[i] !== checkbox) {
           checkboxes[i].checked = false;

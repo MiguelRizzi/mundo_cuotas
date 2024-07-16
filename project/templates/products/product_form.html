@@ -2,7 +2,7 @@
 
 <form hx-post="{{ request.path }}" hx-headers='{"X-CSRFToken":"{{ csrf_token }}"}' class="modal-content" enctype="multipart/form-data">
   <div class="modal-header">
-      <h5 class="modal-title">Compartí tu testimonio</h5>
+      <h5 class="modal-title">{% if product %}Editar producto{% else %}Crear producto{% endif %}</h5>
       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
   </div>
   <div class="modal-body">

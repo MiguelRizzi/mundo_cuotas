@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <section class="container-fluid p-sm-5 p-0 pt-5 h-section">
+
+        <h1 class="fw-bolder display-5 mb-4 text-uppercase text-center">Productos</h1>
+       
+        <div class="mb-2">
+            <button class="btn btn-success" hx-get="{% url 'products:product_create' %}" hx-target="#dialog"><i class="fas fa-plus"></i> Agregar</button>
+            <button class="btn btn-secondary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions"><i class="fas fa-filter"></i> Filtrar</button>
+        </div>
+    
+        <div class="row">
+            <div 
+                class="col-12" 
+                id="results"
+                hx-get="{% url 'products:load_product_list_admin' %}" 
+                hx-trigger="load" 
+                hx-target="#results"
+            >
+            </div>
+        </div>
+        
+        {% url 'products:index' as url %}
+        {% include 'components/index_back.html' with link=url %}    
+
+
+        <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
+            <div class="offcanvas-header">
+              <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">FILTROS</h5>
+              <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <form hx-get="{% url 'products:load_product_list_admin' %}" hx-target="#results" hx-trigger="change from:input, productListChanged from:body, submit" method="get" class="p-3">
+
+                    <div class="input-group">
+                        <input name="consult" class="form-control" type="text" placeholder="Buscar..." />
+                        <button class="btn btn-success" id="button-search" type="submit">
+                            <i class="fas fa-search"></i> Buscar
+                        </button>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <p class="mt-3 mb-2 fw-semibold border-bottom fs-5">Estado</p>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="status" value="1" id="status1">
+                                    <label class="form-check-label" for="status1">No publicados</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="status" value="2" id="status2">
+                                    <label class="form-check-label" for="status2">Publicados</label>
+                                </div>
+                            </div>
+                    
+                            <div class="form-group">
+                                <p class="mt-3 mb-2 fw-semibold border-bottom fs-5">Tipo</p>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="type" value="1" id="type1">
+                                    <label class="form-check-label" for="type1">Regular</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="type" value="2" id="type2">
+                                    <label class="form-check-label" for="type2">Destacado</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="type" value="3" id="type3">
+                                    <label class="form-check-label" for="type3">Oferta</label>
+                                </div>
+                            </div>
+                    
+                            <div class="form-group">
+                                <p class="mt-3 mb-2 fw-semibold border-bottom fs-5">Fecha</p>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="date" onclick="onlyOneDate(this)" value="1" id="date1">
+                                    <label class="form-check-label" for="date1">Recientes</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="date" onclick="onlyOneDate(this)" value="2" id="date2">
+                                    <label class="form-check-label" for="date2">Antiguos</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <p class="mt-3 mb-2 fw-semibold border-bottom fs-5">Categorías</p>
+                                {% for category in categories %}
+                                    {% if not category.parent %}
+                                        <div class="mb-1">
+                                            <button type="button" class="btn px-2 btn-toggle d-inline-flex rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#{{ category.slug }}" aria-expanded="false" onclick="collapseOthers(this)">
+                                                {{ category.name }}
+                                            </button>
+                    
+                                            <div class="collapse" id="{{ category.slug }}">
+                                                <div class="btn-toggle-nav list-unstyled fw-normal pb-1 small mx-4">
+                                                    {% for subcategory in category.subcategories.all %}
+                                                        <div class="form-check">
+                                                            <input type="checkbox" class="form-check-input" id="{{ subcategory.slug }}" name="category" value="{{ subcategory.slug }}">
+                                                            <label class="form-check-label" for="{{ subcategory.slug }}">{{ subcategory }}</label>
+                                                        </div>
+                                                    {% endfor %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </form>
+                        </div>
+                    </div> 
+            </div>
+        </div>
+    </section>
+    
+{% endblock %}

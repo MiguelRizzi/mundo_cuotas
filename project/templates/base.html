@@ -16,14 +16,15 @@
 		<link rel="stylesheet" href="{% static 'css/styles.css' %}">
 	</head>
 	<body class="bg-light">
-		<nav id="main-nav" 
-			class="navbar navbar-expand-md navbar-light bg-light px-4"
-			hx-get="{% url 'users:load_navbar' %}"
-			hx-trigger="load, navbarChanged from:body"
-		>
-		</nav>
+
 
 		<header>
+			<nav id="main-nav" 
+				class="navbar navbar-expand-md navbar-light px-4"
+				hx-get="{% url 'users:load_navbar' %}"
+				hx-trigger="load, navbarChanged from:body"
+			>
+			</nav>
 			{% block header %}{% endblock %}
 		</header>
 	

@@ -48,3 +48,7 @@
     background-image:url('../img/fondo.jpeg');
     background-size:cover;
 }
+
+.card, .btn, .form-control{
+    border-radius: 6px;
+}

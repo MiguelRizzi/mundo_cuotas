@@ -3,12 +3,14 @@ import json
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.views import View
-from django.views.generic import TemplateView
+from django.views.generic import DetailView
+
 from django.core.paginator import Paginator
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import File, Product, Category
 from .forms import ProductForm, ProductUpdateForm
+from users.forms import MessageForm
 
 from django.core.files.storage import default_storage
 # _____________________ INDEX VIEW _____________________
@@ -30,6 +32,12 @@ class IndexView(View):
         return render(request, "products/index.html", context)
     
 
+class ContactView(View):
+    def get(self, request):
+        return render(request, "products/contact.html")
+
+    
+
 # _____________________ PRODUCT VIEWS _____________________
 
 class ProductListView(View):
@@ -41,10 +49,53 @@ class ProductListView(View):
             "site_name": "Catalogo Online",
         }
 
-        context['site_name'] = ""
         return render(request, "products/products.html", context)
     
 class LoadProductListView(View):
+    def get(self, request):
+        consult = request.GET.get("consult", "")
+        type = request.GET.getlist("type", "")
+        category= request.GET.getlist("category", "")
+        
+        products = Product.objects.all().exclude(status=1)
+
+        if consult:
+            products = products.filter(name__icontains=consult)
+
+        if type:
+            products = products.filter(type__in=type)
+
+        if category:
+            products = products.filter(category__slug__in=category)
+
+    
+        products = products.order_by("-id")
+
+        
+        paginator = Paginator(products, 10)
+        page = request.GET.get('page')
+        products = paginator.get_page(page)
+
+        context = {
+            'object_list': products,
+        }
+        return render(request, 'products/partials/product_list.html', context)
+    
+
+    
+class ProductListAdminView(View, LoginRequiredMixin):
+    def get(self, request):
+        categories= Category.objects.all()
+
+        context = {
+            'categories': categories,
+            "site_name": "Administrar Catalogo Online",
+        }
+
+        return render(request, "products/products_admin.html", context)
+
+    
+class LoadProductListAdminView(View, LoginRequiredMixin):
     def get(self, request):
         consult = request.GET.get("consult", "")
         status = request.GET.getlist("status", "")
@@ -64,7 +115,6 @@ class LoadProductListView(View):
             products = products.filter(type__in=type)
 
         if category:
-            print("category", category)
             products = products.filter(category__slug__in=category)
 
         if date:
@@ -75,6 +125,7 @@ class LoadProductListView(View):
         else:
             products = products.order_by("-id")
 
+        
         paginator = Paginator(products, 10)
         page = request.GET.get('page')
         products = paginator.get_page(page)
@@ -120,11 +171,6 @@ class LoadProductListByCategoryView(View):
 
         return render(request, 'products/partials/product_list.html', context)
        
-
-
-from django.views.generic import DetailView
-from django.shortcuts import get_object_or_404
-from .models import Product
 
 class ProductDetailView(DetailView):
     template_name = 'default_template.html'

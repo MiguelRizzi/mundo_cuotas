@@ -1,6 +1,6 @@
 {% load static %}
 
-<div class="container-fluid px-4">
+<div class="container-fluid px-4 text-uppercase">
     <a class="navbar-brand fs-4 fw-bolder brand" href="{% url 'products:index' %}">
         <img src="{% static 'img/logo.png' %}" alt="Mundo Cuotas" class="icon-navbar">
     </a>
@@ -8,7 +8,7 @@
         <span class="navbar-toggler-icon"></span>
     </button>
     
-    <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+    <div class="collapse navbar-collapse justify-content-center justify-content-md-end" id="navbarNav">
         <hr>
         <ul class="navbar-nav fs-5 fw-bolder" id="navbarList">
             <li class="nav-item scale">
@@ -18,8 +18,11 @@
                 {% endif %}
                 href="{% url 'products:index' %}">Inicio</i></a>
             </li>
-            <li class="nav-item scale {% if request.path == '/products/' %}active-nav{% endif %}">
+            <li class="nav-item scale {% if request.path == '/productos/' %}active-nav{% endif %}">
                 <a class="nav-link" href="{% url 'products:product_list' %}">Productos</a>
+            </li>
+            <li class="nav-item scale {% if request.path == '/contacto/' %}active-nav{% endif %}">
+                <a class="nav-link" href="{% url 'products:contact' %}">Contacto</a>
             </li>
 
 
@@ -59,6 +62,10 @@
                     </a></li>
                 
                     <li><hr class="dropdown-divider"></li>
+
+                    <li><a class="dropdown-item" href="{% url 'products:product_list_admin' %}">Productos</a></li>
+                    <li><hr class="dropdown-divider"></li>
+
                     {% if not user.avatar %}
                     <li><a class="dropdown-item" hx-get="{% url 'users:avatar_create' %}" hx-target="#dialog">Mi avatar</a></li>
                     {% else %}
@@ -66,15 +73,13 @@
                     {% endif %}
                     <li><a class="dropdown-item" hx-get="{% url 'users:change_password' %}" hx-target="#dialog">Cambiar contraseña</a></li>
                     <li>
-                        <button type="submit" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#logoutModal">Cerrar sesión</button>      
+                        <button type="submit" class="dropdown-item text-uppercase" data-bs-toggle="modal" data-bs-target="#logoutModal">Cerrar sesión</button>      
                     </li>
                 </ul>
             </li>
             {% endif %}
         </ul>
     </div>
-    <li class="ms-3"><a class="text-body-secondary" href="#"><i class="fab fa-whatsapp fa-2x"></i></a></li>
-
  
 </div>
 
