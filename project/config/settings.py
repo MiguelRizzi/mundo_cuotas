@@ -13,7 +13,13 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 import os
 import sys
 
+# environ to read the .env file
+import environ
+env = environ.Env()
+environ.Env.read_env()
+
 from pathlib import Path
+
 
 # For the LOGIN variables.
 from django.urls import reverse_lazy
@@ -29,10 +35,10 @@ sys.path.append(str(APPS_DIR))
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-gv6*!0eip9i0yr_!b2m^=6f59!w86xqm=n&l#$3aickj%b+v!o'
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG')
 
 ALLOWED_HOSTS = []
 
@@ -101,6 +107,19 @@ DATABASES = {
     }
 }
 
+"""
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': os.environ.get('DB_NAME'),
+        'USER': os.environ.get('DB_USER'),
+        'PASSWORD': os.environ.get('DB_PASSWORD'),
+        'HOST': os.environ.get('DB_HOST'),
+        'PORT': os.environ.get('DB_PORT'),
+    },
+}
+
+"""
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
