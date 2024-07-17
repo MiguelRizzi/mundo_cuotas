@@ -199,7 +199,7 @@ class ProductCreateView(View):
     def post(self, request):
         form = ProductForm(request.POST, request.FILES)
         subcategory_value = request.POST.get('subcategory')
-        subcategory= get_object_or_404(Category, slug=subcategory_value)
+        subcategory= get_object_or_404(Category, id=subcategory_value)
 
         if form.is_valid():
             product = Product(
@@ -241,10 +241,11 @@ class ProductUpdateView(View, LoginRequiredMixin):
         form = ProductUpdateForm(instance=product)
 
         subcategories = Category.objects.filter(parent=product.category)
-
+        
     
         categories = Category.objects.filter(parent=None)
         categorie_value = product.category
+        print(categorie_value)
         context = {
             "form": form,
             "product": product,
@@ -255,19 +256,13 @@ class ProductUpdateView(View, LoginRequiredMixin):
         return render(request, 'products/product_form.html', context)
 
     def post(self, request, slug):
-        form = ProductUpdateForm(request.POST, instance=product)
         product = get_object_or_404(Product, slug=slug)
+        form = ProductUpdateForm(request.POST, instance=product)
         subcategory_value = request.POST.get('subcategory')
-        subcategory= get_object_or_404(Category, slug=subcategory_value)
+        subcategory= get_object_or_404(Category, id=subcategory_value)
         if form.is_valid():
-            product = Product(
-                name=form.cleaned_data['name'],
-                description=form.cleaned_data['description'],
-                category=subcategory,
-                type=form.cleaned_data['type'],
-                status=form.cleaned_data['status'],
-                price=form.cleaned_data['price'],
-            )
+            product = form.save(commit=False)
+            product.category = subcategory
             product.save()            
             return HttpResponse(
                 status=204,
@@ -305,4 +300,18 @@ class LoadSubcategoriesView(View):
         category = request.GET.get("category", "")
         subcategories = Category.objects.filter(parent=category)
         return render(request, 'products/partials/load_subcategories.html', {'subcategories': subcategories})
+
+class LoadProductSubcategoriesView(View):
+
+    def get(self, request, slug):
+        category = request.GET.get("category", "")
+        subcategories = Category.objects.filter(parent=category)
+        product = Product.objects.get(slug=slug)
+
+        context={
+            'subcategories': subcategories,
+            'product': product
+        }
+
+        return render(request, 'products/partials/load_subcategories.html', context)
     

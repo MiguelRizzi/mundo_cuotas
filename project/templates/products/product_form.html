@@ -11,7 +11,18 @@
            {% if field.name == 'category' %}
                <div class="form-group">
                    <label for="id_category" class="form-label">{{ form.category.label }}</label>
-                   <select class="form-select" id="category-select" name="category" hx-get="{% url 'products:load_subcategories' %}" hx-trigger="load, change" hx-target="#subcategory-select">
+                   <select 
+                        class="form-select" 
+                        id="category-select" 
+                        name="category"
+                        {% if product %}
+                            hx-get="{% url 'products:load_product_subcategories' product.slug %}"
+                        {% else %}
+                            hx-get="{% url 'products:load_subcategories' %}" 
+                        {% endif %}
+                        hx-trigger="load, change" 
+                        hx-target="#subcategory-select"
+                    >
                        <option value="">Selecciona una categoría</option>
                        {% for category in categories %}
                            <option value="{{ category.id }}" {% if product.category.parent == category %}selected{% endif %}>{{ category.name }}</option>
@@ -23,8 +34,10 @@
                     <label for="id_category" class="form-label">Categoria</label>
                    
                    <select class="form-select" id="subcategory-select" name="subcategory">
-                       <option value="">Selecciona una subcategoría</option>
-                                                   
+                        <option value="">Selecciona una subcategoria</option>
+                        {% for subcategory in subcategories.all %}
+                            <option value="{{ subcategory.slug }}" {% if product.category == subcategory %}selected{% endif %}>{{ subcategory }}</option>
+                        {% endfor %}                                                   
                    </select>
                </div>
            {% else %}

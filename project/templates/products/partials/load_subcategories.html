@@ -1,4 +1,9 @@
 <option value="">Selecciona una subcategoria</option>
 {% for subcategory in subcategories.all %}
-    <option value="{{ subcategory.slug }}">{{ subcategory }}</option>
+<option value="{{ subcategory.id }}" {% if product.category == subcategory %}selected{% endif %}>{{ subcategory }}</option>
+
+<script>
+    console.log('subcategory' + '{{ subcategory }}' + '|||product.category' + '{{ product.category }}');
+</script>
 {% endfor %}
+

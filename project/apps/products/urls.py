@@ -9,7 +9,7 @@ urlpatterns = [
     path("productos/cargar/", views.LoadProductListView.as_view(), name="load_product_list"),
 
     path('productos/administracion/', views.ProductListAdminView.as_view(), name='product_list_admin'),
-    path('productos/argar/administracion/', views.LoadProductListAdminView.as_view(), name='load_product_list_admin'),
+    path('productos/cargar/administracion/', views.LoadProductListAdminView.as_view(), name='load_product_list_admin'),
     
     path('productos/categorias/<slug:slug>/', views.ProductListByCategoryView.as_view(), name='product_list_by_category'),
     path('productos/categorias/cargar/<slug:slug>/', views.LoadProductListByCategoryView.as_view(), name='load_product_list_by_category'),
@@ -22,4 +22,5 @@ urlpatterns = [
     path("productos/eliminar/<slug:slug>/", views.ProductDeleteView.as_view(), name="product_delete"),
 
     path("subcategorias/cargar/", views.LoadSubcategoriesView.as_view(), name="load_subcategories"),
+    path("subcategorias/cargar/<slug:slug>/", views.LoadProductSubcategoriesView.as_view(), name="load_product_subcategories"),
 ]
