@@ -1,13 +1,13 @@
 from django import forms
-from .models import Product
+from .models import Product, Category
 from multiupload.fields import MultiFileField
 
 class BaseProductForm(forms.ModelForm):
+
     class Meta:
         model = Product
         fields = ['name', 'category', 'price', 'type', 'status', 'description']
         labels = {'name': 'Nombre', 'description': 'Descripción', 'price': 'Precio de contado', 'type': 'Tipo', 'status': 'Estado', 'category': 'Categoría'}
-
 class ProductForm(BaseProductForm):
     files = MultiFileField(min_num=1, max_num=10, label='Archivos a agregar')
     # existent_files = forms.MultipleChoiceField(choices=[], label='Selecciona archivos a eliminar')

@@ -1,0 +1,4 @@
+<option value="">Selecciona una subcategoria</option>
+{% for subcategory in subcategories.all %}
+    <option value="{{ subcategory.slug }}">{{ subcategory }}</option>
+{% endfor %}

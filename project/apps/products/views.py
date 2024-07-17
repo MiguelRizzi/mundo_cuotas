@@ -188,12 +188,29 @@ class ProductDetailView(DetailView):
 class ProductCreateView(View):
     def get(self, request):
         form = ProductForm()
-        return render(request, 'products/product_form.html', {'form': form})
+        categories = Category.objects.filter(parent=None)
+        context = { 
+            'form': form,
+            'categories': categories
+        }
+
+        return render(request, 'products/product_form.html', context)
 
     def post(self, request):
         form = ProductForm(request.POST, request.FILES)
+        subcategory_value = request.POST.get('subcategory')
+        subcategory= get_object_or_404(Category, slug=subcategory_value)
+
         if form.is_valid():
-            product = form.save()
+            product = Product(
+                name=form.cleaned_data['name'],
+                description=form.cleaned_data['description'],
+                category=subcategory,
+                type=form.cleaned_data['type'],
+                status=form.cleaned_data['status'],
+                price=form.cleaned_data['price'],
+            )
+            product.save()
             for file in request.FILES.getlist('files'):
                 file_obj = File.objects.create(file=file, product=product)
                 file_obj.save()
@@ -218,20 +235,40 @@ class ProductConfirmActionView(View, LoginRequiredMixin):
     
 
 class ProductUpdateView(View, LoginRequiredMixin):
+# Dentro de tu ProductUpdateView
     def get(self, request, slug):
         product = get_object_or_404(Product, slug=slug)
         form = ProductUpdateForm(instance=product)
+
+        subcategories = Category.objects.filter(parent=product.category)
+
+    
+        categories = Category.objects.filter(parent=None)
+        categorie_value = product.category
         context = {
             "form": form,
-            "product": product
-            }
+            "product": product,
+            "categories": categories,
+            "subcategories": subcategories,
+            "category_value": categorie_value
+        }
         return render(request, 'products/product_form.html', context)
 
     def post(self, request, slug):
-        product = get_object_or_404(Product, slug=slug)
         form = ProductUpdateForm(request.POST, instance=product)
+        product = get_object_or_404(Product, slug=slug)
+        subcategory_value = request.POST.get('subcategory')
+        subcategory= get_object_or_404(Category, slug=subcategory_value)
         if form.is_valid():
-            product = form.save()
+            product = Product(
+                name=form.cleaned_data['name'],
+                description=form.cleaned_data['description'],
+                category=subcategory,
+                type=form.cleaned_data['type'],
+                status=form.cleaned_data['status'],
+                price=form.cleaned_data['price'],
+            )
+            product.save()            
             return HttpResponse(
                 status=204,
                 headers={
@@ -261,3 +298,11 @@ class ProductDeleteView(View, LoginRequiredMixin):
     
 
 
+
+class LoadSubcategoriesView(View):
+
+    def get(self, request):
+        category = request.GET.get("category", "")
+        subcategories = Category.objects.filter(parent=category)
+        return render(request, 'products/partials/load_subcategories.html', {'subcategories': subcategories})
+    

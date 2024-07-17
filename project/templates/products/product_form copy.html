@@ -1,0 +1,93 @@
+<form hx-post="{{ request.path }}" hx-headers='{"X-CSRFToken":"{{ csrf_token }}"}' class="modal-content" enctype="multipart/form-data">
+    <div class="modal-header">
+        <h5 class="modal-title">{% if product %}Editar producto{% else %}Crear producto{% endif %}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+        <div class="mb-3">
+            <label for="id_name" class="form-label">{{ form.name.label }}</label>
+            <input type="text" class="form-control" id="id_name" name="name" value="{{ form.name.value }}">
+            {% for error in form.name.errors %}
+                <div class="text-danger">{{ error }}</div> 
+            {% endfor %}
+        </div>
+
+        <div class="mb-3">
+            <label for="id_category" class="form-label">{{ form.category.label }}</label>
+            <select class="form-select" id="category-select" name="category" hx-get="{% url "products:load_subcategories" %}" hx-trigger="change" hx-target="#subcategory-select">
+                {% for category in categories %}
+                    <option value="{{ category.id }}" {% if category.id == form.category.value %}selected{% endif %}>{{ category.name }}</option>
+                {% endfor %}
+            </select>
+            {% for error in form.category.errors %}
+                <div class="text-danger">{{ error }}</div>
+            {% endfor %}
+        </div>
+        
+        <div class="mb-3">
+            <label for="id_subcategory" class="form-label">{{ form.subcategory.label }}</label>
+            <select class="form-select" id="subcategory-select" name="subcategory">
+                <!-- Opciones se agregarán dinámicamente con JavaScript -->
+            </select>
+            {% for error in form.subcategory.errors %}
+                <div class="text-danger">{{ error }}</div>
+            {% endfor %}
+        </div>
+
+        <div class="mb-3">
+            <label for="id_price" class="form-label">{{ form.price.label }}</label>
+            <input type="number" class="form-control" id="id_price" name="price" value="{{ form.price.value }}">
+            {% for error in form.price.errors %}
+                <div class="text-danger">{{ error }}</div>
+            {% endfor %}
+        </div>
+
+        <div class="mb-3">
+            <label for="id_type" class="form-label">{{ form.type.label }}</label>
+            <select class="form-select" id="id_type" name="type">
+                {% for value, label in form.type.field.choices %}
+                    <option value="{{ value }}" {% if value == form.type.value %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+            {% for error in form.type.errors %}
+                <div class="text-danger">{{ error }}</div>
+            {% endfor %}
+        </div>
+
+        <div class="mb-3">
+            <label for="id_status" class="form-label">{{ form.status.label }}</label>
+            <select class="form-select" id="id_status" name="status">
+                {% for value, label in form.status.field.choices %}
+                    <option value="{{ value }}" {% if value == form.status.value %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+            {% for error in form.status.errors %}
+                <div class="text-danger">{{ error }}</div>
+            {% endfor %}
+        </div>
+
+        <div class="mb-3">
+            <label for="id_description" class="form-label">{{ form.description.label }}</label>
+            <textarea class="form-control" id="id_description" name="description">{{ form.description.value }}</textarea>
+            {% for error in form.description.errors %}
+                <div class="text-danger">{{ error }}</div>
+            {% endfor %}
+        </div>
+
+        <!-- Resto de los campos del formulario -->
+
+        {% if form.non_field_errors %}
+            <div class="text-danger">
+                {% for error in form.non_field_errors %}
+                    {{ error }}
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            Cancelar
+        </button>
+        <button type="submit" class="btn btn-success">Enviar</button>
+    </div>
+</form>

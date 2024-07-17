@@ -7,24 +7,37 @@
   </div>
   <div class="modal-body">
       <div class="mb-3">
-          {% for field in form %}
-              <div class="form-group">
-                  {{ field.label_tag }}
-                  {{ field|add_class:"form-control" }}
-                  {% for error in field.errors %}
-                      <div class="text-danger">{{ error }}</div>
-                  {% endfor %}
-              </div>
-          {% endfor %}
-
-          {% if form.non_field_errors %}
-              <div class="text-danger">
-                  {% for error in form.non_field_errors %}
-                      {{ error }}
-                  {% endfor %}
-              </div>
-          {% endif %}
-      </div>
+       {% for field in form %}
+           {% if field.name == 'category' %}
+               <div class="form-group">
+                   <label for="id_category" class="form-label">{{ form.category.label }}</label>
+                   <select class="form-select" id="category-select" name="category" hx-get="{% url 'products:load_subcategories' %}" hx-trigger="load, change" hx-target="#subcategory-select">
+                       <option value="">Selecciona una categoría</option>
+                       {% for category in categories %}
+                           <option value="{{ category.id }}" {% if product.category.parent == category %}selected{% endif %}>{{ category.name }}</option>
+                       {% endfor %}
+                   </select>
+               </div>
+               
+               <div class="form-group"> 
+                    <label for="id_category" class="form-label">Categoria</label>
+                   
+                   <select class="form-select" id="subcategory-select" name="subcategory">
+                       <option value="">Selecciona una subcategoría</option>
+                                                   
+                   </select>
+               </div>
+           {% else %}
+               <div class="form-group">
+                   {{ field.label_tag }}
+                   {{ field|add_class:"form-control" }}
+                   {% for error in field.errors %}
+                       <div class="text-danger">{{ error }}</div>
+                   {% endfor %}
+               </div>
+           {% endif %}
+       {% endfor %}
+  </div>
   </div>
   <div class="modal-footer">
       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
