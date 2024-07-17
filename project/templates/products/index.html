@@ -2,29 +2,39 @@
 {% load static %}
 
 {% block header %}
-    <div class="px-4 py-5 text-center bg-header">
-        
-        <h1 class="display-5 fw-bold text-body-emphasis brand">
-            <img src="{% static 'img/logo.png' %}" alt="Mundo Cuotas" width="95">
-            MUNDO CUOTAS
-        </h1>
 
-        <div class="col-lg-6 mx-auto">
-        <h2 class="lead fw-normal mb-4">Comprá en cuotas solo con tu firma en Tandil, Ayacucho y ayacucho</h2>
+        <div class="px-4 py-5 text-center bg-header">
+            
+            <img src="{% static 'img/logo.png' %}" alt="Mundo Cuotas" width="95" class="d-block mx-auto">
+            <h1 class="display-5 fw-bold text-body-emphasis brand">
+                Comprá en cuotas solo con tu firma
+            </h1>
+
+            <div class="col-lg-6 mx-auto">
+                <h2 class="lead fw-normal mb-4">Compra productos directo de fábrica en cuotas, sin complicaciones.</h2>
+                <form action="{% url 'products:product_list' %}" method="get" class="mx-auto px-5" style="max-width: 600px">
+                <div class="input-group">
+                    <input name="query" class="form-control" type="text" placeholder="¿Que estas buscando?" aria-label="¿Que estas buscando?" />
+                    <button class="btn btn-success" id="button-search" type="submit">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </form>
+            </div>
         </div>
-    </div>
+        
 {% endblock header %}
 
 {% block content %}
-    <section class="py-5">
+    <section class="py-5 fondo">
 
         {% if offer_products %}
-            <div class="container px-4 px-lg-5 mt-2">
+            <div class="container mt-2">
                 <h3 class="fw-semibold border-bottom text-uppercase fs-4">Productos en oferta</h3>
                 <div class="row gx-3 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-start">
                     {% for product in offer_products %}
-                        <div class="col mb-5">
-                            <div class="card h-100">
+                        <div class="col mb-4">
+                            <div class="card bg-card h-100">
                                 <img class="card-img-top object-fit-cover" src="{{ product.files.first.file.url }}" alt="{{ product.name}}" style="height: 160px;"/>
                                 <div class="card-body">
                                     <div class="text-center">
@@ -41,15 +51,24 @@
                         </div>
                     {% endfor %}
                 </div>
+                
             </div>  
-        {% endif %}
+            {% endif %}
+            
+            <div class="text-center">
+                <a href="{% url 'products:product_list' %}?type=2" class="btn btn-outline-dark" style="width: 320px;"> Ver todas las ofertas</a>
+            </div>
+    </section>
+
+    <section class="py-5 fondo">
+
 
         {% if featured_products %}
-            <div class="container px-4 px-lg-5 mt-2">
+            <div class="container mt-2">
                 <h3 class="fw-semibold border-bottom text-uppercase fs-4">Productos destacados</h3>
                 <div class="row gx-3 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-start">
                     {% for product in featured_products %}
-                            <div class="col mb-5">
+                            <div class="col mb-4">
                                 <div class="card h-100">
                                     <img class="card-img-top object-fit-cover" src="{{ product.files.first.file.url }}" alt="{{ product.name}}" style="height: 150px"/>
                                     <div class="card-body">
@@ -69,13 +88,18 @@
                 </div>
             </div>
             
+            <div class="text-center">
+                <a href="{% url 'products:product_list' %}?type=3" class="btn btn-outline-dark" style="width: 320px;"> Ver todos los destacados</a>
+            </div>
         {% endif %}
+    </section>
 
-        <div class="container px-4 px-lg-5 mt-2">
+    <section class="py-5 fondo">
+        <div class="container mt-2">
             <h3 class="fw-semibold border-bottom text-uppercase fs-4">Mas productos</h3>
             <div class="row gx-3 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-start">
                 {% for product in regular_products %}
-                        <div class="col mb-5">
+                        <div class="col mb-4">
                             <div class="card h-100">
                                 <img class="card-img-top object-fit-cover" src="{{ product.files.first.file.url }}" alt="{{ product.name}}" style="height: 150px"/>
                                 <div class="card-body">
@@ -94,5 +118,12 @@
                 {% endfor %}
             </div>
         </div>
+        <div class="text-center">
+            <a href="{% url 'products:product_list' %}" class="btn btn-outline-dark" style="width: 320px;"> Ver todos los productos</a>
+        </div>
     </section>
 {% endblock content %}
+
+{% block footer %}
+    {% include 'components/contact_footer.html' %}
+{% endblock footer %}

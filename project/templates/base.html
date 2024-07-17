@@ -20,7 +20,7 @@
 
 		<header>
 			<nav id="main-nav" 
-				class="navbar navbar-expand-md navbar-light px-4"
+				class="navbar navbar-expand-md navbar-light px-4 fondo"
 				hx-get="{% url 'users:load_navbar' %}"
 				hx-trigger="load, navbarChanged from:body"
 			>
@@ -37,7 +37,12 @@
 		</main>
 		
 		<!--Footer-->
-		{% include 'components/footer.html' %}
+		<footer>
+			{% block footer %}
+			{% endblock footer %}
+			
+			{% include 'components/footer.html' %}
+		</footer>
 		
 		<!-- HTMX -->
 		<script src="https://unpkg.com/htmx.org@1.9.12"></script>

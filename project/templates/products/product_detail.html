@@ -3,8 +3,8 @@
 {% block content %}
 
         <!-- Product section-->
-        <section class="py-5">
-            <div class="container px-4 px-lg-5 my-5">
+        <section class="py-5 fondo">
+            <div class="container px-4 px-lg-5">
                 <div class="row gx-4 gx-lg-5 align-items-center">
                 <div class="col-md-6">
                     <div id="carousel" class="carousel slide" data-bs-ride="carousel">
@@ -55,13 +55,13 @@
 
 
         {% if related_products %}
-            <section class="pb-5">
+            <section class="py-5 fondo">
                 <div class="container px-4 px-lg-5">
                     <h3 class="fw-semibold border-bottom text-uppercase fs-4">Productos relacionados</h3>
                     <div class="row gx-3 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-start">
                     
                         {% for product in related_products %}
-                            <div class="col mb-5">
+                            <div class="col mb-4">
                                 <div class="card h-100">
                                     <img class="card-img-top object-fit-cover" src="{{ product.files.first.file.url }}" alt="{{ product.name}}" style="height: 160px;"/>
                                     <div class="card-body">
@@ -79,6 +79,9 @@
                             </div>
                     {% endfor %}
                     </div>
+                </div>
+                <div class="text-center">
+                    <a href="{% url 'products:product_list' %}" class="btn btn-outline-dark" style="width: 320px;"> Ver mas productos</a>
                 </div>
             </section>
         {% endif %}

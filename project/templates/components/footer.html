@@ -1,6 +1,6 @@
 {% load static %}
 
-<footer class="d-flex flex-wrap justify-content-between align-items-center p-3 p-md-5 my-4 border-top">
+<div class="d-flex flex-wrap justify-content-between align-items-center p-5">
     <ul class="col-12 nav justify-content-center pb-3 mb-3 fw-semibold">
         <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Inicio</a></li>
         <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Productos</a></li>
@@ -15,12 +15,13 @@
       <span class="mb-3 mb-md-0 text-body-secondary pt-3 fw-normal">&copy; <span id="year"></span> MUNDO CUOTAS</span>
     </div>
 
-<ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
-    <li class="ms-3"><a class="text-body-secondary" href="#"><i class="fab fa-twitter fa-2x"></i></a></li>
-    <li class="ms-3"><a class="text-body-secondary" href="#"><i class="fab fa-instagram fa-2x"></i></a></li>
-    <li class="ms-3"><a class="text-body-secondary" href="#"><i class="fab fa-facebook fa-2x"></i></a></li>
-</ul>
-</footer>
+    <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
+        <li class="ms-3"><a class="text-body-secondary" href="#"><i class="fab fa-twitter fa-2x"></i></a></li>
+        <li class="ms-3"><a class="text-body-secondary" href="#"><i class="fab fa-instagram fa-2x"></i></a></li>
+        <li class="ms-3"><a class="text-body-secondary" href="#"><i class="fab fa-facebook fa-2x"></i></a></li>
+    </ul>
+</div>  
+
 <script>
   const yearElement = document.getElementById("year");
   const currentYear = new Date().getFullYear();
