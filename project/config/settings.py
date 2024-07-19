@@ -172,4 +172,4 @@ SITE_ID = 1
 
 # Login
 LOGIN_URL = reverse_lazy("users:login")
-LOGIN_REDIRECT_URL = reverse_lazy("products:index")
+LOGIN_REDIRECT_URL = reverse_lazy("products:product_list")

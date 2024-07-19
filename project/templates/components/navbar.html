@@ -1,8 +1,8 @@
 {% load static %}
 
 <div class="container-fluid px-4 text-uppercase">
-    <a class="navbar-brand fs-4 fw-bolder brand" href="{% url 'products:index' %}">
-        <img src="{% static 'img/logo.png' %}" alt="Mundo Cuotas" class="icon-navbar">
+    <a class="navbar-brand fs-3 fw-bolder brand" href="{% url 'products:product_list' %}">
+        <img src="{% static 'img/logo.png' %}" alt="Mundo Cuotas" class="icon-navbar"> MUNDO CUOTAS
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -17,10 +17,7 @@
                 {% if request.path == '/' %}
                     aria-current="page" 
                 {% endif %}
-                href="{% url 'products:index' %}">Inicio</i></a>
-            </li>
-            <li class="nav-item scale {% if request.path == '/productos/' %}active-nav{% endif %}">
-                <a class="nav-link" href="{% url 'products:product_list' %}">Productos</a>
+                href="{% url 'products:product_list' %}">Productos</i></a>
             </li>
             <li class="nav-item scale {% if request.path == '/contacto/' %}active-nav{% endif %}">
                 <a class="nav-link" href="{% url 'products:contact' %}">Contacto</a>

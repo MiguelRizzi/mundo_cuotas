@@ -2,54 +2,29 @@
 {% load static %}
 {% load widget_tweaks %}
 
-{% block header %}
-<div class="px-4 py-5 text-center bg-header">
-        
-    <h1 class="display-5 fw-bold text-body-emphasis brand">
-        <img src="{% static 'img/logo.png' %}" alt="Mundo Cuotas" width="95">
-        MUNDO CUOTAS
-    </h1>
 
-    <div class="col-lg-6 mx-auto">
-    <h2 class="lead fw-normal mb-4">¡Gracias por visitar MUNDO CUOTAS! </h2>
-    </div>
-</div>
-    
-{% endblock header %}
 {% block content %}
-<section id="contacto bg-header">
-    <div class="fondo revelar derecha">
-        <p class="lead fw-semibold px-5 pt-5 mx-0 mx-md-5">¡Gracias por visitar Nobodies Tattoo! Si tienes alguna pregunta, consulta o simplemente quieres charlar sobre tu próximo diseño, no dudes en ponerte en contacto y me comunicaré contigo a la brevedad. Además, no olvides seguirme en las redes sociales para estar al tanto de las últimas novedades y diseños.</p>
+<section id="contacto" class="container-fluid text-center fondo py-2">
+    <div class="p-5">
 
-        <ul class=" justify-content-center list-unstyled d-flex pb-5">
-            <li class="ms-3 scale"><a href="https://www.instagram.com/nobodies_tattoo/" class="icon-social" target="_blank" rel="nofollow noopener noreferrer">
-                <i class="fab fa-instagram" style="font-size: 40px;"></i>
-            </a>
-            </li>
-            <li class="ms-3 scale"><a href="https://www.facebook.com/Nobodies.ttt" class="icon-social" target="_blank" rel="nofollow noopener noreferrer">
-                <i class="fab fa-facebook" style="font-size: 40px;"></i>
-            </a>
-            </li>
-            <li class="ms-3 scale"><a href="https://wa.me/542494271876" class="icon-social" target="_blank" rel="nofollow noopener noreferrer">
-                <i class="fab fa-whatsapp" style="font-size: 40px;"></i>
-            </a>
-            </li>
-        </ul>
-    </div>
-    <div class="container-fluid p-md-5 p-2">
-        <div class="row align-items-center justify-content-center">
-
-
-            <div class="col-lg-6" hx-get="{% url 'users:message_create' %}" hx-trigger="load, messageListChanged from:body" hx-target="this">
-
-            </div>
-
+            <div class="align-items-center justify-content-center">
+                <h1 class="display-5 brand fw-bold">Contactanos</h1>
+    
+                <p class="lead fw-semibold text-center pb-3">¡Gracias por visitar MUNDO CUOTAS! Si tienes alguna pregunta O consulta, no dudes en ponerte en contacto y nos comunicaremos contigo a la brevedad.</p>
+    
+                <div class="col-lg-6 mx-auto w-100" hx-get="{% url 'users:message_create' %}" hx-trigger="load, messageListChanged from:body" hx-target="this">
+    
+                </div>
+    
+            </div>    
         </div>
     </div>
 
 
 
 </section>
-
-
 {% endblock content %}
+
+{% block footer %}
+    {% include 'components/contact_footer.html' %}
+{% endblock footer %}

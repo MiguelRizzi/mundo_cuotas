@@ -1,10 +1,11 @@
 from django.db import models
 from django.utils.text import slugify
 from django.urls import reverse
+from django.core.exceptions import ValidationError
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=256, unique=True)
+    name = models.CharField(max_length=256)
     parent = models.ForeignKey(
         "self",
         related_name="subcategories",
@@ -13,6 +14,10 @@ class Category(models.Model):
         null=True,
     )
     slug = models.SlugField(max_length=256, unique=True)
+    
+    def clean(self):
+        if self.parent and self.parent.parent:
+            raise ValidationError('No se permite anidar mas de dos categorias')
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)

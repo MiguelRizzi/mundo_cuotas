@@ -20,7 +20,7 @@
 
 		<header>
 			<nav id="main-nav" 
-				class="navbar navbar-expand-md navbar-light px-4"
+				class="navbar navbar-expand-md navbar-light px-4 fondo"
 				hx-get="{% url 'users:load_navbar' %}"
 				hx-trigger="load, navbarChanged from:body"
 			>
@@ -37,7 +37,12 @@
 		</main>
 		
 		<!--Footer-->
-		{% include 'components/footer.html' %}
+		<footer>
+			{% block footer %}
+			{% endblock footer %}
+			
+			{% include 'components/footer.html' %}
+		</footer>
 		
 		<!-- HTMX -->
 		<script src="https://unpkg.com/htmx.org@1.9.12"></script>
@@ -48,5 +53,10 @@
 
 		{% block scripts %}
 		{% endblock scripts %}
+
+		<style>.card{
+			box-shadow: 3px 3px 5px 0px rgba(199,199,199,0.75);
+-webkit-box-shadow: 2px 3px 5px 0px rgba(199,199,199,0.75);
+-moz-box-shadow: 2px 3px 5px 0px rgba(199,199,199,0.75);}</style>
 	</body>
 </html>

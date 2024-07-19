@@ -2,97 +2,200 @@
 {% load static %}
 
 {% block header %}
-    <div class="px-4 py-5 text-center bg-header">
-        
-        <h1 class="display-5 fw-bold text-body-emphasis brand">
-            <img src="{% static 'img/logo.png' %}" alt="Mundo Cuotas" width="95">
-            MUNDO CUOTAS
-        </h1>
+<div class="px-4 py-5 text-center bg-header">
+            
+    <img src="{% static 'img/logo.png' %}" alt="Mundo Cuotas" width="95" class="d-block mx-auto">
+    <h1 class="display-5 fw-bold text-body-emphasis brand">
+        Comprá en cuotas solo con tu firma
+    </h1>
 
-        <div class="col-lg-6 mx-auto">
-        <h2 class="lead fw-normal mb-4">Comprá en cuotas solo con tu firma en Tandil, Ayacucho y ayacucho</h2>
-        </div>
+    <div class="col-lg-6 mx-auto">
+        <h2 class="lead fw-normal mb-4">Compra productos directo de fábrica en cuotas, sin complicaciones. Encuéntranos en Tandil, Ayacucho y Azul</h2>
+        <div class="mx-auto px-5" style="max-width: 600px">
+            <div class="input-group">
+                <input id="consult1" name="consult" class="form-control" type="text" placeholder="¿Que estas buscando?" aria-label="¿Que estas buscando?" />
+                <button class="btn btn-success" id="button-search">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </div>    
     </div>
+</div>
 {% endblock header %}
 
 {% block content %}
-    <section class="py-5">
 
-        {% if offer_products %}
-            <div class="container px-4 px-lg-5 mt-2">
-                <h3 class="fw-semibold border-bottom text-uppercase fs-4">Productos en oferta</h3>
-                <div class="row gx-3 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-start">
-                    {% for product in offer_products %}
-                        <div class="col mb-5">
-                            <div class="card h-100">
-                                <img class="card-img-top object-fit-cover" src="{{ product.files.first.file.url }}" alt="{{ product.name}}" style="height: 160px;"/>
-                                <div class="card-body">
-                                    <div class="text-center">
-                                        <h4 class="fw-semibold">{{ product.name }}</h4>
-                                        {% if product.price %}
-                                            <p>$40.00</p>             
-                                        {% endif %}
-                                    </div>
-                                </div>
-                                <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                    <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="{% url 'products:product_detail' product.slug %}">Ver producto</a></div>
-                                </div>
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
-            </div>  
-        {% endif %}
+<section id="products">
 
-        {% if featured_products %}
-            <div class="container px-4 px-lg-5 mt-2">
-                <h3 class="fw-semibold border-bottom text-uppercase fs-4">Productos destacados</h3>
+<button class="btn btn-secondary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions"><i class="fas fa-filter"></i> Filtrar</button>
+    
+    <div id="results">
+        <div class="fondo p-5">
+            <div class="container mt-2">
+                <h3 class="fw-semibold border-bottom text-uppercase fs-4">Productos Destacados</h3>
                 <div class="row gx-3 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-start">
                     {% for product in featured_products %}
-                            <div class="col mb-5">
-                                <div class="card h-100">
-                                    <img class="card-img-top object-fit-cover" src="{{ product.files.first.file.url }}" alt="{{ product.name}}" style="height: 150px"/>
-                                    <div class="card-body">
-                                        <div class="text-center">
-                                            <h4 class="fw-semibold">{{ product.name }}</h4>
-                                            {% if product.price %}
-                                                <p>$40.00</p>             
-                                            {% endif %}
-                                        </div>
-                                    </div>
-                                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="{% url 'products:product_detail' product.slug %}">Ver producto</a></div>
-                                    </div>
-                                </div>
-                            </div>
+                        {% include 'products/partials/product_card.html' %}
                     {% endfor %}
                 </div>
             </div>
-            
-        {% endif %}
-
-        <div class="container px-4 px-lg-5 mt-2">
-            <h3 class="fw-semibold border-bottom text-uppercase fs-4">Mas productos</h3>
-            <div class="row gx-3 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-start">
-                {% for product in regular_products %}
-                        <div class="col mb-5">
-                            <div class="card h-100">
-                                <img class="card-img-top object-fit-cover" src="{{ product.files.first.file.url }}" alt="{{ product.name}}" style="height: 150px"/>
-                                <div class="card-body">
-                                    <div class="text-center">
-                                        <h4 class="fw-semibold">{{ product.name }}</h4>
-                                        {% if product.price %}
-                                            <p>$40.00</p>             
-                                        {% endif %}
-                                    </div>
-                                </div>
-                                <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                    <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="{% url 'products:product_detail' product.slug %}">Ver producto</a></div>
-                                </div>
-                            </div>
-                        </div>
-                {% endfor %}
+    
+            <div class="text-center">
+                <a href="{% url 'products:product_list' %}" class="btn btn-outline-dark" style="width: 320px;">Ver más destacados</a>
             </div>
         </div>
+
+        <div class="fondo p-5 rounded-5">
+            <div class="container mt-2">
+                <h3 class="fw-semibold border-bottom text-uppercase fs-4">Productos en Oferta</h3>
+                <div class="row gx-3 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-start">
+                    {% for product in offer_products %}
+                        {% include 'products/partials/product_card.html' %}
+                    {% endfor %}
+                </div>
+            </div>
+    
+            <div class="text-center">
+                <a href="{% url 'products:product_list' %}" class="btn btn-outline-dark" style="width: 320px;">Ver más ofertas</a>
+            </div>
+        </div>
+
+        <div class="fondo p-5 rounded-5">
+            <div class="container mt-2">
+                <h3 class="fw-semibold border-bottom text-uppercase fs-4">Más productos</h3>
+                <div class="row gx-3 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-start">
+                    {% for product in regular_products %}
+                        {% include 'products/partials/product_card.html' %}
+                    {% endfor %}
+                </div>
+            </div>
+    
+            <div class="text-center">
+                <a href="{% url 'products:product_list' %}" class="btn btn-outline-dark" style="width: 320px;">Ver más ofertas</a>
+            </div>
+        </div>
+    </div>
+                
     </section>
+
+    <!-- Offcanvas -->
+    <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title fs-5" id="offcanvasWithBothOptionsLabel">                
+            <i class="bi bi-filter fs-5 fw-semibold me-2"></i>
+            Filtrar productos</h5>
+          <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+
+        <div class="offcanvas-body">
+
+            <form id="filter" hx-get="{% url 'products:load_product_list' %}?" hx-target="#results" hx-trigger="change from:input, productListChanged from:body, submit, hasConsult from:body" method="get" class="p-3">
+        
+                <div class="input-group visually-hidden">
+                    <input id="consult2" name="consult" class="form-control" type="text" placeholder="Palabras clave..." />
+                    <button class="btn btn-success" id="button-search" type="submit">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+    
+                <div class="row">
+                    <div class="col-6">
+                
+                        <div class="form-group fs-6">
+                            <p class="mt-3 mb-2 fw-semibold border-bottom">Tipo</p>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="type" onclick="onlyOneType(this)" value="4" id="type1">
+                                <label class="form-check-label" for="type1">Todos</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="type" onclick="onlyOneType(this)" value="2" id="type2">
+                                <label class="form-check-label" for="type2">Ofertas</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="type" onclick="onlyOneType(this)" value="3" id="type3">
+                                <label class="form-check-label" for="type3">Destacados</label>
+                            </div>
+                        </div>
+                
+                        <div class="form-group fs-6">
+                            <p class="mt-3 mb-2 fw-semibold border-bottom">Orden</p>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="date" onclick="onlyOneDate(this)" value="1" id="date1">
+                                <label class="form-check-label" for="date1">Recientes</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="date" onclick="onlyOneDate(this)" value="2" id="date2">
+                                <label class="form-check-label" for="date2">Antiguos</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group fs-6">
+                            <p class="mt-3 mb-2 fw-semibold border-bottom">Categorías</p>
+                            {% for category in categories %}
+                                {% if not category.parent %}
+                                    <div class="mb-1">
+                                        <button type="button" class="btn px-2 btn-toggle d-inline-flex rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#{{ category.slug }}" aria-expanded="false" onclick="collapseOthers(this)">
+                                            {{ category.name }}
+                                        </button>
+                
+                                        <div class="collapse" id="{{ category.slug }}">
+                                            <div class="btn-toggle-nav list-unstyled fw-normal pb-1 small mx-4">
+                                                {% for subcategory in category.subcategories.all %}
+                                                    <div class="form-check">
+                                                        <input type="checkbox" class="form-check-input" id="{{ subcategory.slug }}" name="category" value="{{ subcategory.slug }}">
+                                                        <label class="form-check-label" for="{{ subcategory.slug }}">{{ subcategory }}</label>
+                                                    </div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div> 
+            </form>
+
+
+
+        </div>
+    </div>
+
+
+  
+<script>
+    // Obtiene los elementos del formulario y del botón
+    var consult1Input = document.getElementById('consult1');
+    var consult2Input = document.getElementById('consult2');
+    var buttonSearch = document.getElementById('button-search');
+
+    // Agrega un evento de cambio al input #consult1
+    consult1Input.addEventListener('input', function() {
+        // Obtiene el valor del input #consult1 y lo asigna al input #consult2
+        consult2Input.value = this.value;
+    });
+
+    // Agrega un evento de clic al botón
+    buttonSearch.addEventListener('click', function(event) {
+        event.preventDefault(); // Evita el comportamiento por defecto de recargar la página
+        consult1Input.value = ""
+
+        // Obtiene el valor del input #consult2
+        var consult = consult2Input.value;
+
+        // Envía la solicitud utilizando htmx
+        hx.trigger('filter', 'submit', filterForm)
+        
+
+    });
+   
+
+    
+</script>
+    
 {% endblock content %}
+
+{% block footer %}
+    {% include 'components/contact_footer.html' %}
+{% endblock footer %}
