@@ -21,22 +21,25 @@
             </div>
         </div>
         
-        {% url 'products:index' as url %}
+        {% url 'products:product_list' as url %}
         {% include 'components/index_back.html' with link=url %}    
 
 
         <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
             <div class="offcanvas-header">
-              <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">FILTROS</h5>
+              <h5 class="offcanvas-title fs-5" id="offcanvasWithBothOptionsLabel">                
+                <i class="bi bi-filter fs-5 fw-semibold me-2"></i>
+                Filtrar productos</h5>
               <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
+
             <div class="offcanvas-body">
                 <form hx-get="{% url 'products:load_product_list_admin' %}" hx-target="#results" hx-trigger="change from:input, productListChanged from:body, submit" method="get" class="p-3">
 
                     <div class="input-group">
                         <input name="consult" class="form-control" type="text" placeholder="Buscar..." />
                         <button class="btn btn-success" id="button-search" type="submit">
-                            <i class="fas fa-search"></i> Buscar
+                            <i class="fas fa-search"></i>
                         </button>
                     </div>
 
@@ -62,11 +65,11 @@
                                 </div>
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" name="type" value="2" id="type2">
-                                    <label class="form-check-label" for="type2">Destacado</label>
+                                    <label class="form-check-label" for="type2">Oferta</label>
                                 </div>
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" name="type" value="3" id="type3">
-                                    <label class="form-check-label" for="type3">Oferta</label>
+                                    <label class="form-check-label" for="type3">Destacado</label>
                                 </div>
                             </div>
                     

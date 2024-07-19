@@ -1,36 +1,19 @@
 import json
 
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from django.views import View
 from django.views.generic import DetailView
-
+from django.db.models import Q
 from django.core.paginator import Paginator
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import File, Product, Category
 from .forms import ProductForm, ProductUpdateForm
-from users.forms import MessageForm
 
-from django.core.files.storage import default_storage
-# _____________________ INDEX VIEW _____________________
 
-class IndexView(View):
-    def get(self, request):
-        products= Product.objects.all()
-        regular_products= products.filter(type=1).order_by("-id")[:4]
-        offer_products= products.filter(type=2).order_by("-id")[:4]
-        featured_products= products.filter(type=3).order_by("-id")[:4]
+# _____________________ CONTACT VIEW _____________________
 
-        context = {
-            "regular_products": regular_products,
-            "offer_products": offer_products,
-            "featured_products": featured_products,
-            "site_name": "Compras en cuotas a sola firma"
-        }
-
-        return render(request, "products/index.html", context)
-    
 
 class ContactView(View):
     def get(self, request):
@@ -44,32 +27,52 @@ class ProductListView(View):
     def get(self, request):
         categories= Category.objects.all()
 
+        products= Product.objects.all().exclude(status=1)
+        regular_products= products.filter(type=1).order_by("-id")[:4]
+        offer_products= products.filter(type=2).order_by("-id")[:4]
+        featured_products= products.filter(type=3).order_by("-id")[:4]
+
         context = {
-            'categories': categories,
-            "site_name": "Catalogo Online",
+            "categories": categories,
+            "regular_products": regular_products,
+            "offer_products": offer_products,
+            "featured_products": featured_products,
+            "site_name": "Catalogo Online"
         }
 
-        return render(request, "products/products.html", context)
+        return render(request, "products/index.html", context)
     
 class LoadProductListView(View):
     def get(self, request):
-        consult = request.GET.get("consult", "")
-        type = request.GET.getlist("type", "")
+        consult = request.GET.get("consult", "").strip()
+        type = request.GET.get("type", "")
         category= request.GET.getlist("category", "")
+        date= request.GET.get("date", "")
         
         products = Product.objects.all().exclude(status=1)
+        
 
+        consult_words = consult.split(" ")
         if consult:
-            products = products.filter(name__icontains=consult)
-
+            query = Q()
+            for word in consult_words:
+                query |= Q(name__icontains=word)
+            products = products.filter(query)
+            
         if type:
-            products = products.filter(type__in=type)
+            if type == "4":
+                pass
+            else:
+                products = products.filter(type=type)
 
         if category:
             products = products.filter(category__slug__in=category)
 
-    
-        products = products.order_by("-id")
+        if date:
+            if date == "2":
+                products = products.order_by("id")
+        else:
+            products = products.order_by("-id")
 
         
         paginator = Paginator(products, 10)
@@ -78,9 +81,24 @@ class LoadProductListView(View):
 
         context = {
             'object_list': products,
+            "consult": consult,
         }
         return render(request, 'products/partials/product_list.html', context)
     
+class ProductDetailView(DetailView):
+    model = Product
+    template_name="products/product_detail.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        product = self.get_object()
+        related_products = Product.objects.filter(category=product.category).exclude(id=product.id)[:4]  # Filtrar productos de la misma categoría excluyendo el producto actual
+        context["related_products"] = related_products
+        context['site_name'] = product.name
+        return context
+    
+
+# _____________________ ADMIN VIEWS _____________________
 
     
 class ProductListAdminView(View, LoginRequiredMixin):
@@ -97,7 +115,7 @@ class ProductListAdminView(View, LoginRequiredMixin):
     
 class LoadProductListAdminView(View, LoginRequiredMixin):
     def get(self, request):
-        consult = request.GET.get("consult", "")
+        consult = request.GET.get("consult", "").strip()
         status = request.GET.getlist("status", "")
         type = request.GET.getlist("type", "")
         category= request.GET.getlist("category", "")
@@ -105,8 +123,12 @@ class LoadProductListAdminView(View, LoginRequiredMixin):
         
         products = Product.objects.all()
 
+        consult_words = consult.split(" ")
         if consult:
-            products = products.filter(name__icontains=consult)
+            query = Q()
+            for word in consult_words:
+                query |= Q(name__icontains=word)
+            products = products.filter(query)
 
         if status:
             products = products.filter(status__in=status)
@@ -118,10 +140,8 @@ class LoadProductListAdminView(View, LoginRequiredMixin):
             products = products.filter(category__slug__in=category)
 
         if date:
-            if date == "1":
-                products = products.order_by("-created_at")
-            else:
-                products = products.order_by("created_at")
+            if date == "2":
+                products = products.order_by("id")
         else:
             products = products.order_by("-id")
 
@@ -135,57 +155,13 @@ class LoadProductListAdminView(View, LoginRequiredMixin):
         }
         return render(request, 'products/partials/product_list_admin.html', context)
 
-    
 
-class ProductListByCategoryView(View):
-    def get(self, request, slug):
-        categories= Category.objects.all()
-        category= Category.objects.filter(slug=slug).first()
-
-        context = {
-            "category": category,
-            "categories": categories,
-            "site_name": f"Catalogo Online - {category.name}",
-        }
-
-        return render(request, "products/products_by_category.html", context)
-
-
-class LoadProductListByCategoryView(View):
-    def get(self, request, slug):
-        consult = request.GET.get("consult", "")
-        category= Category.objects.filter(slug=slug).first()
-        products = Product.objects.filter(category=category).order_by("-id")
-
-        if consult:
-            products = products.filter(name__icontains=consult).order_by("-id")
-
-        paginator = Paginator(products, 10)
-        page = request.GET.get('page')
-        products = paginator.get_page(page)
-
-        context = {
-            'object_list': products,
-            "category": category,
-        }
-
-        return render(request, 'products/partials/product_list.html', context)
-       
-
-class ProductDetailView(DetailView):
-    template_name = 'default_template.html'
+class ProductDetailAdminView(DetailView, LoginRequiredMixin):
     model = Product
+    template_name = 'products/product_detail_admin.html'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        product = self.get_object()
-        related_products = Product.objects.filter(category=product.category).exclude(id=product.id)[:4]  # Filtrar productos de la misma categoría excluyendo el producto actual
-        context["related_products"] = related_products
-        context['site_name'] = product.name
-        return context
-    
 
-class ProductCreateView(View):
+class ProductCreateView(View, LoginRequiredMixin):
     def get(self, request):
         form = ProductForm()
         categories = Category.objects.filter(parent=None)
@@ -235,7 +211,6 @@ class ProductConfirmActionView(View, LoginRequiredMixin):
     
 
 class ProductUpdateView(View, LoginRequiredMixin):
-# Dentro de tu ProductUpdateView
     def get(self, request, slug):
         product = get_object_or_404(Product, slug=slug)
         form = ProductUpdateForm(instance=product)
@@ -291,17 +266,16 @@ class ProductDeleteView(View, LoginRequiredMixin):
             }
         )
     
+# _____________________ AUXILIARY VIEWS product form _____________________
 
-
-
-class LoadSubcategoriesView(View):
+class LoadSubcategoriesView(View, LoginRequiredMixin):
 
     def get(self, request):
         category = request.GET.get("category", "")
         subcategories = Category.objects.filter(parent=category)
         return render(request, 'products/partials/load_subcategories.html', {'subcategories': subcategories})
 
-class LoadProductSubcategoriesView(View):
+class LoadProductSubcategoriesView(View, LoginRequiredMixin):
 
     def get(self, request, slug):
         category = request.GET.get("category", "")

@@ -1,6 +1,6 @@
 {% load widget_tweaks %}
 
-<form hx-post="{{ request.path }}" hx-headers='{"X-CSRFToken":"{{ csrf_token }}"}' style="width: 100%;">
+<form hx-post="{{ request.path }}" hx-headers='{"X-CSRFToken":"{{ csrf_token }}"}' style="max-width: 500px; margin: 0 auto;">
   
   {% for field in form %}
       <div class="form-floating mb-2">

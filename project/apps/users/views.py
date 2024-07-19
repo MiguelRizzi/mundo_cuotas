@@ -19,9 +19,9 @@ class CustomLoginView(LoginView):
     form_class = CustomAuthenticationForm
 
 
-class CustomPasswordChangeView(PasswordChangeView):
+class CustomPasswordChangeView(PasswordChangeView, LoginRequiredMixin):
     template_name="users/change_password.html"
-    success_url = reverse_lazy('products:index')
+    success_url = reverse_lazy('products:product_list')
 
     def form_valid(self, form):
         form.save()
@@ -36,12 +36,12 @@ class CustomPasswordChangeView(PasswordChangeView):
         )
 
 
-class CustomLogoutView(LogoutView):
+class CustomLogoutView(LogoutView, LoginRequiredMixin):
     template_name = "products/index.html"
 
     def dispatch(self, request, *args, **kwargs):
         super().dispatch(request, *args, **kwargs)
-        return redirect ('products:index')    
+        return redirect ('products:product_list')    
 
 
 # _____________________ AVATAR VIEWS _____________________
@@ -51,7 +51,7 @@ class AvatarDetailView(DetailView, LoginRequiredMixin):
     
 
 
-class AvatarCreateView(View):
+class AvatarCreateView(View, LoginRequiredMixin):
     def get(self, request):
         form = AvatarForm()
         return render(request, 'users/avatar_form.html', {'form': form})
@@ -136,22 +136,24 @@ class LoadMessageListView(View, LoginRequiredMixin):
         date=request.GET.get("date",)
 
         messages= Message.objects.all()
-        
+
+        consult_words = consult.split(" ")
         if consult:
-            messages.filter(
-                Q(name__icontains=consult) | Q(email__icontains=consult)
-            )
+            query = Q()
+            for word in consult_words:
+                query |= Q(name__icontains=word) | Q(email__icontains=word)
+            messages = messages.filter(query)
 
         if status:
             if status == "1":
                 messages = messages.filter(is_read=False)
-            else:
+            elif status == "2":
                 messages = messages.filter(is_read=True)
+            else:
+                pass
         
         if date:
-            if date == "1":
-                messages = messages.order_by("-id")
-            else:
+            if date == "2":
                 messages = messages.order_by("id")
         else:
             messages = messages.order_by("-id")

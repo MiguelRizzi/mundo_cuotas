@@ -4,37 +4,19 @@
 
 
 {% block content %}
-<section id="contacto bg-header" class="container text-center">
-    <div class="row p-5">
-        <div class="col-12 col-md-6">
+<section id="contacto" class="container-fluid text-center fondo py-2">
+    <div class="p-5">
+
             <div class="align-items-center justify-content-center">
-                <h1>Contactanos</h1>
+                <h1 class="display-5 brand fw-bold">Contactanos</h1>
     
+                <p class="lead fw-semibold text-center pb-3">¡Gracias por visitar MUNDO CUOTAS! Si tienes alguna pregunta O consulta, no dudes en ponerte en contacto y nos comunicaremos contigo a la brevedad.</p>
     
                 <div class="col-lg-6 mx-auto w-100" hx-get="{% url 'users:message_create' %}" hx-trigger="load, messageListChanged from:body" hx-target="this">
     
                 </div>
     
-            </div>
-        </div>
-
-        <div class="col-12 col-md-6 mx-auto">
-            <p class="lead fw-semibold pt-5 mt-0 mt-md-5">¡Gracias por visitar MUNDO CUOTAS! Si tienes alguna pregunta O consulta, no dudes en ponerte en contacto y nos comunicaremos contigo a la brevedad.</p>
-    
-            <ul class=" justify-content-center list-unstyled d-flex pb-5">
-                <li class="ms-3 scale"><a href="https://www.instagram.com/nobodies_tattoo/" class="icon-social" target="_blank" rel="nofollow noopener noreferrer">
-                    <i class="fab fa-instagram" style="font-size: 40px;"></i>
-                </a>
-                </li>
-                <li class="ms-3 scale"><a href="https://www.facebook.com/Nobodies.ttt" class="icon-social" target="_blank" rel="nofollow noopener noreferrer">
-                    <i class="fab fa-facebook" style="font-size: 40px;"></i>
-                </a>
-                </li>
-                <li class="ms-3 scale"><a href="https://wa.me/542494271876" class="icon-social" target="_blank" rel="nofollow noopener noreferrer">
-                    <i class="fab fa-whatsapp" style="font-size: 40px;"></i>
-                </a>
-                </li>
-            </ul>
+            </div>    
         </div>
     </div>
 

@@ -1,21 +1,15 @@
-
-        {% for product in object_list %}
-                                <div class="col mb-3">
-                                    <div class="card h-100">
-                                        <img class="card-img-top object-fit-cover" src="{{ product.files.first.file.url }}" alt="{{ product.name}}" style="height: 150px"/>
-                                        <div class="card-body">
-                                            <div class="text-center">
-                                                <h4 class="fw-semibold">{{ product.name }}</h4>
-                                                {% if product.price %}
-                                                    <p>$40.00</p>             
-                                                {% endif %}
-                                            </div>
-                                        </div>
-                                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                            <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="{% url 'products:product_detail' product.slug %}">Ver producto</a></div>
-                                        </div>
-                                    </div>
-                                </div>
-        {% endfor %}
-
+<div class="fondo p-5">
+    <div class="container mt-2">
+        {% if consult %}
+            <h3 class="fw-semibold border-bottom text-uppercase fs-4">Resultados para "{{ consult }}"</h3>
+        {% else %}
+            <h3 class="fw-semibold border-bottom text-uppercase fs-4">Todos los productos</h3>
+        {% endif %}        <div class="row gx-3 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-start">
+            {% for product in object_list %}
+                {% include 'products/partials/product_card.html' %}
+            {% endfor %}
+        </div>
+    </div>
+    
     {% include 'components/pagination.html' %}
+</div>
