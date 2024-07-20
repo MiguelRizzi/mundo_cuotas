@@ -6,8 +6,6 @@
 }
 
 
-
-
 .active-nav{
     text-decoration: underline rgb(0, 0, 0) 3px;
 }
@@ -33,7 +31,7 @@
     border-radius: 50%;
 }
 
-.brand{
+.brand, .username{
     color: rgb(123, 86, 149);
 
 }
@@ -87,3 +85,22 @@
 .checkeable input:checked + img {
     border-color:  rgba(255, 0, 0, 0.58);
 }
+
+.notification{
+    font-size:11px;
+}
+
+.active-nav{
+    text-decoration: underline 3px;
+}
+
+
+.dropdown-toggle::after {  
+    content: none;
+}
+@media (max-width: 454px) {
+    .notification{
+        font-size:9px;
+    }
+
+}   
