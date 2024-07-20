@@ -1,9 +1,13 @@
 {% load static %}
 
 <div class="d-flex flex-wrap justify-content-between align-items-center px-4 px-md-5 pb-4">
-    <ul class="col-12 nav justify-content-center py-3 mb-3 fw-semibold border-bottom fs-6 text-uppercase">
+    <ul class="col-12 nav justify-content-center py-3 mb-3 fw-semibold border-bottom fs-6">
         <li class="nav-item"><a href="{% url 'products:product_list' %}" class="nav-link px-2 text-body-secondary">Productos</a></li>
         <li class="nav-item"><a href="{% url 'products:contact' %}" class="nav-link px-2 text-body-secondary">Contacto</a></li>
+
+        {% if user.is_authenticated %}
+            <li class="nav-item"><a href="{% url 'products:product_list_admin' %}" class="nav-link px-2 text-body-secondary">Administración</a></li>
+        {% endif %}
     </ul>
 
     <div class="col-8 d-flex align-items-start">

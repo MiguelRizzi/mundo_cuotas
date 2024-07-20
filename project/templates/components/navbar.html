@@ -1,7 +1,7 @@
 {% load static %}
 
-<div class="container-fluid px-4 text-uppercase">
-    <a class="navbar-brand fs-4 fw-bolder brand" href="{% url 'products:product_list' %}">
+<div class="container-fluid px-4">
+    <a class="navbar-brand fs-5 fw-bolder brand" href="{% url 'products:product_list' %}">
         <img src="{% static 'img/logo.png' %}" alt="Mundo Cuotas" class="icon-navbar"> MUNDO CUOTAS
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -23,10 +23,16 @@
                 <a class="nav-link" href="{% url 'products:contact' %}">Contacto</a>
             </li>
 
+            {% if user.is_authenticated %}
+                <li class="nav-item scale {% if request.path == '/administracion/productos/' %}active-nav{% endif %}">
+                    <a class="nav-link" href="{% url 'products:product_list_admin' %}">Administración</a>
+                </li>     
+            {% endif %}
+
 
             {% if user.is_authenticated %}
-            <li class="nav-item dropdown order-first order-md-last pt-3 pt-md-0">
-                <a class="nav-link dropdown-toggle username text-success scale" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <li class="nav-item dropdown pt-3 pt-md-0">
+                <a class="nav-link dropdown-toggle username scale" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     {{ user.username }}
                     <span class="position-relative">
                         {% if user.avatar.image %}
@@ -61,17 +67,15 @@
                 
                     <li><hr class="dropdown-divider"></li>
 
-                    <li><a class="dropdown-item" href="{% url 'products:product_list_admin' %}">Productos</a></li>
-                    <li><hr class="dropdown-divider"></li>
-
                     {% if not user.avatar %}
                     <li><a class="dropdown-item" hx-get="{% url 'users:avatar_create' %}" hx-target="#dialog">Mi avatar</a></li>
                     {% else %}
                     <li><a class="dropdown-item" hx-get="{% url 'users:avatar_detail' pk=user.avatar.pk %}" hx-target="#dialog">Mi avatar</a></li>
                     {% endif %}
                     <li><a class="dropdown-item" hx-get="{% url 'users:change_password' %}" hx-target="#dialog">Cambiar contraseña</a></li>
+                    <li><hr class="dropdown-divider"></li>
                     <li>
-                        <button type="submit" class="dropdown-item text-uppercase" data-bs-toggle="modal" data-bs-target="#logoutModal">Cerrar sesión</button>      
+                        <button type="submit" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#logoutModal">Cerrar sesión</button>      
                     </li>
                 </ul>
             </li>

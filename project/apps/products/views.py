@@ -76,14 +76,15 @@ class LoadProductListView(View):
             products = products.order_by("-id")
 
         
-        paginator = Paginator(products, 10)
+        paginator = Paginator(products, 12)
         page = request.GET.get('page')
         products = paginator.get_page(page)
 
         context = {
             "object_list": products,
             "consult": consult,
-            "category_object": category_object
+            "category_object": category_object,
+            "type": type,
         }
         return render(request, 'products/partials/product_list.html', context)
     
@@ -148,7 +149,7 @@ class LoadProductListAdminView(View, LoginRequiredMixin):
             products = products.order_by("-id")
 
         
-        paginator = Paginator(products, 10)
+        paginator = Paginator(products, 15)
         page = request.GET.get('page')
         products = paginator.get_page(page)
 
