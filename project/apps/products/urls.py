@@ -8,8 +8,8 @@ urlpatterns = [
     path("cargar/productos/", views.LoadProductListView.as_view(), name="load_product_list"),
 
 
-    path('/administracion/productos/', views.ProductListAdminView.as_view(), name='product_list_admin'),
-    path('administracion/cargar/productos/', views.LoadProductListAdminView.as_view(), name='load_product_list_admin'),
+    path("administracion/productos/", views.ProductListAdminView.as_view(), name='product_list_admin'),
+    path("administracion/cargar/productos/", views.LoadProductListAdminView.as_view(), name='load_product_list_admin'),
     
     path("administracion/productos/<slug:slug>/", views.ProductDetailAdminView.as_view(), name="product_detail_admin"),
 
