@@ -1,4 +1,5 @@
 {% load widget_tweaks %}
+{% load custom_filters %}
 
 <div class="modal-content">
     <div class="modal-header">
@@ -14,17 +15,28 @@
           
           
         <div class=" align-items-center">
-            <div id="carouselExample" class="carousel slide py-3" data-bs-ride="carousel">
+            <div id="carousel" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner text-center">
                     {% for file in product.files.all %}
-                        <div class="carousel-item bg-black {% if forloop.first %}
-                            active
-                        {% endif %} px-md-5">
-                            <img src="{{ file.file.url }}" class="d-block w-100" alt="{{ file.file.name }}" style="height: 300px; width:100%; object-fit:contain;">
+                        <div class="carousel-item {% if forloop.first %}active{% endif %}" style="background-color: rgba(0, 0, 0, 0.034);">
+                            {% with file_type=file.file|determine_file_type %}
+                                {% if file_type == 'image' %}
+                                <img src="{{ file.file.url }}" class="card-img-top mb-5 mb-md-0" alt="{{ file.file.name }}" style="height: 400px; width:100%; object-fit:contain;">
+                                {% elif file_type == 'video' %}
+                                <video src="{{ file.file.url }}" class="card-img-top mb-5 mb-md-0" alt="{{ file.file.name }}" style="height: 400px; width:100%; object-fit:contain;"></video>
+                                {% endif %}
+                            {% endwith %}
                         </div>
                     {% endfor %}
-                    
                 </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
             </div>
             
                 <div class="col-12">

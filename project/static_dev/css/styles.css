@@ -71,3 +71,19 @@
     background-color: rgba(251, 251, 251, 0.527)!important;
 }
 
+
+
+.checkeable input {
+    display: none;
+}
+.checkeable img {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    border: 2px solid rgba(0, 0, 0, 0.091);
+    border-radius: 3px;
+    background-color: rgba(0, 0, 0, 0.164);
+}
+.checkeable input:checked + img {
+    border-color:  rgba(255, 0, 0, 0.58);
+}

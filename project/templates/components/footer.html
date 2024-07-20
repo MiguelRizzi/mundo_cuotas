@@ -1,12 +1,12 @@
 {% load static %}
 
-<div class="d-flex flex-wrap justify-content-between align-items-center px-5 pb-4">
+<div class="d-flex flex-wrap justify-content-between align-items-center px-4 px-md-5 pb-4">
     <ul class="col-12 nav justify-content-center py-3 mb-3 fw-semibold border-bottom fs-6 text-uppercase">
         <li class="nav-item"><a href="{% url 'products:product_list' %}" class="nav-link px-2 text-body-secondary">Productos</a></li>
         <li class="nav-item"><a href="{% url 'products:contact' %}" class="nav-link px-2 text-body-secondary">Contacto</a></li>
     </ul>
 
-    <div class="col-md-6 d-flex align-items-start">
+    <div class="col-8 d-flex align-items-start">
       <!--AGREGAR LOGO-->
       <a href="/" class="mb-3 me-2 mb-md-0 text-body-secondary text-decoration-none lh-1">
         <img src="{% static 'img/logo.png' %}" alt="Mundo Cuotas" style="width: 50px">
@@ -14,8 +14,7 @@
       <span class="mb-3 mb-md-0 text-body-secondary pt-3 fw-normal">&copy; <span id="year"></span> MUNDO CUOTAS</span>
     </div>
 
-    <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
-        <li class="ms-3"><a class="text-body-secondary" href="#"><i class="fab fa-twitter fa-2x"></i></a></li>
+    <ul class="nav col-4 justify-content-end list-unstyled d-flex">
         <li class="ms-3"><a class="text-body-secondary" href="#"><i class="fab fa-instagram fa-2x"></i></a></li>
         <li class="ms-3"><a class="text-body-secondary" href="#"><i class="fab fa-facebook fa-2x"></i></a></li>
     </ul>

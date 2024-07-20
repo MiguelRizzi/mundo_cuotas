@@ -1,15 +1,27 @@
-<div class="fondo p-5">
-    <div class="container mt-2">
-        {% if consult %}
-            <h3 class="fw-semibold border-bottom text-uppercase fs-4">Resultados para "{{ consult }}"</h3>
-        {% else %}
-            <h3 class="fw-semibold border-bottom text-uppercase fs-4">Todos los productos</h3>
-        {% endif %}        <div class="row gx-3 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-start">
-            {% for product in object_list %}
-                {% include 'products/partials/product_card.html' %}
-            {% endfor %}
-        </div>
-    </div>
+<div class="fondo">
+    <button class="btn btn-secondary mt-3 mx-3 mx-md-5 mb-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions"><i class="fas fa-filter"></i> Filtrar</button>
     
-    {% include 'components/pagination.html' %}
+    <div class="p-3 p-md-5">
+        <div class="container mt-2">
+                <h3 class="fw-semibold border-bottom text-uppercase fs-4">
+                    {% if category_object %}
+                        Categoria: {{category_object.parent.name}} / {{category_object.name}}{% if consult %} / "{{consult}}"{% endif %}
+                    {% endif %}
+    
+                    {% if consult  and not category_object%}
+                        Resultados para: "{{ consult }}"
+                    {% endif %}
+    
+                    {% if not consult and not category_object %}
+                        Todos los productos
+                    {% endif %}
+                </h3>       
+            <div class="row gx-2 gx-md-3 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-start">
+                {% for product in object_list %}
+                    {% include 'products/partials/product_card.html' %}
+                {% endfor %}
+            </div>
+        </div>
+        {% include 'components/pagination.html' %}
+    </div>
 </div>

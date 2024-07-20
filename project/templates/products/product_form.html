@@ -1,6 +1,6 @@
 {% load widget_tweaks %}
 
-<form hx-post="{{ request.path }}" hx-headers='{"X-CSRFToken":"{{ csrf_token }}"}' class="modal-content" enctype="multipart/form-data">
+<form id="product-form" hx-post="{{ request.path }}" hx-headers='{"X-CSRFToken":"{{ csrf_token }}"}' class="modal-content" enctype="multipart/form-data">
   <div class="modal-header">
       <h5 class="modal-title">{% if product %}Editar producto{% else %}Crear producto{% endif %}</h5>
       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -10,7 +10,7 @@
        {% for field in form %}
            {% if field.name == 'category' %}
                <div class="form-group">
-                   <label for="id_category" class="form-label">{{ form.category.label }}</label>
+                   <label for="id_category">{{ form.category.label }}</label>
                    <select 
                         class="form-select" 
                         id="category-select" 
@@ -23,33 +23,53 @@
                         hx-trigger="load, change" 
                         hx-target="#subcategory-select"
                     >
-                       <option value="">Selecciona una categoría</option>
+                       <option value="" disabled selected>Selecciona una categoría</option>
+                       
                        {% for category in categories %}
                            <option value="{{ category.id }}" {% if product.category.parent == category %}selected{% endif %}>{{ category.name }}</option>
                        {% endfor %}
                    </select>
+                    {% for error in form.category.errors %}
+                        <p class="text-danger">{{ error }}</p>
+                    {% endfor %}
                </div>
                
                <div class="form-group"> 
-                    <label for="id_category" class="form-label">Categoria</label>
-                   
-                   <select class="form-select" id="subcategory-select" name="subcategory">
-                        <option value="">Selecciona una subcategoria</option>
-                        {% for subcategory in subcategories.all %}
-                            <option value="{{ subcategory.slug }}" {% if product.category == subcategory %}selected{% endif %}>{{ subcategory }}</option>
-                        {% endfor %}                                                   
-                   </select>
+                    <label for="id_category">Subcategoria</label>
+                    <select class="form-select" id="subcategory-select" name="subcategory">
+                            <option value="" disabled selected>Selecciona una subcategoria</option>
+                            {% for subcategory in subcategories.all %}
+                                <option value="{{ subcategory.slug }}" {% if product.category == subcategory %}selected{% endif %}>{{ subcategory }}</option>
+                            {% endfor %}                                                   
+                    </select>
                </div>
-           {% else %}
-               <div class="form-group">
-                   {{ field.label_tag }}
-                   {{ field|add_class:"form-control" }}
-                   {% for error in field.errors %}
-                       <div class="text-danger">{{ error }}</div>
-                   {% endfor %}
-               </div>
-           {% endif %}
-       {% endfor %}
+            {% else %}
+                <div class="form-group">
+                    {{ field.label_tag }}
+                    {{ field|add_class:"form-control" }}
+                    {% for error in field.errors %}
+                        <div class="text-danger">{{ error }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endfor %}
+
+        {% if product.files.all|length > 0 %}
+        <div class="form-group">
+            <div>Archivos a eliminar</div>
+            <div class="form-control d-flex flex-wrap">
+                {% for file in product.files.all %}
+                    <label class="checkeable">
+                        <input type="checkbox" name="delete-files" value="{{ file.id }}"/>
+                        <img src="{{ file.file.url }}"/>
+                    </label>   
+                {% endfor %}
+            
+            </div>
+        </div>
+        {% endif %}
+
+
   </div>
   </div>
   <div class="modal-footer">
@@ -59,3 +79,29 @@
       <button type="submit" class="btn btn-success">Enviar</button>
   </div>
 </form>
+
+<script>
+    document.getElementById('form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        
+        var categoryValue = document.querySelector('input[name="category"]').value;
+        var subcategoryValue = document.querySelector('input[name="subcategory"]').value;
+        
+        var categoryError = document.getElementById('category-error');
+        var subcategoryError = document.getElementById('subcategory-error');
+        
+        if (categoryValue === "") {
+            categoryError.textContent = "Category cannot be empty";
+        } else {
+            categoryError.textContent = "";
+        }
+        
+        if (subcategoryValue === "") {
+            subcategoryError.textContent = "Subcategory cannot be empty";
+        } else {
+            subcategoryError.textContent = "";
+        }
+        
+        // Aquí puedes enviar el formulario si no hay errores
+    });
+    </script>

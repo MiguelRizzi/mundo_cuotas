@@ -61,6 +61,15 @@ function onlyOneType(checkbox) {
   }
 }
 
+function onlyOneCategory(checkbox) {
+  var checkboxes = document.getElementsByName('category');
+  for (var i = 0; i < checkboxes.length; i++) {
+      if (checkboxes[i] !== checkbox) {
+          checkboxes[i].checked = false;
+      }
+  }
+}
+
 function collapseOthers(button) {
   var allCollapses = document.querySelectorAll('.collapse');
   allCollapses.forEach(function(collapse) {

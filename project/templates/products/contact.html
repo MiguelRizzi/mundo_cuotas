@@ -5,15 +5,13 @@
 
 {% block content %}
 <section id="contacto" class="container-fluid text-center fondo py-2">
-    <div class="p-5">
+    <div class="p-3 p-md-5">
 
             <div class="align-items-center justify-content-center">
                 <h1 class="display-5 brand fw-bold">Contactanos</h1>
     
-                <p class="lead fw-semibold text-center pb-3">¡Gracias por visitar MUNDO CUOTAS! Si tienes alguna pregunta O consulta, no dudes en ponerte en contacto y nos comunicaremos contigo a la brevedad.</p>
-    
+                <p class="fw-medium fs-5 text-center pb-3">¡Gracias por visitar MUNDO CUOTAS! Si tienes alguna pregunta O consulta, no dudes en ponerte en contacto y nos comunicaremos contigo a la brevedad.</p>
                 <div class="col-lg-6 mx-auto w-100" hx-get="{% url 'users:message_create' %}" hx-trigger="load, messageListChanged from:body" hx-target="this">
-    
                 </div>
     
             </div>    
