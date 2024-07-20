@@ -230,6 +230,12 @@ class ProductUpdateView(View, LoginRequiredMixin):
         subcategory_value = request.POST.get('subcategory')
         delete_files = request.POST.getlist('delete-files')
         subcategory= get_object_or_404(Category, id=subcategory_value)
+
+        category_field = request.POST.get('category', None)
+        if not category_field:
+            form.add_error(None, 'Error message for custom_field')  # Agrega un error al formulario en general
+
+
         if form.is_valid():
             product = form.save(commit=False)
             product.category = subcategory
@@ -277,14 +283,23 @@ class LoadSubcategoriesView(View, LoginRequiredMixin):
 
     def get(self, request):
         category = request.GET.get("category", "")
-        subcategories = Category.objects.filter(parent=category)
+        if category:
+            subcategories = Category.objects.filter(parent=category)
+        else:
+            subcategories = Category.objects.none() 
+
         return render(request, 'products/partials/load_subcategories.html', {'subcategories': subcategories})
+    
 
 class LoadProductSubcategoriesView(View, LoginRequiredMixin):
 
     def get(self, request, slug):
         category = request.GET.get("category", "")
-        subcategories = Category.objects.filter(parent=category)
+        if category:
+            subcategories = Category.objects.filter(parent=category)
+        else:
+            subcategories = Category.objects.none() 
+
         product = Product.objects.get(slug=slug)
 
         context={

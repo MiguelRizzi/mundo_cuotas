@@ -1,18 +1,18 @@
 <div class="col mb-4">
-    <div class="card h-100">
+    <div class="card h-100 position-relative">
         <img class="card-img-top object-fit-cover" src="{{ product.files.first.file.url }}" alt="{{ product.name}}" style="height: 150px"/>
-        <div class="card-body">
+        {% if product.type == 2 %}
+            <p class="position-absolute top-0 end-0 badge bg-success m-2">En oferta</p>
+        {% elif product.type == 3 %}
+            <p class="position-absolute top-0 end-0 badge bg-success m-2">Destacado</p>
+        {% endif %}
+        <div class="card-body pb-0">
             <div class="text-center">
                 <h4 class="fw-semibold">{{ product.name }}</h4>
                 {% if product.price %}
                     <p>${{ product.price }}</p>             
                 {% endif %}
 
-                {% if product.type == 2 %}
-                    <p>En oferta</p>
-                {% elif product.type == 3 %}
-                    <p>Destacado</p>
-                {% endif %}
             </div>
         </div>
         <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">

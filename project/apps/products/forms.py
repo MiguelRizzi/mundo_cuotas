@@ -9,5 +9,6 @@ class ProductForm(forms.ModelForm):
         model = Product
         fields = ['name', 'category', 'price', 'type', 'status', 'description']
         labels = {'name': 'Nombre', 'description': 'Descripción', 'price': 'Precio de contado', 'type': 'Tipo', 'status': 'Estado', 'category': 'Categoría'}
+        
 
 
