@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load custom_filters %}
 
 {% block content %}
 
@@ -11,7 +12,13 @@
                         <div class="carousel-inner text-center">
                             {% for file in product.files.all %}
                                 <div class="carousel-item {% if forloop.first %}active{% endif %}" style="background-color: rgba(0, 0, 0, 0.034);">
-                                    <img src="{{ file.file.url }}" class="card-img-top mb-5 mb-md-0" alt="{{ file.file.name }}" style="height: 400px; width:100%; object-fit:contain;">
+                                    {% with file_type=file.file|determine_file_type %}
+                                        {% if file_type == 'image' %}
+                                        <img src="{{ file.file.url }}" class="card-img-top mb-5 mb-md-0" alt="{{ file.file.name }}" style="height: 400px; width:100%; object-fit:contain;">
+                                        {% elif file_type == 'video' %}
+                                        <video src="{{ file.file.url }}" class="card-img-top mb-5 mb-md-0" alt="{{ file.file.name }}" style="height: 400px; width:100%; object-fit:contain;"></video>
+                                        {% endif %}
+                                    {% endwith %}
                                 </div>
                             {% endfor %}
                         </div>
@@ -43,7 +50,7 @@
                         {% endif %}
                         <p class="lead">{{ product.description }}</p>
                         <div class="d-flex">
-                            <a href="#" class="btn btn-primary flex-shrink-0" >
+                            <a class="btn btn-success flex-shrink-0" href="https://wa.me/542494547860" target="_blank" rel="nofollow noopener noreferrer">
                                 <i class="fas fa-shopping-cart"></i>
                                 Comprar
                             </a>
@@ -84,6 +91,6 @@
                     <a href="{% url 'products:product_list' %}" class="btn btn-outline-dark" style="width: 320px;"> Ver mas productos</a>
                 </div>
             </section>
-        {% endif %}
+        {% endif %}        
 
 {% endblock content %}

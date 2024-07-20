@@ -9,7 +9,7 @@ from django.core.paginator import Paginator
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import File, Product, Category
-from .forms import ProductForm, ProductUpdateForm
+from .forms import ProductForm
 
 
 # _____________________ CONTACT VIEW _____________________
@@ -46,17 +46,18 @@ class LoadProductListView(View):
     def get(self, request):
         consult = request.GET.get("consult", "").strip()
         type = request.GET.get("type", "")
-        category= request.GET.getlist("category", "")
+        category= request.GET.get("category", "")
         date= request.GET.get("date", "")
         
         products = Product.objects.all().exclude(status=1)
-        
+        category_object = Category.objects.filter(slug=category).first()
+
 
         consult_words = consult.split(" ")
         if consult:
             query = Q()
             for word in consult_words:
-                query |= Q(name__icontains=word)
+                query |= Q(name__icontains=word) | Q(category__name__icontains=word) | Q(category__parent__name__icontains=word)
             products = products.filter(query)
             
         if type:
@@ -66,7 +67,7 @@ class LoadProductListView(View):
                 products = products.filter(type=type)
 
         if category:
-            products = products.filter(category__slug__in=category)
+            products = products.filter(category__slug__icontains=category)
 
         if date:
             if date == "2":
@@ -80,8 +81,9 @@ class LoadProductListView(View):
         products = paginator.get_page(page)
 
         context = {
-            'object_list': products,
+            "object_list": products,
             "consult": consult,
+            "category_object": category_object
         }
         return render(request, 'products/partials/product_list.html', context)
     
@@ -127,7 +129,7 @@ class LoadProductListAdminView(View, LoginRequiredMixin):
         if consult:
             query = Q()
             for word in consult_words:
-                query |= Q(name__icontains=word)
+                query |= Q(name__icontains=word) | Q(category__name__icontains=word) | Q(category__parent__name__icontains=word)
             products = products.filter(query)
 
         if status:
@@ -178,14 +180,8 @@ class ProductCreateView(View, LoginRequiredMixin):
         subcategory= get_object_or_404(Category, id=subcategory_value)
 
         if form.is_valid():
-            product = Product(
-                name=form.cleaned_data['name'],
-                description=form.cleaned_data['description'],
-                category=subcategory,
-                type=form.cleaned_data['type'],
-                status=form.cleaned_data['status'],
-                price=form.cleaned_data['price'],
-            )
+            product = form.save(commit=False)
+            product.category = subcategory
             product.save()
             for file in request.FILES.getlist('files'):
                 file_obj = File.objects.create(file=file, product=product)
@@ -213,14 +209,12 @@ class ProductConfirmActionView(View, LoginRequiredMixin):
 class ProductUpdateView(View, LoginRequiredMixin):
     def get(self, request, slug):
         product = get_object_or_404(Product, slug=slug)
-        form = ProductUpdateForm(instance=product)
+        form = ProductForm(instance=product)
 
         subcategories = Category.objects.filter(parent=product.category)
-        
     
         categories = Category.objects.filter(parent=None)
         categorie_value = product.category
-        print(categorie_value)
         context = {
             "form": form,
             "product": product,
@@ -232,13 +226,24 @@ class ProductUpdateView(View, LoginRequiredMixin):
 
     def post(self, request, slug):
         product = get_object_or_404(Product, slug=slug)
-        form = ProductUpdateForm(request.POST, instance=product)
+        form = ProductForm(request.POST, instance=product)
         subcategory_value = request.POST.get('subcategory')
+        delete_files = request.POST.getlist('delete-files')
         subcategory= get_object_or_404(Category, id=subcategory_value)
         if form.is_valid():
             product = form.save(commit=False)
             product.category = subcategory
-            product.save()            
+            product.save()
+            
+            for file_id in delete_files:
+                file = get_object_or_404(File, id=file_id)
+                file.delete()
+                
+            for file in request.FILES.getlist('files'):
+                if not File.objects.filter(product=product, file__icontains=file.name).exists():
+                    file_obj = File.objects.create(file=file, product=product)
+                    file_obj.save()
+
             return HttpResponse(
                 status=204,
                 headers={

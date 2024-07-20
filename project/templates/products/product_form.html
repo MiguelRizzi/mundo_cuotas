@@ -10,7 +10,7 @@
        {% for field in form %}
            {% if field.name == 'category' %}
                <div class="form-group">
-                   <label for="id_category" class="form-label">{{ form.category.label }}</label>
+                   <label for="id_category">{{ form.category.label }}</label>
                    <select 
                         class="form-select" 
                         id="category-select" 
@@ -31,14 +31,13 @@
                </div>
                
                <div class="form-group"> 
-                    <label for="id_category" class="form-label">Categoria</label>
-                   
-                   <select class="form-select" id="subcategory-select" name="subcategory">
-                        <option value="">Selecciona una subcategoria</option>
-                        {% for subcategory in subcategories.all %}
-                            <option value="{{ subcategory.slug }}" {% if product.category == subcategory %}selected{% endif %}>{{ subcategory }}</option>
-                        {% endfor %}                                                   
-                   </select>
+                    <label for="id_category">Subcategoria</label>
+                    <select class="form-select" id="subcategory-select" name="subcategory">
+                            <option value="">Selecciona una subcategoria</option>
+                            {% for subcategory in subcategories.all %}
+                                <option value="{{ subcategory.slug }}" {% if product.category == subcategory %}selected{% endif %}>{{ subcategory }}</option>
+                            {% endfor %}                                                   
+                    </select>
                </div>
            {% else %}
                <div class="form-group">
@@ -50,6 +49,42 @@
                </div>
            {% endif %}
        {% endfor %}
+
+        {% if product %}
+            
+        <style>
+            .checkeable input {
+                display: none;
+            }
+            .checkeable img {
+                width: 100px;
+                height: 100px;
+                object-fit: contain;
+                border: 2px solid rgba(0, 0, 0, 0.091);
+                border-radius: 3px;
+                background-color: rgba(0, 0, 0, 0.164);
+            }
+            .checkeable input:checked + img {
+                border-color:  rgba(255, 0, 0, 0.58);
+            }
+        </style>
+     
+        <div class="form-group">
+            <div>Archivos a eliminar</div>
+            <div class="form-control d-flex flex-wrap">
+                {% for file in product.files.all %}
+                    <label class="checkeable">
+                        <input type="checkbox" name="delete-files" value="{{ file.id }}"/>
+                        <img src="{{ file.file.url }}"/>
+                    </label>   
+                {% endfor %}
+            
+            </div>
+        </div>
+     
+        {% endif %}
+
+
   </div>
   </div>
   <div class="modal-footer">
