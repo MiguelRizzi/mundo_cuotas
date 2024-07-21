@@ -42,9 +42,23 @@
                 <div class="col-12">
                 <div class="small mb-1">{{ product.category }}</div>
                 <h1 class="display-5 fw-bolder">{{ product.name }}</h1>
-                {% if product.price %}
+                {% if product.price_cash %}
                     <div class="fs-5 mb-5">
-                        <span class="fw-semibold">Precio Contado: </span>${{ product.price }}
+                        <div class="fs-6 my-2">
+                            <span>Contado ${{ product.price_cash|format_number_with_commas:2  }}</span>
+                            {% if product.price_12_weeks %}
+                                <br>
+                                <span>12 semanas de ${{ product.price_12_weeks|format_number_with_commas:2 }}</span>  
+                            {% endif %}
+                            {% if product.price_6_fortnights %}
+                                <br>
+                                <span>6 quincenas de ${{ product.price_6_fortnights|format_number_with_commas:2 }}</span>
+                            {% endif %}
+                            {% if product.price_3_months %}
+                                <br>
+                                <span>3 meses de ${{ product.price_3_months|format_number_with_commas:2 }}</span>
+                            {% endif %}
+                        </div>    
                     </div>   
                 {% endif %}
                 <p class="lead">{{ product.description }}</p>

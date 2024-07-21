@@ -25,7 +25,7 @@ class ContactView(View):
 
 class ProductListView(View):
     def get(self, request):
-        categories= Category.objects.all()
+        categories= Category.objects.all().order_by("name")
 
         products= Product.objects.all().exclude(status=1)
         regular_products= products.filter(type=1).order_by("-id")[:4]
@@ -106,7 +106,7 @@ class ProductDetailView(DetailView):
     
 class ProductListAdminView(View, LoginRequiredMixin):
     def get(self, request):
-        categories= Category.objects.all()
+        categories= Category.objects.all().order_by("name")
 
         context = {
             'categories': categories,

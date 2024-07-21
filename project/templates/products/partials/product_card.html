@@ -1,3 +1,5 @@
+{% load custom_filters %}
+
 <div class="col mb-4">
     <div class="card h-100 position-relative">
         <img class="card-img-top object-fit-cover" src="{{ product.files.first.file.url }}" alt="{{ product.name}}" style="height: 150px"/>
@@ -9,10 +11,9 @@
         <div class="card-body pb-0">
             <div class="text-center">
                 <h4 class="fw-semibold">{{ product.name }}</h4>
-                {% if product.price %}
-                    <p>${{ product.price }}</p>             
+                {% if product.price_cash %}
+                    <p>${{ product.price_cash|format_number_with_commas:2 }}</p>             
                 {% endif %}
-
             </div>
         </div>
         <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
