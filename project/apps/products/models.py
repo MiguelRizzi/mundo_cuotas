@@ -22,7 +22,7 @@ class Category(models.Model):
     def save(self, *args, **kwargs):
         slug = slugify(self.name)
         if Category.objects.exclude(id=self.id).filter(slug=slug).exists():
-            self.slug = f"{slug}-{self.id}"
+            self.slug = f"{slug}-{self.parent.id}"
         else:
             self.slug = slug
         super().save(*args, **kwargs)
@@ -58,7 +58,7 @@ class Product(models.Model):
     def save(self, *args, **kwargs):
         slug = slugify(self.name)
         if Product.objects.exclude(id=self.id).filter(slug=slug).exists():
-            self.slug = f"{slug}-{self.id}"
+            self.slug = f"{slug}-{self.category.id}"
         else:
             self.slug = slug
         super().save(*args, **kwargs)
