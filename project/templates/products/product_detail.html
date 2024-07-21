@@ -44,18 +44,18 @@
                         <p class="fs-6">{{ product.description }}</p>
                         {% if product.price_cash %}
                             <div class="fs-6 my-2">
-                                <span>Contado ${{ product.price_cash }}</span>
+                                <span>Contado ${{ product.price_cash|format_number_with_commas:2 }}</span>
                                 {% if product.price_12_weeks %}
                                     <br>
-                                    <span>12 semanas de ${{ product.price_12_weeks }}</span>  
+                                    <span>12 semanas de ${{ product.price_12_weeks|format_number_with_commas:2 }}</span>  
                                 {% endif %}
                                 {% if product.price_6_fortnights %}
                                     <br>
-                                    <span>6 quincenas de ${{ product.price_6_fortnights }}</span>
+                                    <span>6 quincenas de ${{ product.price_6_fortnights|format_number_with_commas:2 }}</span>
                                 {% endif %}
                                 {% if product.price_3_months %}
                                     <br>
-                                    <span>3 meses de ${{ product.price_3_months }}</span>
+                                    <span>3 meses de ${{ product.price_3_months|format_number_with_commas:2 }}</span>
                                 {% endif %}
                             </div>    
                         {% endif %}
