@@ -32,8 +32,6 @@
                         </button>
                     </div>
                 </div>
-
-
                     <div class="col-md-6">
                         <div class="small mb-1">
                             {% if product.type == 2 %}
@@ -43,12 +41,25 @@
                             {% endif %}                        
                         </div>
                         <h1 class="display-5 fw-bolder">{{ product.name }}</h1>
-                        {% if product.price %}
-                            <div class="fs-5 mb-5">
-                                <span>${{ product.price }}</span>
+                        <p class="fs-6">{{ product.description }}</p>
+                        {% if product.price_cash %}
+                            <div class="fs-6 my-2">
+                                <span>Contado ${{ product.price_cash }}</span>
+                                {% if product.price_12_weeks %}
+                                    <br>
+                                    <span>12 semanas de ${{ product.price_12_weeks }}</span>  
+                                {% endif %}
+                                {% if product.price_6_fortnights %}
+                                    <br>
+                                    <span>6 quincenas de ${{ product.price_6_fortnights }}</span>
+                                {% endif %}
+                                {% if product.price_3_months %}
+                                    <br>
+                                    <span>3 meses de ${{ product.price_3_months }}</span>
+                                {% endif %}
                             </div>    
                         {% endif %}
-                        <p class="lead">{{ product.description }}</p>
+                        
                         <div class="d-flex">
                             <a class="btn btn-success flex-shrink-0" href="https://wa.me/542494547860" target="_blank" rel="nofollow noopener noreferrer">
                                 <i class="fas fa-shopping-cart"></i>
@@ -68,23 +79,8 @@
                     <div class="row gx-3 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-start">
                     
                         {% for product in related_products %}
-                            <div class="col mb-4">
-                                <div class="card h-100">
-                                    <img class="card-img-top object-fit-cover" src="{{ product.files.first.file.url }}" alt="{{ product.name}}" style="height: 160px;"/>
-                                    <div class="card-body">
-                                        <div class="text-center">
-                                            <h4 class="fw-semibold">{{ product.name }}</h4>
-                                            {% if product.price %}
-                                                <p>$40.00</p>             
-                                            {% endif %}
-                                        </div>
-                                    </div>
-                                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="{% url 'products:product_detail' product.slug %}">Ver producto</a></div>
-                                    </div>
-                                </div>
-                            </div>
-                    {% endfor %}
+                            {% include 'products/partials/product_card.html' %}
+                        {% endfor %}
                     </div>
                 </div>
                 <div class="text-center">

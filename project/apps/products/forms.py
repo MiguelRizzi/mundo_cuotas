@@ -7,8 +7,16 @@ class ProductForm(forms.ModelForm):
 
     class Meta:
         model = Product
-        fields = ['name', 'category', 'price', 'type', 'status', 'description']
-        labels = {'name': 'Nombre', 'description': 'Descripción', 'price': 'Precio de contado', 'type': 'Tipo', 'status': 'Estado', 'category': 'Categoría'}
+        fields = ['name', 'category', 'price_cost', 'price_cash', 'type', 'status', 'description']
+        labels = {
+            'name': 'Nombre', 
+            'description': 'Descripción',
+            'price_cost': 'Precio de costo', 
+            'price_cash': 'Precio de contado', 
+            'type': 'Tipo', 
+            'status': 'Estado', 
+            'category': 'Categoría'
+        }
         
 
 
