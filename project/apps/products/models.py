@@ -20,7 +20,11 @@ class Category(models.Model):
             raise ValidationError('No se permite anidar mas de dos categorias')
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.name)
+        slug = slugify(self.name)
+        if Category.objects.exclude(id=self.id).filter(slug=slug).exists():
+            self.slug = f"{slug}-{self.id}"
+        else:
+            self.slug = slug
         super().save(*args, **kwargs)
         return
 
