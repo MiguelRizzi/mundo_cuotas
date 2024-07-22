@@ -5,7 +5,41 @@
 		<meta charset="utf-8">
 	   	<meta name="viewport" content="width=device-width, initial-scale=1">
 	   	<title>Mundo Cuotas{% if site_name %} - {{ site_name }}{% endif %}</title>
-		<meta name="description" content="{{ descripcion }}" />
+
+		<script type="application/ld+json">
+			{
+				"@context": "https://schema.org",
+				"@type": "LocalBusiness",
+				"name": "Mundo Cuotas",
+				"image": "{% static 'img/logo.png' %}",
+				"url": "https://www.mundo-cuotas.com.ar/",
+				"telephone": "+5492494547860",
+				"address": {
+					"@type": "PostalAddress",
+					"streetAddress": "Azucena 937",
+					"addressLocality": "Tandil",
+					"postalCode": "7000",
+					"addressCountry": "Argentina",
+					"addressRegion": "Buenos Aires"
+				}
+			}
+		</script>
+
+		<meta name="robots" content="index, follow">
+		<meta name="description" content="Descubre Mundo Cuotas y Compra productos directo de fábrica en cuotas, sin complicaciones. Encontranos en Tandil, Benito Juárez, Rauch y Ayacucho.">
+		<link rel="canonical" href="https://www.mundo-cuotas.com.ar{{ request.path }}">
+		<!-- Open Graph data -->
+		<meta property="og:type" content="business.business">
+		<meta property="og:title" content="Mundo Cuotas{% if site_name %} - {{ site_name }}{% endif %}">
+		<meta property="og:url" content="https://www.mundo-cuotas.com.ar{{ request.path }}">
+		<meta property="og:image" content="{% static 'img/logo.png' %}">
+		<meta property="og:description" content="Descubre Mundo Cuotas y Compra productos directo de fábrica en cuotas, sin complicaciones. Encontranos en Tandil, Benito Juárez, Rauch y Ayacucho.">
+		<meta property="business:contact_data:street_address" content="Azucena 937">
+		<meta property="business:contact_data:locality" content="Tandil">
+		<meta property="business:contact_data:region" content="Buenos Aires">
+		<meta property="business:contact_data:postal_code" content="7000">
+		<meta property="business:contact_data:country_name" content="Argentina">
+		
 		<!-- Favicon -->
 		<link rel="shortcut icon" type="image/x-icon" href="{% static 'img/favicon.png' %}">
 		<!-- Bootstrap -->
