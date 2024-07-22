@@ -40,11 +40,32 @@
             </div>
             
                 <div class="col-12">
-                <div class="small mb-1">{{ product.category }}</div>
-                <h1 class="display-5 fw-bolder">{{ product.name }}</h1>
+                <div class="small mb-1">{{ product.category.parent }} - {{ product.category }}</div>
+                <div class="small mb-1">
+                    {% if product.status == 1 %}
+                        <span class="text-danger">No publicado</span>
+                    {% elif product.status == 2 %}
+                        <span class="text-danger">Publicado</span>
+                    {% endif %} 
+                    {% if product.type == 1 %}
+                        (Regular)
+                    {% elif product.type == 2 %}
+                        (Oferta)
+                    {% elif product.type == 3 %}
+                        (Destacado)
+                    {% endif %}
+                </div>
+                    
+        
+
+                <div class="mb-3">
+                    <span class="small"><span class="fw-semibold">Fecha de creación: </span>{{ product.created_at }}</span><br>
+                    <span class="small"><span class="fw-semibold">Fecha de actualización: </span>{{ product.updated_at }}</span>
+                </div>
+
                 {% if product.price_cash %}
-                    <div class="fs-5 mb-5">
-                        <div class="fs-6 my-2">
+                    <div class="small">
+                        <div class=" my-3">
                             <span>Contado ${{ product.price_cash|format_number_with_commas:2  }}</span>
                             {% if product.price_12_weeks %}
                                 <br>
@@ -61,7 +82,7 @@
                         </div>    
                     </div>   
                 {% endif %}
-                <p class="lead">{{ product.description }}</p>
+                <p class="fs-6">{{ product.description }}</p>
             </div>
         </div>
 

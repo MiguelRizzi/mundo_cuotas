@@ -4,7 +4,7 @@
   <tr>
     <th>Nombre</th>
     <th>Email</th>
-    <th>Fecha</th>
+    <th class="ocultar">Fecha</th>
     <th>Leido</th>
     <th></th>
   </tr>
@@ -16,7 +16,7 @@
     <tr>
       <td>{{ message.name }}</td>
       <td>{{ message.email }}</td>
-      <td>{{ message.date }}</td>
+      <td class="ocultar">{{ message.date|date:"d/m/Y - H:i" }}hs</td>
       <td>
         {% if message.is_read %}
         <i class="fa fa-check text-success">

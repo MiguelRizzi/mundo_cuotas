@@ -15,11 +15,6 @@
     width: 450px;
 
 }
-@media (max-width: 500px) {
-    .login-form{
-        width: 100%;
-    }
-}
 
 
 .icon-navbar{
@@ -28,7 +23,10 @@
 
 .icon-avatar{
     width: 30px;
+    height: 30px;
     border-radius: 50%;
+    object-fit: cover;
+    object-position: center;
 }
 
 .brand, .username{
@@ -78,12 +76,12 @@
     width: 100px;
     height: 100px;
     object-fit: contain;
-    border: 2px solid rgba(0, 0, 0, 0.091);
+    border: 2.5px solid rgba(0, 0, 0, 0.091);
     border-radius: 3px;
     background-color: rgba(0, 0, 0, 0.164);
 }
 .checkeable input:checked + img {
-    border-color:  rgba(255, 0, 0, 0.58);
+    border-color:  rgb(255, 0, 0);
 }
 
 .notification{
@@ -94,13 +92,30 @@
     text-decoration: underline 3px;
 }
 
-
 .dropdown-toggle::after {  
     content: none;
 }
+
+textarea{
+    resize: none;
+    height: 150px!important;
+}
+
+
 @media (max-width: 454px) {
     .notification{
         font-size:9px;
     }
 
 }   
+@media (max-width: 500px) {
+    .login-form{
+        width: 100%;
+    }
+}
+
+@media (max-width: 600px) {
+    .ocultar{
+        display: none;
+    }
+}
