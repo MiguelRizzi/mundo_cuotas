@@ -1,2 +1,7 @@
+Sitemap: https://www.mundo-cuotas.com.ar/sitemap.xml
+User-Agent: *
+Allow: /productos/*/
+Allow: /contacto/
 
-
+Disallow: /iniciar-sesion/
+Disallow: /administracion/productos/

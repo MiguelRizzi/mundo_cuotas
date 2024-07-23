@@ -40,7 +40,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG')
 
-ALLOWED_HOSTS = ['mundocuotas.pythonanywhere.com']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sitemaps',
     # My apps
     'products.apps.ProductsConfig',
     'users.apps.UsersConfig',
@@ -59,7 +60,6 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'django_htmx',
     "multiupload"
-
 ]
 
 MIDDLEWARE = [
@@ -99,7 +99,6 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
-"""
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -118,6 +117,7 @@ DATABASES = {
         'PORT': os.environ.get('DB_PORT'),
     },
 }
+"""
 
 
 # Password validation
