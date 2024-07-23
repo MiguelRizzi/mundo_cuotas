@@ -40,7 +40,7 @@
                                 Producto destacado
                             {% endif %}                        
                         </div>
-                        <h1 class="display-5 fw-bolder">{{ product.name }}</h1>
+                        <h1 class="display-5 fw-bolder advent-pro">{{ product.name }}</h1>
                         <p class="fs-6">{{ product.description }}</p>
                         {% if product.price_cash %}
                             <div class="fs-6 my-2">
@@ -75,7 +75,7 @@
         {% if related_products %}
             <section class="py-5 fondo">
                 <div class="container px-4 px-lg-5">
-                    <h3 class="fw-semibold border-bottom text-uppercase fs-4">Productos relacionados</h3>
+                    <h3 class="fw-semibold border-bottom text-uppercase fs-4 advent-pro">Productos relacionados</h3>
                     <div class="row gx-3 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-start">
                     
                         {% for product in related_products %}

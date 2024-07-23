@@ -2,24 +2,27 @@
 {% load static %}
 
 {% block header %}
-<div class="px-4 py-5 text-center bg-header">
-            
-    <img src="{% static 'img/logo.png' %}" alt="Mundo Cuotas" width="95" class="d-block mx-auto revelar izquierda">
-    <h1 class="display-5 fw-bold text-body-emphasis brand revelar izquierda">
-        Comprá en cuotas solo con tu firma
-    </h1>
+<div class="bg-header">
+    <div class="px-4 py-5 text-center" style="background-color: rgba(176, 112, 206, 0.203);">
 
-    <div class="col-lg-6 mx-auto revelar izquierda">
-        <h2 class="lead fw-normal mb-4">Compra productos directo de fábrica en cuotas, sin complicaciones. Encontranos en Tandil, Benito Juárez, Rauch y Ayacucho.</h2>
-        <div class="mx-auto" style="max-width: 600px">
-            <div class="input-group">
-                <input id="consult1" name="consult" class="form-control" type="text" placeholder="¿Que estas buscando?" aria-label="¿Que estas buscando?" />
-                <button class="btn btn-success" id="button-search">
-                    <i class="fas fa-search"></i>
-                </button>
-            </div>
-        </div>    
+        <img src="{% static 'img/logo.png' %}" alt="Mundo Cuotas" width="95" class="d-block mx-auto revelar izquierda">
+        <h1 class="display-5 fw-bold text-body-emphasis brand revelar izquierda">
+            Comprá en cuotas solo con tu firma
+        </h1>
+    
+        <div class="col-lg-6 mx-auto revelar izquierda">
+            <h2 class="lead fw-normal mb-4">Compra productos directo de fábrica en cuotas, sin complicaciones. Encontranos en Tandil, Benito Juárez, Rauch y Ayacucho.</h2>
+            <div class="mx-auto" style="max-width: 600px">
+                <div class="input-group">
+                    <input id="consult1" name="consult" class="form-control" type="text" placeholder="¿Que estas buscando?" aria-label="¿Que estas buscando?" />
+                    <button class="btn btn-success" id="button-search">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>    
+        </div>
     </div>
+            
 </div>
 {% endblock header %}
 
@@ -35,7 +38,7 @@
             </div>
             <div class="p-3 p-md-5 revelar derecha">
                 <div class="container mt-2">
-                    <h3 class="fw-semibold border-bottom text-uppercase fs-4">Productos Destacados</h3>
+                    <h3 class="fw-semibold border-bottom text-uppercase fs-4 advent-pro">Productos Destacados</h3>
                     <div class="row gx-2 gx-md-3 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-start">
                         {% for product in featured_products %}
                             {% include 'products/partials/product_card.html' %}
@@ -52,7 +55,7 @@
 
         <div class="fondo p-3 p-md-5">
             <div class="container mt-2 revelar izquierda">
-                <h3 class="fw-semibold border-bottom text-uppercase fs-4">Productos en Oferta</h3>
+                <h3 class="fw-semibold border-bottom text-uppercase fs-4 advent-pro">Productos en Oferta</h3>
                 <div class="row gx-2 gx-md-3 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-start">
                     {% for product in offer_products %}
                         {% include 'products/partials/product_card.html' %}
@@ -67,7 +70,7 @@
 
         <div class="fondo p-3 p-md-5 ">
             <div class="container mt-2 revelar derecha">
-                <h3 class="fw-semibold border-bottom text-uppercase fs-4">Más productos</h3>
+                <h3 class="fw-semibold border-bottom text-uppercase fs-4 advent-pro">Más productos</h3>
                 <div class="row gx-2 gx-md-3 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-start">
                     {% for product in regular_products %}
                         {% include 'products/partials/product_card.html' %}
@@ -86,7 +89,7 @@
     <!-- Offcanvas -->
     <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
         <div class="offcanvas-header">
-          <h5 class="offcanvas-title fs-5" id="offcanvasWithBothOptionsLabel">                
+          <h5 class="offcanvas-title fs-5 advent-pro fw-bold border-bottom" id="offcanvasWithBothOptionsLabel">                
             <i class="bi bi-filter fs-5 fw-semibold me-2"></i>
             Filtrar productos</h5>
           <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -101,20 +104,20 @@
                 <div class="row">
                     <div class="col-12 col-md-8 order-md-last">
                         <div class="form-group fs-6">
-                            <p class="mt-3 mb-2 fw-semibold border-bottom">Categorías</p>
+                            <p class="mt-3 mb-2 fw-semibold border-bottom advent-pro">Categorías</p>
                             {% for category in categories %}
                                 {% if not category.parent %}
                                     <div class="mb-1">
-                                        <button type="button" class="btn px-2 btn-toggle d-inline-flex rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#{{ category.slug }}" aria-expanded="false" onclick="collapseOthers(this)">
+                                        <button type="button" class="btn px-2 btn-toggle d-inline-flex rounded border-0 collapsed advent-pro" data-bs-toggle="collapse" data-bs-target="#{{ category.slug }}" aria-expanded="false" onclick="collapseOthers(this)">
                                             {{ category.name }}
                                         </button>
                 
-                                        <div class="collapse" id="{{ category.slug }}">
+                                        <div class="collapse advent-pro" id="{{ category.slug }}">
                                             <div class="btn-toggle-nav list-unstyled fw-normal pb-1 small mx-4">
                                                 {% for subcategory in category.subcategories.all %}
                                                     <div class="form-check">
                                                         <input type="checkbox" class="form-check-input" id="{{ subcategory.slug }}" onclick="onlyOneCategory(this)" name="category" value="{{ subcategory.slug }}">
-                                                        <label class="form-check-label" for="{{ subcategory.slug }}">{{ subcategory }}</label>
+                                                        <label class="form-check-label advent-pro" for="{{ subcategory.slug }}">{{ subcategory }}</label>
                                                     </div>
                                                 {% endfor %}
                                             </div>
@@ -127,30 +130,30 @@
 
                     <div class="col-12 col-md-4">
                         <div class="form-group fs-6">
-                            <p class="mt-3 mb-2 fw-semibold border-bottom">Tipo</p>
+                            <p class="mt-3 mb-2 fw-semibold border-bottom advent-pro">Tipo</p>
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" name="type" onclick="onlyOneType(this)" value="4" id="type1">
-                                <label class="form-check-label" for="type1">Todos</label>
+                                <label class="form-check-label advent-pro" for="type1">Todos</label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" name="type" onclick="onlyOneType(this)" value="2" id="type2">
-                                <label class="form-check-label" for="type2">Ofertas</label>
+                                <label class="form-check-label advent-pro" for="type2">Ofertas</label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" name="type" onclick="onlyOneType(this)" value="3" id="type3">
-                                <label class="form-check-label" for="type3">Destacados</label>
+                                <label class="form-check-label advent-pro" for="type3">Destacados</label>
                             </div>
                         </div>
                 
                         <div class="form-group fs-6">
-                            <p class="mt-3 mb-2 fw-semibold border-bottom">Orden</p>
+                            <p class="mt-3 mb-2 fw-semibold border-bottom advent-pro">Orden</p>
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" name="date" onclick="onlyOneDate(this)" value="1" id="date1">
-                                <label class="form-check-label" for="date1">Recientes</label>
+                                <label class="form-check-label advent-pro" for="date1">Recientes</label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" name="date" onclick="onlyOneDate(this)" value="2" id="date2">
-                                <label class="form-check-label" for="date2">Antiguos</label>
+                                <label class="form-check-label advent-pro" for="date2">Antiguos</label>
                             </div>
                         </div>
                     </div> 

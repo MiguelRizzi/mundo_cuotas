@@ -1,13 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Advent+Pro:wdth@150&display=swap');
+
 *{
     scroll-behavior: smooth;
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    font-family: "Roboto", sans-serif;
+
 }
 
-
-.active-nav{
-    text-decoration: underline rgb(0, 0, 0) 3px;
+.advent-pro, .nav-link, .dropdown-item, .btn{
+    font-family: "Advent Pro", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    font-variation-settings:
+      "wdth" 100;
+}
+.btn{
+    font-weight: 600;
+}
+.active{
+    text-decoration: underline 3px rgb(0, 0, 0);
 }
 
 
