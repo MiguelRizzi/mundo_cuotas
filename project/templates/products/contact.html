@@ -3,7 +3,7 @@
 {% load widget_tweaks %}
 
 {% block content %}
-<section id="contacto" class="container-fluid text-center fondo py-2">
+<section class="container-fluid py-3 fondo">
     <div class="p-3 p-md-5">
         <div class="px-0 px-md-5">
             <nav aria-label="breadcrumb">
@@ -12,7 +12,7 @@
                   <li class="breadcrumb-item active" aria-current="page">Contacto</li>
                 </ol>
             </nav>
-            <h1 class="display-5 brand fw-bold advent-pro">Contactanos</h1>
+            <h1 class="display-5 brand fw-bold advent-pro text-center">Contactanos</h1>
                 <div class="align-items-center justify-content-center revelar">
                     <p class="fw-medium fs-5 text-center pb-3">¡Gracias por visitar MUNDO CUOTAS! Si tienes alguna pregunta O consulta, no dudes en ponerte en contacto y nos comunicaremos contigo a la brevedad.</p>
                     <div class="col-lg-6 mx-auto w-100" hx-get="{% url 'users:message_create' %}" hx-trigger="load, messageListChanged from:body" hx-target="this">
