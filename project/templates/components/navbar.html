@@ -12,19 +12,22 @@
         <hr>
        
         <ul class="navbar-nav fs-5 fw-bolder" id="navbarList">
-            <li class="nav-item scale {% if request.path == '/' %}active{% endif %}">
+            <li class="nav-item scale {% if request.path == '/' %}active-nav{% endif %}">
                 <a class="nav-link fw-bold" 
                 {% if request.path == '/' %}
                     aria-current="page" 
                 {% endif %}
                 href="{% url 'products:product_list' %}">Productos</i></a>
             </li>
-            <li class="nav-item scale {% if request.path == '/contacto/' %}active{% endif %}">
+            <li class="nav-item scale {% if request.path == '/sobre-nosotros/' %}active-nav{% endif %}">
+                <a class="nav-link fw-bold" href="{% url 'products:about' %}">Sobre nosotros</a>
+            </li>
+            <li class="nav-item scale {% if request.path == '/contacto/' %}active-nav{% endif %}">
                 <a class="nav-link fw-bold" href="{% url 'products:contact' %}">Contacto</a>
             </li>
 
             {% if user.is_authenticated %}
-                <li class="nav-item scale {% if request.path == '/administracion/productos/' %}active{% endif %}">
+                <li class="nav-item scale {% if request.path == '/administracion/productos/' %}active-nav{% endif %}">
                     <a class="nav-link fw-bold" href="{% url 'products:product_list_admin' %}">Administración</a>
                 </li>     
             {% endif %}

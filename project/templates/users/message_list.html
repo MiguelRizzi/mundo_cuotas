@@ -1,19 +1,29 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <section class="container-fluid p-sm-5 p-0 pt-5 h-section" hx-trigger="load, messageListChanged from:body" hx-get="{% url 'users:load_message_list' %}" hx-target="#results">
-        <h2 class="fw-bolder display-5 mb-4 text-uppercase text-center">Mensajes</h2>      
+    <section class="container-fluid py-2 h-section" hx-trigger="load, messageListChanged from:body" hx-get="{% url 'users:load_message_list' %}" hx-target="#results">
 
-        <div class="mb-2">
-            <button class="btn btn-dark" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions"><i class="fas fa-filter"></i> Filtrar</button>
-        </div>
+        <div class="p-0 p-sm-3 p-md-5 py-2">
+            <nav aria-label="breadcrumb px-0 px-md-5">
+                <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'products:product_list' %}"><i class="fas fa-home"></i> Inicio</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Mensajes</li>
+                </ol>
+            </nav>
 
-        <div id="results">
+            <h2 class="fw-bolder display-5 mb-4 text-uppercase text-center">Mensajes</h2>      
+
+            <div class="mb-2">
+                <button class="btn btn-dark" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions"><i class="fas fa-filter"></i> Filtrar</button>
+            </div>
+
+            <div id="results">
+            </div>
+            
+            {% url 'users:index' as url %}
+            {% include 'components/index_back.html' with link=url %}   
+        
         </div>
-        
-        {% url 'users:index' as url %}
-        {% include 'components/index_back.html' with link=url %}   
-        
         
         <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
             <div class="offcanvas-header">

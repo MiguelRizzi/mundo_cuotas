@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block content %}
+<section id="contacto" class="container-fluid text-center fondo">
+    <div class="p-3 p-md-5">
+
+            <div class="align-items-center justify-content-center revelar px-0 px-md-5">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                      <li class="breadcrumb-item"><a href="{% url 'products:product_list' %}"><i class="fas fa-home"></i> Inicio</a></li>
+                      <li class="breadcrumb-item active" aria-current="page">Sobre nosotros</li>
+                    </ol>
+                </nav>
+                <h1 class="display-5 brand fw-bold advent-pro">Sobre Mundo Cuotas</h1>
+
+                <div class="row py-3">
+                    <div class="col-12 col-md-6">
+                        <h2 class="brand fw-bold advent-pro">¿Quiénes somos?</h2>
+                        <p class="text-start fs-6">
+                            Somos Mundo Cuotas, una empresa joven que nace con la misión de brindar productos de calidad directamente desde fábrica con formas de financiación accesible y sin complicaciones innecesarias.<br>
+                            Nuestro compromiso es que cada cliente obtenga la mejor experiencia de compra posibe. Por eso, estamos comprometidos a brindar una experiencia de compra excepcional a nuestros clientes, ofreciendo productos de alta calidad y con distintas formas de financiación. 
+                        </p>
+
+                        <div class=" text-center py-3">
+                            <img src="{% static 'img/logo.png' %}" alt="Mundo Cuotas" width="60"> 
+                            <p class="brand fs-5 fw-bold">MUNDO CUOTAS</p>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6"> 
+                        <h2 class="brand fw-bold advent-pro">¿Que ofrecemos?</h2>
+                        <p class="text-start fs-6">
+                            <span class="">Productos de calidad:</span> Trabajamos con fabricantes confiables para garantizar que nuestros productos sean de la más alta calidad. Desde electrodomésticos hasta rodados y electrónica, tenemos una amplia variedad de opciones para satisfacer tus necesidades.<br>
+                            <span class="">Financiación sencilla:</span> Ofrecemos la opción de pagar en cuotas semanales, quincenales o mensuales. ¡Solo necesitas tu firma! Sin trámites engorrosos ni requisitos complicados.<br>
+                            <span class="">Equipo comprometido:</span> Nuestro equipo está formado por mujeres apasionadas y dedicadas. que trabajamos juntas para brindarte la mejor experiencia posible.<br>
+                            <span class="">Garantía sin vueltas:</span> Si algo sale mal, estamos aquí para ayudarte. Respetamos nuestra garantía y nos aseguramos de que cualquier problema con nuestros productos se resuelva de manera rápida y eficiente.Tu satisfacción es nuestra prioridad.
+                        </p>
+                    </div>
+                </div>
+            </div>    
+        </div>
+    </div>
+</section>
+{% endblock content %}
+
+{% block footer %}
+    {% include 'components/contact_footer.html' %}
+{% endblock footer %}

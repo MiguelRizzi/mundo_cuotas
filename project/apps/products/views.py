@@ -18,6 +18,10 @@ from .forms import ProductForm
 class ContactView(View):
     def get(self, request):
         return render(request, "products/contact.html")
+    
+class AboutView(View):
+    def get(self, request):
+        return render(request, "products/about.html")
 
     
 
