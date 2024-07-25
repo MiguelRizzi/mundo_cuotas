@@ -2,7 +2,7 @@ from django.contrib.sitemaps import Sitemap
 from django.urls import reverse
 from products.models import Product
     
-class ProductSitemap(Sitemap):
+class ContactSitemap(Sitemap):
     changefreq = 'monthly'
     priority = 0.2
     def items(self):
@@ -10,11 +10,11 @@ class ProductSitemap(Sitemap):
     def location(self, item):
         return reverse(item)
     
-class ContactSitemap(Sitemap):
+class ProductSitemap(Sitemap):
     changefreq = 'weekly'
     priority = 1
     def items(self):
-        return ['products:product_list']
+        return ['products:product_list', 'products:index']
     def location(self, item):
         return reverse(item)
 
