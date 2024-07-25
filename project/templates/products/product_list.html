@@ -59,7 +59,7 @@
 
         <div class="offcanvas-body">
 
-            <form id="filter" hx-get="{% url 'products:load_product_list' %}#products" hx-target="#results" hx-trigger="change from:input, submit, load" method="get" class="p-3">
+            <form id="filter" hx-get="{% url 'products:load_product_list' %}" hx-target="#results" hx-trigger="change from:input, submit, load" method="get" class="p-3">
         
                 <input id="consult2" name="consult" class="visually-hidden" type="text"/>
             
