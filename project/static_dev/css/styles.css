@@ -89,11 +89,19 @@ textarea{
 .h-section{
     min-height: 100vh;
 }
+.btn-comprar{
+    width: 180px;
+}
 @media (max-width: 454px) {
     .notification{
         font-size:9px;
     }
 }   
+@media (max-width: 576px) {
+    .btn-comprar{
+        width: 100%;
+    }
+}
 @media (max-width: 500px) {
     .login-form{
         width: 100%;

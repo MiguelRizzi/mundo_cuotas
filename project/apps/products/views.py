@@ -99,7 +99,7 @@ class ProductDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         product = self.get_object()
-        related_products = Product.objects.filter(category=product.category).exclude(id=product.id)[:4]  # Filtrar productos de la misma categoría excluyendo el producto actual
+        related_products = similar_products = Product.objects.filter(category=product.category).exclude(id=product.id).exclude(status=1)[:4] # Filtrar productos de la misma categoría excluyendo el producto actual
         context["related_products"] = related_products
         context['site_name'] = product.name
         return context

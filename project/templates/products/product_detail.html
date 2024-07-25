@@ -7,16 +7,15 @@
         <section class="container-fluid py-3 fondo">
             <div class="p-3 p-md-5">
                 <div class="px-0 px-md-5">
-
-
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                           <li class="breadcrumb-item"><a href="{% url 'products:product_list' %}"><i class="fas fa-home"></i> Inicio</a></li>
                           <li class="breadcrumb-item active" aria-current="page">{{ product.name }}</li>
                         </ol>
                     </nav>
+
                     <div class="row gx-4 gx-lg-5 align-items-center">
-                    <div class="col-md-6">
+                    <div class="col-lg-5">
                         <div id="carousel" class="carousel slide" data-bs-ride="carousel">
                             <div class="carousel-inner text-center">
                                 {% for file in product.files.all %}
@@ -41,7 +40,7 @@
                             </button>
                         </div>
                     </div>
-                        <div class="col-md-6">
+                        <div class="col-lg-7 order-lg-first">
                             <div class="small mb-1">
                                 {% if product.type == 2 %}
                                     Producto en oferta
@@ -51,29 +50,31 @@
                             </div>
                             <h1 class="display-5 fw-bolder advent-pro">{{ product.name }}</h1>
                             <p class="small">{{ product.description|linebreaks }}</p>
-                            {% if product.price_cash %}
-                                <div class="small my-2">
-                                    <span>Contado ${{ product.price_cash|format_number_with_commas:2 }}</span>
-                                    {% if product.price_12_weeks %}
-                                        <br>
-                                        <span>12 semanas de ${{ product.price_12_weeks|format_number_with_commas:2 }}</span>  
-                                    {% endif %}
-                                    {% if product.price_6_fortnights %}
-                                        <br>
-                                        <span>6 quincenas de ${{ product.price_6_fortnights|format_number_with_commas:2 }}</span>
-                                    {% endif %}
-                                    {% if product.price_3_months %}
-                                        <br>
-                                        <span>3 meses de ${{ product.price_3_months|format_number_with_commas:2 }}</span>
-                                    {% endif %}
-                                </div>    
-                            {% endif %}
-                            
-                            <div class="d-flex">
-                                <a class="btn btn-success flex-shrink-0" href="https://wa.me/542494547860" target="_blank" rel="nofollow noopener noreferrer">
-                                    <i class="fas fa-shopping-cart"></i>
-                                    Comprar
-                                </a>
+                            <div class="row align-items-center">
+                                {% if product.price_cash %}
+                                    <div class="small my-2  text-success col-12 col-sm-6">
+                                        <span>Contado ${{ product.price_cash|format_number_with_commas:2 }}</span>
+                                        {% if product.price_12_weeks %}
+                                            <br>
+                                            <span>12 semanas de ${{ product.price_12_weeks|format_number_with_commas:2 }}</span>  
+                                        {% endif %}
+                                        {% if product.price_6_fortnights %}
+                                            <br>
+                                            <span>6 quincenas de ${{ product.price_6_fortnights|format_number_with_commas:2 }}</span>
+                                        {% endif %}
+                                        {% if product.price_3_months %}
+                                            <br>
+                                            <span>3 meses de ${{ product.price_3_months|format_number_with_commas:2 }}</span>
+                                        {% endif %}
+                                    </div>    
+                                {% endif %}
+
+                                <div class="col-12 col-sm-6">
+                                    <a class="btn btn-success flex-shrink-0 mt-2 mt-sm-0 btn-comprar" href="https://wa.me/542494547860" target="_blank" rel="nofollow noopener noreferrer">
+                                        <i class="fas fa-shopping-cart"></i>
+                                        Comprar
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>

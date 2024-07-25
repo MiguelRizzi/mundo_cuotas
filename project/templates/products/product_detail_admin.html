@@ -57,26 +57,35 @@
                     <span class="small"><span class="fw-semibold">Fecha de actualización: </span>{{ product.updated_at }}</span>
                 </div>
 
+                <p class="fs-6">{{ product.description|linebreaks }}</p>
                 {% if product.price_cash %}
-                    <div class="small">
-                        <div class=" my-3">
-                            <span>Contado ${{ product.price_cash|format_number_with_commas:2  }}</span>
+                    <table class="table table-sm table-borderless small">
+                        <tbody>
+                            <tr>
+                                <th scope="row">Contado</th>
+                                <td>${{ product.price_cash|format_number_with_commas:2 }}</td>
+                            </tr>
                             {% if product.price_12_weeks %}
-                                <br>
-                                <span>12 semanas de ${{ product.price_12_weeks|format_number_with_commas:2 }}</span>  
+                            <tr>
+                                <th scope="row">12 semanas</th>
+                                <td>${{ product.price_12_weeks|format_number_with_commas:2 }}</td>
+                            </tr>
                             {% endif %}
                             {% if product.price_6_fortnights %}
-                                <br>
-                                <span>6 quincenas de ${{ product.price_6_fortnights|format_number_with_commas:2 }}</span>
+                            <tr>
+                                <th scope="row">6 quincenas</th>
+                                <td>${{ product.price_6_fortnights|format_number_with_commas:2 }}</td>
+                            </tr>
                             {% endif %}
                             {% if product.price_3_months %}
-                                <br>
-                                <span>3 meses de ${{ product.price_3_months|format_number_with_commas:2 }}</span>
+                            <tr>
+                                <th scope="row">3 meses</th>
+                                <td>${{ product.price_3_months|format_number_with_commas:2 }}</td>
+                            </tr>
                             {% endif %}
-                        </div>    
-                    </div>   
+                        </tbody>
+                    </table>
                 {% endif %}
-                <p class="fs-6">{{ product.description|linebreaks }}</p>
             </div>
         </div>
 
