@@ -24,11 +24,27 @@ class AboutView(View):
         return render(request, "products/about.html")
 
     
+class IndexView(View):
+    def get(self, request):
+        consult = request.GET.get("consult", "").strip()
 
+        products= Product.objects.all().exclude(status=1)
+        regular_products= products.filter(type=1).order_by("-id")[:4]
+        offer_products= products.filter(type=2).order_by("-id")[:4]
+        featured_products= products.filter(type=3).order_by("-id")[:4]
+
+        context = {
+            "consult": consult,
+            "regular_products": regular_products,
+            "offer_products": offer_products,
+            "featured_products": featured_products,
+            "site_name": "Comprá en cuotas sin complicaciones"
+        }
+
+        return render(request, "products/index.html", context)
 # _____________________ PRODUCT VIEWS _____________________
 
 class ProductListView(View):
-    template_name= "products/index.html"
     def get(self, request):
         consult = request.GET.get("consult", "").strip()
 
@@ -47,7 +63,7 @@ class ProductListView(View):
             "site_name": "Catalogo Online"
         }
 
-        return render(request, self.template_name, context)
+        return render(request, "products/product_list.html", context)
     
 class LoadProductListView(View):
     def get(self, request):
