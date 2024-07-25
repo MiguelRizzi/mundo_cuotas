@@ -50,9 +50,9 @@
                                 {% endif %}                        
                             </div>
                             <h1 class="display-5 fw-bolder advent-pro">{{ product.name }}</h1>
-                            <p class="fs-6">{{ product.description }}</p>
+                            <p class="small">{{ product.description|linebreaks }}</p>
                             {% if product.price_cash %}
-                                <div class="fs-6 my-2">
+                                <div class="small my-2">
                                     <span>Contado ${{ product.price_cash|format_number_with_commas:2 }}</span>
                                     {% if product.price_12_weeks %}
                                         <br>
