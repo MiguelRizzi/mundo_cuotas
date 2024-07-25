@@ -6,7 +6,7 @@
     <div class="px-4 py-5 text-center" style="background-color: rgba(176, 112, 206, 0.203);">
 
         <img src="{% static 'img/logo.png' %}" alt="Mundo Cuotas" width="95" class="d-block mx-auto revelar izquierda">
-        <h1 class="display-5 fw-bold text-body-emphasis brand revelar izquierda">
+        <h1 class="display-5 fw-bold text-body-emphasis brand revelar izquierda advent-pro">
             Comprá en cuotas solo con tu firma
         </h1>
     
@@ -27,16 +27,13 @@
 {% endblock header %}
 
 {% block content %}
-
 <section id="products">
-
-    
     <div id="results">
         <div class="fondo">
-            <div class="px-3 px-md-4 revela derecha">
+            <div class="px-3 px-md-4">
                 <button class="btn btn-dark mt-3 mx-3 mx-md-5 mb-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions"><i class="fas fa-filter"></i> Filtrar prouctos</button>
             </div>
-            <div class="p-3 p-md-5 revelar derecha">
+            <div class="p-3 p-md-5">
                 <div class="container mt-2">
                     <h3 class="fw-semibold border-bottom text-uppercase fs-4 advent-pro">Productos Destacados</h3>
                     <div class="row gx-2 gx-md-3 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-start">
@@ -54,7 +51,7 @@
         </div>
 
         <div class="fondo p-3 p-md-5">
-            <div class="container mt-2 revelar izquierda">
+            <div class="container mt-2">
                 <h3 class="fw-semibold border-bottom text-uppercase fs-4 advent-pro">Productos en Oferta</h3>
                 <div class="row gx-2 gx-md-3 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-start">
                     {% for product in offer_products %}
@@ -63,13 +60,13 @@
                 </div>
             </div>
     
-            <div class="text-center revelar izquierda">
+            <div class="text-center">
                 <a hx-get="{% url 'products:load_product_list' %}?type=2#results" hx-target="#results"  class="btn btn-outline-dark" style="width: 320px;">Ver más ofertas</a>
             </div>
         </div>
 
         <div class="fondo p-3 p-md-5 ">
-            <div class="container mt-2 revelar derecha">
+            <div class="container mt-2">
                 <h3 class="fw-semibold border-bottom text-uppercase fs-4 advent-pro">Más productos</h3>
                 <div class="row gx-2 gx-md-3 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-start">
                     {% for product in regular_products %}
@@ -78,7 +75,7 @@
                 </div>
             </div>
     
-            <div class="text-center revelar derecha">
+            <div class="text-center">
                 <a hx-get="{% url 'products:load_product_list' %}#results" hx-target="#results"  class="btn btn-outline-dark" style="width: 320px;">Ver más productos</a>
             </div>
         </div>
@@ -104,7 +101,7 @@
                 <div class="row">
                     <div class="col-12 col-md-8 order-md-last">
                         <div class="form-group fs-6">
-                            <p class="mt-3 mb-2 fw-semibold border-bottom advent-pro">Categorías</p>
+                            <p class="mt-3 mb-2 fw-semibold border-bottom fs-5 advent-pro">Categorías</p>
                             {% for category in categories %}
                                 {% if not category.parent %}
                                     <div class="mb-1">
@@ -117,7 +114,7 @@
                                                 {% for subcategory in category.subcategories.all %}
                                                     <div class="form-check">
                                                         <input type="checkbox" class="form-check-input" id="{{ subcategory.slug }}" onclick="onlyOneCategory(this)" name="category" value="{{ subcategory.slug }}">
-                                                        <label class="form-check-label advent-pro" for="{{ subcategory.slug }}">{{ subcategory }}</label>
+                                                        <label class="form-check-label fw-semibold advent-pro" for="{{ subcategory.slug }}">{{ subcategory }}</label>
                                                     </div>
                                                 {% endfor %}
                                             </div>
@@ -130,30 +127,30 @@
 
                     <div class="col-12 col-md-4">
                         <div class="form-group fs-6">
-                            <p class="mt-3 mb-2 fw-semibold border-bottom advent-pro">Tipo</p>
+                            <p class="mt-3 mb-2 fw-semibold border-bottom fs-5 advent-pro">Tipo</p>
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" name="type" onclick="onlyOneType(this)" value="4" id="type1">
-                                <label class="form-check-label advent-pro" for="type1">Todos</label>
+                                <label class="form-check-label fw-semibold advent-pro" for="type1">Todos</label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" name="type" onclick="onlyOneType(this)" value="2" id="type2">
-                                <label class="form-check-label advent-pro" for="type2">Ofertas</label>
+                                <label class="form-check-label fw-semibold advent-pro" for="type2">Ofertas</label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" name="type" onclick="onlyOneType(this)" value="3" id="type3">
-                                <label class="form-check-label advent-pro" for="type3">Destacados</label>
+                                <label class="form-check-label fw-semibold advent-pro" for="type3">Destacados</label>
                             </div>
                         </div>
                 
                         <div class="form-group fs-6">
-                            <p class="mt-3 mb-2 fw-semibold border-bottom advent-pro">Orden</p>
+                            <p class="mt-3 mb-2 fw-semibold border-bottom fs-5 advent-pro">Orden</p>
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" name="date" onclick="onlyOneDate(this)" value="1" id="date1">
-                                <label class="form-check-label advent-pro" for="date1">Recientes</label>
+                                <label class="form-check-label fw-semibold advent-pro" for="date1">Recientes</label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" name="date" onclick="onlyOneDate(this)" value="2" id="date2">
-                                <label class="form-check-label advent-pro" for="date2">Antiguos</label>
+                                <label class="form-check-label fw-semibold advent-pro" for="date2">Antiguos</label>
                             </div>
                         </div>
                     </div> 
@@ -162,8 +159,6 @@
         </div>
     </div>
 
-
-  
 <script>
     var consult1Input = document.getElementById('consult1');
     var consult2Input = document.getElementById('consult2');

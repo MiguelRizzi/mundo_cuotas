@@ -2,9 +2,7 @@
 
 {% block content %}
     <section class="container-fluid py-2 h-section">
-
         <div class="p-0 p-sm-3 p-md-5 py-2">
-
                 <nav aria-label="breadcrumb px-0 px-md-5">
                     <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{% url 'products:product_list' %}"><i class="fas fa-home"></i> Inicio</a></li>
@@ -12,7 +10,7 @@
                     </ol>
                 </nav>
 
-                <h1 class="fw-bolder display-5 mb-4 text-uppercase text-center">Productos</h1>
+                <h1 class="fw-bolder display-5 mb-4 text-uppercase text-center advent-pro brand">Productos</h1>
             
                 <div class="mb-2">
                     <a class="btn btn-success" hx-get="{% url 'products:product_create' %}" hx-target="#dialog"><i class="fas fa-plus"></i> Agregar</a>
@@ -37,7 +35,7 @@
 
         <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
             <div class="offcanvas-header">
-              <h5 class="offcanvas-title fs-5" id="offcanvasWithBothOptionsLabel">                
+              <h5 class="offcanvas-title fs-5 advent-pro fw-bold border-bottom" id="offcanvasWithBothOptionsLabel">                
                 <i class="bi bi-filter fs-5 fw-semibold me-2"></i>
                 Filtrar productos</h5>
               <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -56,7 +54,7 @@
                     <div class="row">
                         <div class="col-12 col-md-6 order-md-last">
                             <div class="form-group">
-                                <p class="mt-3 mb-2 fw-semibold border-bottom fs-5">Categorías</p>
+                                <p class="mt-3 mb-2 fw-semibold border-bottom fs-5 advent-pro">Categorías</p>
                                 {% for category in categories %}
                                     {% if not category.parent %}
                                         <div class="mb-1">
@@ -64,12 +62,12 @@
                                                 {{ category.name }}
                                             </button>
                     
-                                            <div class="collapse" id="{{ category.slug }}">
+                                            <div class="collapse advent-pro" id="{{ category.slug }}">
                                                 <div class="btn-toggle-nav list-unstyled fw-normal pb-1 small mx-4">
                                                     {% for subcategory in category.subcategories.all %}
                                                         <div class="form-check">
                                                             <input type="checkbox" class="form-check-input" id="{{ subcategory.slug }}" name="category" value="{{ subcategory.slug }}">
-                                                            <label class="form-check-label" for="{{ subcategory.slug }}">{{ subcategory }}</label>
+                                                            <label class="form-check-label fw-semibold advent-pro" for="{{ subcategory.slug }}">{{ subcategory }}</label>
                                                         </div>
                                                     {% endfor %}
                                                 </div>
@@ -81,42 +79,42 @@
                         </div>
                         <div class="col-12 col-md-4">
                             <div class="form-group">
-                                <p class="mt-3 mb-2 fw-semibold border-bottom fs-5">Estado</p>
+                                <p class="mt-3 mb-2 fw-semibold border-bottom fs-5 advent-pro">Estado</p>
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" name="status" value="1" id="status1">
-                                    <label class="form-check-label" for="status1">No publicados</label>
+                                    <label class="form-check-label fw-semibold advent-pro" for="status1">No publicados</label>
                                 </div>
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" name="status" value="2" id="status2">
-                                    <label class="form-check-label" for="status2">Publicados</label>
+                                    <label class="form-check-label fw-semibold advent-pro" for="status2">Publicados</label>
                                 </div>
                             </div>
                     
                             <div class="form-group">
-                                <p class="mt-3 mb-2 fw-semibold border-bottom fs-5">Tipo</p>
+                                <p class="mt-3 mb-2 fw-semibold border-bottom fs-5 advent-pro">Tipo</p>
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" name="type" value="1" id="type1">
-                                    <label class="form-check-label" for="type1">Regular</label>
+                                    <label class="form-check-label fw-semibold advent-pro" for="type1">Regular</label>
                                 </div>
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" name="type" value="2" id="type2">
-                                    <label class="form-check-label" for="type2">Oferta</label>
+                                    <label class="form-check-label fw-semibold advent-pro" for="type2">Oferta</label>
                                 </div>
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" name="type" value="3" id="type3">
-                                    <label class="form-check-label" for="type3">Destacado</label>
+                                    <label class="form-check-label fw-semibold advent-pro" for="type3">Destacado</label>
                                 </div>
                             </div>
                     
                             <div class="form-group">
-                                <p class="mt-3 mb-2 fw-semibold border-bottom fs-5">Fecha</p>
+                                <p class="mt-3 mb-2 fw-semibold border-bottom fs-5 advent-pro">Fecha</p>
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" name="date" onclick="onlyOneDate(this)" value="1" id="date1">
-                                    <label class="form-check-label" for="date1">Recientes</label>
+                                    <label class="form-check-label fw-semibold advent-pro" for="date1">Recientes</label>
                                 </div>
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" name="date" onclick="onlyOneDate(this)" value="2" id="date2">
-                                    <label class="form-check-label" for="date2">Antiguos</label>
+                                    <label class="form-check-label fw-semibold advent-pro" for="date2">Antiguos</label>
                                 </div>
                             </div>
                         </div>
