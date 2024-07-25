@@ -1,54 +1,55 @@
-<div class="fondo">
-    <div class="px-3 px-md-4">
-        <button class="btn btn-dark mt-3 mx-3 mx-md-5 mb-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions"><i class="fas fa-filter"></i> Filtrar prouctos</button>
-    </div>
+<h3 class="fw-semibold border-bottom text-uppercase fs-4 advent-pro">
+    {% if category_object %}
+        {{category_object.parent.name}} - {{category_object.name}}
+        {% if type %}
+            {% if type == "2" %}
+                - Ofertas
+            {% elif type == "3" %}
+                - destacados
+            {% endif %}
+        {% endif %}
+        {% if consult %} - "{{consult}}"{% endif %}
+    {% endif %}
     
-    <div class="p-3 p-md-5">
-        <div class="container mt-2">
-                <h3 class="fw-semibold border-bottom text-uppercase fs-4 advent-pro">
-                    {% if category_object %}
-                        {{category_object.parent.name}} - {{category_object.name}}
-                        {% if type %}
-                            {% if type == "2" %}
-                                - Ofertas
-                            {% elif type == "3" %}
-                                - destacados
-                            {% endif %}
-                        {% endif %}
-                        {% if consult %} - "{{consult}}"{% endif %}
-                    {% endif %}
+    {% if consult  and not category_object%}
+        Resultados para: "{{ consult }}"
+        {% if type %}
+            {% if type == "2" %}
+                - Ofertas
+            {% elif type == "3" %}
+                - destacados
+            {% endif %}
+        {% endif %}
+    {% endif %}
     
-                    {% if consult  and not category_object%}
-                        Resultados para: "{{ consult }}"
-                        {% if type %}
-                            {% if type == "2" %}
-                                - Ofertas
-                            {% elif type == "3" %}
-                                - destacados
-                            {% endif %}
-                        {% endif %}
-                    {% endif %}
+    {% if not consult and not category_object and not type %}
+        Todos los productos
+    {% endif %}
     
-                    {% if not consult and not category_object and not type %}
-                        Todos los productos
-                    {% endif %}
+    {% if type and not category_object and not consult%}
+        {% if type == "2" %}
+            Productos en oferta
+        {% elif type == "3" %}
+            Productos destacados
+        {% elif type == "4" %}
+            Todos los productos
+        {% endif %}
+    {% endif %}
+</h3>    
+<div class="row gx-2 gx-md-3 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-start">
+    {% if object_list %}
+        {% for product in object_list %}
+            {% include 'products/partials/product_card.html' %}
+        {% endfor %}
+    {% else %}
+        <div class="w-100 card py-5 px-2">
 
-                    {% if type and not category_object and not consult%}
-                        {% if type == "2" %}
-                            Productos en oferta
-                        {% elif type == "3" %}
-                            Productos destacados
-                        {% elif type == "4" %}
-                            Todos los productos
-                        {% endif %}
-                    {% endif %}
-                </h3>       
-            <div class="row gx-2 gx-md-3 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-start">
-                {% for product in object_list %}
-                    {% include 'products/partials/product_card.html' %}
-                {% endfor %}
-            </div>
+            <div class="text-center fs-6">
+                <p class="fs-5">No se encontraron resultados.</p>
+                <a href="{% url 'products:product_list' %}" id="btn-limpiar" class="btn btn-outline-dark text-center">Ver más productos</a>
+            </div> 
         </div>
-        {% include 'components/pagination.html' %}
-    </div>
+    {% endif %}
 </div>
+   
+{% include 'components/pagination.html' %}

@@ -13,12 +13,12 @@
         <div class="col-lg-6 mx-auto revelar izquierda">
             <h2 class="lead fw-normal mb-4">Compra productos directo de fábrica en cuotas, sin complicaciones. Encontranos en Tandil, Benito Juárez, Rauch y Ayacucho.</h2>
             <div class="mx-auto" style="max-width: 600px">
-                <div class="input-group">
+                <form class="input-group" id="search-form">
                     <input id="consult1" name="consult" class="form-control" type="text" placeholder="¿Que estas buscando?" aria-label="¿Que estas buscando?" />
                     <button class="btn btn-success" id="button-search">
                         <i class="fas fa-search"></i>
                     </button>
-                </div>
+                </form>
             </div>    
         </div>
     </div>
@@ -27,159 +27,73 @@
 {% endblock header %}
 
 {% block content %}
-<section id="products">
-    <div id="results">
-        <div class="fondo">
-            <div class="px-3 px-md-4">
-                <button class="btn btn-dark mt-3 mx-3 mx-md-5 mb-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions"><i class="fas fa-filter"></i> Filtrar prouctos</button>
+    <section id="products" class="container-fluid py-3 fondo">
+        <div class="p-3 p-md-5">
+            <div class="px-0 px-md-5">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item active" aria-current="page"><i class="fas fa-home"></i> Inicio</li>
+                    </ol>
+                </nav>
+                <h3 class="fw-semibold border-bottom text-uppercase fs-4 advent-pro">Productos Destacados</h3>
+                <div class="row gx-2 gx-md-3 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-start">
+                    {% for product in featured_products %}
+                        {% include 'products/partials/product_card.html' %}
+                    {% endfor %}
+                </div>
+                <div class="text-center mt-2">
+                    <a href="{% url 'products:product_list' %}?type=3" class="btn btn-outline-dark" style="width: 320px;">Ver más destacados</a>
+                </div>
             </div>
-            <div class="p-3 p-md-5">
-                <div class="container mt-2">
-                    <h3 class="fw-semibold border-bottom text-uppercase fs-4 advent-pro">Productos Destacados</h3>
+        </div>
+    </section>
+
+    <section id="products" class="container-fluid py-3 fondo">
+        <div class="p-3 p-md-5">
+            <div class="px-0 px-md-5">
+                <h3 class="fw-semibold border-bottom text-uppercase fs-4 advent-pro">Productos en Oferta</h3>
                     <div class="row gx-2 gx-md-3 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-start">
-                        {% for product in featured_products %}
+                        {% for product in offer_products %}
                             {% include 'products/partials/product_card.html' %}
                         {% endfor %}
                     </div>
+                <div class="text-center mt-2">
+                    <a href="{% url 'products:product_list' %}?type=2" class="btn btn-outline-dark" style="width: 320px;">Ver más ofertas</a>
                 </div>
-        
-                <div class="text-center">
-                    <a hx-get="{% url 'products:load_product_list' %}?type=3#results" hx-target="#results" class="btn btn-outline-dark" style="width: 320px;">Ver más destacados</a>
-                </div>
-            </div>
-
-        </div>
-
-        <div class="fondo p-3 p-md-5">
-            <div class="container mt-2">
-                <h3 class="fw-semibold border-bottom text-uppercase fs-4 advent-pro">Productos en Oferta</h3>
-                <div class="row gx-2 gx-md-3 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-start">
-                    {% for product in offer_products %}
-                        {% include 'products/partials/product_card.html' %}
-                    {% endfor %}
-                </div>
-            </div>
-    
-            <div class="text-center">
-                <a hx-get="{% url 'products:load_product_list' %}?type=2#results" hx-target="#results"  class="btn btn-outline-dark" style="width: 320px;">Ver más ofertas</a>
             </div>
         </div>
-
-        <div class="fondo p-3 p-md-5 ">
-            <div class="container mt-2">
-                <h3 class="fw-semibold border-bottom text-uppercase fs-4 advent-pro">Más productos</h3>
-                <div class="row gx-2 gx-md-3 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-start">
-                    {% for product in regular_products %}
-                        {% include 'products/partials/product_card.html' %}
-                    {% endfor %}
-                </div>
-            </div>
-    
-            <div class="text-center">
-                <a hx-get="{% url 'products:load_product_list' %}#results" hx-target="#results"  class="btn btn-outline-dark" style="width: 320px;">Ver más productos</a>
-            </div>
-        </div>
-    </div>
-                
     </section>
-
-    <!-- Offcanvas -->
-    <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
-        <div class="offcanvas-header">
-          <h5 class="offcanvas-title fs-5 advent-pro fw-bold border-bottom" id="offcanvasWithBothOptionsLabel">                
-            <i class="bi bi-filter fs-5 fw-semibold me-2"></i>
-            Filtrar productos</h5>
-          <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-
-        <div class="offcanvas-body">
-
-            <form id="filter" hx-get="{% url 'products:load_product_list' %}#results" hx-target="#results" hx-trigger="change from:input, productListChanged from:body, submit, hasConsult from:body" method="get" class="p-3">
-        
-                <input id="consult2" name="consult" class="visually-hidden" type="text"/>
-            
-                <div class="row">
-                    <div class="col-12 col-md-8 order-md-last">
-                        <div class="form-group fs-6">
-                            <p class="mt-3 mb-2 fw-semibold border-bottom fs-5 advent-pro">Categorías</p>
-                            {% for category in categories %}
-                                {% if not category.parent %}
-                                    <div class="mb-1">
-                                        <button type="button" class="btn px-2 btn-toggle d-inline-flex rounded border-0 collapsed advent-pro" data-bs-toggle="collapse" data-bs-target="#{{ category.slug }}" aria-expanded="false" onclick="collapseOthers(this)">
-                                            {{ category.name }}
-                                        </button>
+    <section id="products" class="container-fluid py-3 fondo">
+        <div class="p-3 p-md-5">
+            <div class="px-0 px-md-5">
+                <h3 class="fw-semibold border-bottom text-uppercase fs-4 advent-pro">Más productos</h3>
+                    <div class="row gx-2 gx-md-3 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-start">
+                        {% for product in regular_products %}
+                            {% include 'products/partials/product_card.html' %}
+                        {% endfor %}
+                    </div>
                 
-                                        <div class="collapse advent-pro" id="{{ category.slug }}">
-                                            <div class="btn-toggle-nav list-unstyled fw-normal pb-1 small mx-4">
-                                                {% for subcategory in category.subcategories.all %}
-                                                    <div class="form-check">
-                                                        <input type="checkbox" class="form-check-input" id="{{ subcategory.slug }}" onclick="onlyOneCategory(this)" name="category" value="{{ subcategory.slug }}">
-                                                        <label class="form-check-label fw-semibold advent-pro" for="{{ subcategory.slug }}">{{ subcategory }}</label>
-                                                    </div>
-                                                {% endfor %}
-                                            </div>
-                                        </div>
-                                    </div>
-                                {% endif %}
-                            {% endfor %}
-                        </div>
-                    </div>   
-
-                    <div class="col-12 col-md-4">
-                        <div class="form-group fs-6">
-                            <p class="mt-3 mb-2 fw-semibold border-bottom fs-5 advent-pro">Tipo</p>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="type" onclick="onlyOneType(this)" value="4" id="type1">
-                                <label class="form-check-label fw-semibold advent-pro" for="type1">Todos</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="type" onclick="onlyOneType(this)" value="2" id="type2">
-                                <label class="form-check-label fw-semibold advent-pro" for="type2">Ofertas</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="type" onclick="onlyOneType(this)" value="3" id="type3">
-                                <label class="form-check-label fw-semibold advent-pro" for="type3">Destacados</label>
-                            </div>
-                        </div>
-                
-                        <div class="form-group fs-6">
-                            <p class="mt-3 mb-2 fw-semibold border-bottom fs-5 advent-pro">Orden</p>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="date" onclick="onlyOneDate(this)" value="1" id="date1">
-                                <label class="form-check-label fw-semibold advent-pro" for="date1">Recientes</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="date" onclick="onlyOneDate(this)" value="2" id="date2">
-                                <label class="form-check-label fw-semibold advent-pro" for="date2">Antiguos</label>
-                            </div>
-                        </div>
-                    </div> 
-                </div> 
-            </form>
+                <div class="text-center mt-2">
+                    <a href="{% url 'products:product_list' %}" class="btn btn-outline-dark" style="width: 320px;">Ver más productos</a>
+                </div>
+            </div>
         </div>
-    </div>
-
-<script>
-    var consult1Input = document.getElementById('consult1');
-    var consult2Input = document.getElementById('consult2');
-    var buttonSearch = document.getElementById('button-search');
-
-    consult1Input.addEventListener('input', function() {
-        consult2Input.value = this.value;
-    });
-
-    buttonSearch.addEventListener('click', function(event) {
-        event.preventDefault();
-        consult1Input.value = ""
-
-        var consult = consult2Input.value;
-
-        hx.trigger('filter', 'submit', filterForm)
-    });
-</script>
-    
+    </section>         
 {% endblock content %}
 
 {% block footer %}
     {% include 'components/contact_footer.html' %}
 {% endblock footer %}
+
+{% block scripts %}
+    <script>
+        document.getElementById("search-form").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            var consult = document.getElementById("consult1").value;
+            var url = "{% url 'products:product_list' %}?consult=" + consult;
+
+            window.location.href = url;
+        });
+    </script>
+{% endblock scripts %}

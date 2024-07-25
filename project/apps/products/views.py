@@ -28,15 +28,18 @@ class AboutView(View):
 # _____________________ PRODUCT VIEWS _____________________
 
 class ProductListView(View):
+    template_name= "products/index.html"
     def get(self, request):
-        categories= Category.objects.all().order_by("name")
+        consult = request.GET.get("consult", "").strip()
 
+        categories= Category.objects.all().order_by("name")
         products= Product.objects.all().exclude(status=1)
         regular_products= products.filter(type=1).order_by("-id")[:4]
         offer_products= products.filter(type=2).order_by("-id")[:4]
         featured_products= products.filter(type=3).order_by("-id")[:4]
 
         context = {
+            "consult": consult,
             "categories": categories,
             "regular_products": regular_products,
             "offer_products": offer_products,
@@ -44,7 +47,7 @@ class ProductListView(View):
             "site_name": "Catalogo Online"
         }
 
-        return render(request, "products/index.html", context)
+        return render(request, self.template_name, context)
     
 class LoadProductListView(View):
     def get(self, request):

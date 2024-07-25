@@ -92,13 +92,16 @@ textarea{
 .btn-comprar{
     width: 180px;
 }
+.btn-limpiar{
+    width: 280px;
+}
 @media (max-width: 454px) {
     .notification{
         font-size:9px;
     }
 }   
 @media (max-width: 576px) {
-    .btn-comprar{
+    .btn-comprar, .btn-limpiar{
         width: 100%;
     }
 }
