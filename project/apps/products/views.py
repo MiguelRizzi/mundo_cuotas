@@ -29,9 +29,9 @@ class IndexView(View):
         consult = request.GET.get("consult", "").strip()
 
         products= Product.objects.all().exclude(status=1)
-        regular_products= products.filter(type=1).order_by("-id")[:4]
+        regular_products= products.filter(type=1).order_by("-id")[:8]
         offer_products= products.filter(type=2).order_by("-id")[:4]
-        featured_products= products.filter(type=3).order_by("-id")[:12]
+        featured_products= products.filter(type=3).order_by("-id")[:4]
 
         context = {
             "consult": consult,
