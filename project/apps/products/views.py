@@ -31,7 +31,7 @@ class IndexView(View):
         products= Product.objects.all().exclude(status=1)
         regular_products= products.filter(type=1).order_by("-id")[:4]
         offer_products= products.filter(type=2).order_by("-id")[:4]
-        featured_products= products.filter(type=3).order_by("-id")[:4]
+        featured_products= products.filter(type=3).order_by("-id")[:12]
 
         context = {
             "consult": consult,
@@ -42,24 +42,17 @@ class IndexView(View):
         }
 
         return render(request, "products/index.html", context)
+    
 # _____________________ PRODUCT VIEWS _____________________
 
 class ProductListView(View):
     def get(self, request):
         consult = request.GET.get("consult", "").strip()
-
         categories= Category.objects.all().order_by("name")
-        products= Product.objects.all().exclude(status=1)
-        regular_products= products.filter(type=1).order_by("-id")[:8]
-        offer_products= products.filter(type=2).order_by("-id")[:8]
-        featured_products= products.filter(type=3).order_by("-id")[:8]
-
+ 
         context = {
             "consult": consult,
             "categories": categories,
-            "regular_products": regular_products,
-            "offer_products": offer_products,
-            "featured_products": featured_products,
             "site_name": "Catalogo Online"
         }
 
@@ -99,7 +92,7 @@ class LoadProductListView(View):
             products = products.order_by("-id")
 
         
-        paginator = Paginator(products, 16)
+        paginator = Paginator(products, 20)
         page = request.GET.get('page')
         products = paginator.get_page(page)
 
@@ -118,7 +111,7 @@ class ProductDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         product = self.get_object()
-        related_products = similar_products = Product.objects.filter(category=product.category).exclude(id=product.id).exclude(status=1)[:4] # Filtrar productos de la misma categoría excluyendo el producto actual
+        related_products = Product.objects.filter(category=product.category).exclude(id=product.id).exclude(status=1)[:4]
         context["related_products"] = related_products
         context['site_name'] = product.name
         return context
