@@ -50,9 +50,9 @@ class ProductListView(View):
 
         categories= Category.objects.all().order_by("name")
         products= Product.objects.all().exclude(status=1)
-        regular_products= products.filter(type=1).order_by("-id")[:4]
-        offer_products= products.filter(type=2).order_by("-id")[:4]
-        featured_products= products.filter(type=3).order_by("-id")[:4]
+        regular_products= products.filter(type=1).order_by("-id")[:8]
+        offer_products= products.filter(type=2).order_by("-id")[:8]
+        featured_products= products.filter(type=3).order_by("-id")[:8]
 
         context = {
             "consult": consult,
@@ -99,7 +99,7 @@ class LoadProductListView(View):
             products = products.order_by("-id")
 
         
-        paginator = Paginator(products, 12)
+        paginator = Paginator(products, 16)
         page = request.GET.get('page')
         products = paginator.get_page(page)
 
@@ -172,7 +172,7 @@ class LoadProductListAdminView(View, LoginRequiredMixin):
             products = products.order_by("-id")
 
         
-        paginator = Paginator(products, 15)
+        paginator = Paginator(products, 20)
         page = request.GET.get('page')
         products = paginator.get_page(page)
 

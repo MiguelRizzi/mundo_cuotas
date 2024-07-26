@@ -27,45 +27,63 @@
 {% endblock header %}
 
 {% block content %}
-    <section id="products" class="container-fluid py-3 fondo">
-        <div class="p-3 p-md-5">
-            <div class="px-0 px-md-5">
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item active" aria-current="page"><i class="fas fa-home"></i> Inicio</li>
-                    </ol>
-                </nav>
-                <h3 class="fw-semibold border-bottom text-uppercase fs-4 advent-pro">Productos Destacados</h3>
-                <div class="row gx-2 gx-md-3 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-start">
-                    {% for product in featured_products %}
-                        {% include 'products/partials/product_card.html' %}
-                    {% endfor %}
-                </div>
-                <div class="text-center mt-2">
-                    <a href="{% url 'products:product_list' %}?type=3" class="btn btn-outline-dark" style="width: 320px;">Ver más destacados</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="products" class="container-fluid py-3 fondo">
-        <div class="p-3 p-md-5">
-            <div class="px-0 px-md-5">
-                <h3 class="fw-semibold border-bottom text-uppercase fs-4 advent-pro">Productos en Oferta</h3>
+    {% if featured_products %}
+        <section id="featured_products" class="container-fluid py-3 fondo">
+            <div class="p-3 p-md-5">
+                <div class="px-0 px-md-5">
+                    <nav aria-label="breadcrumb mb-3">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item active" aria-current="page"><i class="fas fa-home"></i> Inicio</li>
+                        </ol>
+                    </nav>
+                    <h3 class="fw-semibold border-bottom text-uppercase fs-4 advent-pro">Productos Destacados</h3>
                     <div class="row gx-2 gx-md-3 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-start">
-                        {% for product in offer_products %}
+                        {% for product in featured_products %}
                             {% include 'products/partials/product_card.html' %}
                         {% endfor %}
                     </div>
-                <div class="text-center mt-2">
-                    <a href="{% url 'products:product_list' %}?type=2" class="btn btn-outline-dark" style="width: 320px;">Ver más ofertas</a>
+                    <div class="text-center mt-2">
+                        <a href="{% url 'products:product_list' %}?type=3" class="btn btn-outline-dark" style="width: 320px;">Ver más destacados</a>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
-    <section id="products" class="container-fluid py-3 fondo">
+        </section>
+    {% endif %}
+
+    {% if offer_products %}
+        <section id="offer_products" class="container-fluid py-3 fondo">
+            <div class="p-3 p-md-5">
+                <div class="px-0 px-md-5">
+                    {% if not featured_products %}
+                        <nav aria-label="breadcrumb mb-3">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item active" aria-current="page"><i class="fas fa-home"></i> Inicio</li>
+                            </ol>
+                        </nav>
+                    {% endif %}
+                    <h3 class="fw-semibold border-bottom text-uppercase fs-4 advent-pro">Productos en Oferta</h3>
+                        <div class="row gx-2 gx-md-3 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-start">
+                            {% for product in offer_products %}
+                                {% include 'products/partials/product_card.html' %}
+                            {% endfor %}
+                        </div>
+                    <div class="text-center mt-2">
+                        <a href="{% url 'products:product_list' %}?type=2" class="btn btn-outline-dark" style="width: 320px;">Ver más ofertas</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    {% endif %}
+    <section id="regular_products" class="container-fluid py-3 fondo">
         <div class="p-3 p-md-5">
             <div class="px-0 px-md-5">
+                {% if not featured_products and not offer_products %}
+                    <nav aria-label="breadcrumb mb-3">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item active" aria-current="page"><i class="fas fa-home"></i> Inicio</li>
+                        </ol>
+                    </nav>
+                {% endif %}
                 <h3 class="fw-semibold border-bottom text-uppercase fs-4 advent-pro">Más productos</h3>
                     <div class="row gx-2 gx-md-3 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-start">
                         {% for product in regular_products %}
