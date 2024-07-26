@@ -67,14 +67,14 @@ class Product(models.Model):
 
         if self.price_cash and not self.category.name == "Motos":
             
-            if self.price_cash <= 99999:
+            if self.price_cash <= 29999.99:
                 financed_price = self.price_cash + (self.price_cash * Decimal('1.2'))
             
                 self.price_12_weeks = financed_price / Decimal('12')
                 self.price_6_fortnights = financed_price / Decimal('6')
                 self.price_3_months = financed_price / Decimal('3')
             
-            elif self.price_cash > 99999 and self.price_cost:
+            elif self.price_cash > 29999.99 and self.price_cost:
                 financed_price = self.price_cost + (self.price_cost * Decimal('1.2'))
             
                 self.price_12_weeks = financed_price / Decimal('12')
