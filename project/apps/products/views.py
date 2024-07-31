@@ -38,7 +38,7 @@ class IndexView(View):
             "regular_products": regular_products,
             "offer_products": offer_products,
             "featured_products": featured_products,
-            "site_name": "Comprá en cuotas sin complicaciones"
+            "site_name": "Comprá en cuotas sin tarjeta"
         }
 
         return render(request, "products/index.html", context)
