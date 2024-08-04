@@ -58,8 +58,9 @@
 			<nav id="main-nav" 
 				class="navbar navbar-expand-md navbar-light px-4 fondo"
 				hx-get="{% url 'users:load_navbar' %}"
-				hx-trigger="load, navbarChanged from:body"
+				hx-trigger="navbarChanged from:body"
 			>
+			{% include 'components/navbar.html' %}
 			</nav>
 			{% block header %}{% endblock %}
 		</header>
